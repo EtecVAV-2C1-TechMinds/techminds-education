@@ -1,0 +1,42 @@
+/* Paleta de cores */
+:root {
+    --verde-principal: #1A2601;
+    --verde-secundario: #2C4001;
+    --verde-claro: #93A651;
+    --dourado: #A77E34;
+    --marrom: #40281A;
+    --verde-cinza: #757B4B;
+}
+
+/* Fundo da página */
+body {
+    background: #ffffff;
+}
+
+/* Barra de navegação */
+.navbar {
+    background: var(--verde-principal);
+}
+
+/* Seção principal */
+.hero {
+    background: var(--verde-secundario);
+    color: white;
+    padding: 120px 20px;
+    text-align: center;
+}
+
+/* Botão principal */
+.btn-tech {
+    background: var(--dourado);
+    color: white;
+    border: none;
+}
+
+/* Rodapé */
+.footer {
+    background: var(--verde-principal);
+    color: white;
+    padding: 40px 0;
+    margin-top: 50px;
+}
