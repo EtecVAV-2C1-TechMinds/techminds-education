@@ -16,10 +16,12 @@ Os usuários poderão acessar diferentes recursos educacionais, como:
 
 - conteúdos separados por matéria;
 - resumos organizados;
+- apostilas das aulas;
+- vídeos de explicação;
 - exercícios de fixação;
 - dicas de estudo;
 - materiais para revisão;
-- navegação adaptada para dispositivos móveis.
+- simulados.
 
 As informações serão organizadas de forma simples para facilitar o aprendizado e a localização dos conteúdos.
 
