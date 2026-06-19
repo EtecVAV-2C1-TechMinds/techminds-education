@@ -18,7 +18,7 @@ A página inicial apresentará:
 
 ---
 
-## Matérias
+## Conteúdos
 
 A página de matérias terá conteúdos voltados principalmente para Ciências da Natureza.
 
@@ -35,6 +35,24 @@ O usuário poderá acessar conteúdos relacionados a:
 A página de exercícios permitirá que os usuários pratiquem conteúdos estudados na plataforma.
 
 O objetivo será auxiliar na fixação dos conteúdos educacionais.
+
+---
+
+### Simulados
+
+A página de simulados permitirá ao usuário fazer um conjunto de questões com tempo cronometrado.
+
+As funções incluídas são:
+
+mini simulados por matéria;
+simulado completo de Ciências da Natureza;
+desempenho ao final do simulado.
+
+---
+
+### Meu desempenho
+
+A página de desempenho mostra algumas informações sobre o usuário e seu histórico na plataforma, como número de questões respondidas, porcentagem de acertos, matérias com melhor desempenho e maior dificuldade, além do progresso no curso total.
 
 ---
 
@@ -61,7 +79,17 @@ A seção poderá incluir:
 
 O site será organizado utilizando uma navegação simples e intuitiva.
 
-O menu principal permitirá acesso rápido às principais páginas da plataforma.
+O menu principal permitirá acesso rápido às seguintes páginas:
+
+- Home;
+- Conteúdos;
+- Exercícios;
+- Simulados;
+- Meu desempenho;
+- Sobre;
+- Contato;
+- Login;
+- Cadastro.
 
 A estrutura será desenvolvida pensando principalmente em dispositivos móveis, utilizando conceitos de responsividade e Mobile First.
 
@@ -72,9 +100,32 @@ A estrutura será desenvolvida pensando principalmente em dispositivos móveis, 
 O projeto poderá utilizar:
 
 - formulário de contato;
+- sistema de login;
+- cadastro de usuários;
+- banco de dados MySQL;
+- integração com PHP;
 - galeria de imagens;
 - menu responsivo;
 - organização adaptável para diferentes telas;
 - imagens ilustrativas;
 - áreas de exercícios;
-- navegação simplificada.
+- simulados;
+- navegação simplificada;
+- cookies para armazenamento de dados;
+- tecnologia de proteção de privacidade.
+
+---
+
+# Tecnologias Utilizadas
+
+O desenvolvimento do projeto utilizará:
+
+- HTML5;
+- CSS3;
+- Bootstrap;
+- PHP;
+- MySQL;
+- Git;
+- GitHub.
+
+Essas tecnologias serão utilizadas para garantir uma plataforma moderna, organizada, responsiva e adequada aos objetivos do projeto.
