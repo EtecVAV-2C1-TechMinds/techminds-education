@@ -1,4 +1,6 @@
-/* Paleta de cores */
+/* ==========================================
+   Paleta de Cores e Variáveis
+   ========================================== */
 :root {
     --verde-principal: #1A2601;
     --verde-secundario: #2C4001;
@@ -6,19 +8,30 @@
     --dourado: #A77E34;
     --marrom: #40281A;
     --verde-cinza: #757B4B;
+
+    /* Estilos Base da TechMinds */
+    --green-main: #5d7034;
+    --green-dark: #324316;
+    --gold-button: #a67c33;
 }
 
-/* Fundo da página */
+/* ==========================================
+   Geral / Body
+   ========================================== */
 body {
     background: #ffffff;
 }
 
-/* Barra de navegação */
+/* ==========================================
+   Navegação e Cabeçalho
+   ========================================== */
 .navbar {
     background: var(--verde-principal);
 }
 
-/* Seção principal */
+/* ==========================================
+   Seções Hero
+   ========================================== */
 .hero {
     background: var(--verde-secundario);
     color: white;
@@ -26,17 +39,896 @@ body {
     text-align: center;
 }
 
-/* Botão principal */
+.hero-section {
+    background-color: var(--green-main);
+}
+
+/* ==========================================
+   Botões
+   ========================================== */
 .btn-tech {
     background: var(--dourado);
     color: white;
     border: none;
 }
 
-/* Rodapé */
+.btn-hero-light {
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 25px;
+    font-weight: 500;
+}
+
+.btn-hero-gold {
+    background-color: var(--gold-button);
+    color: #ffffff;
+    border-radius: 25px;
+    font-weight: 500;
+}
+
+/* ==========================================
+   Cards e Componentes
+   ========================================== */
+.differential-card {
+    background-color: var(--green-main);
+    border: none;
+    border-radius: 18px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+/* ==========================================
+   Utilitários de Largura
+   ========================================== */
+.max-w-300 {
+    max-width: 300px;
+}
+
+.max-w-500 {
+    max-width: 500px;
+}
+
+/* ==========================================
+   Rodapé
+   ========================================== */
 .footer {
     background: var(--verde-principal);
     color: white;
     padding: 40px 0;
     margin-top: 50px;
+}
+
+/* =========================================
+   PROFESSIONAL NAVIGATION
+========================================= */
+
+.tech-navbar {
+
+    background-color: var(--verde-principal);
+
+    width: 100%;
+
+    position: relative;
+
+    z-index: 1000;
+
+}
+
+
+/* =========================================
+   NAVIGATION CONTENT
+========================================= */
+
+.tech-navbar-content {
+
+    min-height: 74px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+/* =========================================
+   BRAND
+========================================= */
+
+.tech-brand {
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 6px;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+}
+
+
+.tech-brand:hover {
+
+    color: #ffffff;
+
+}
+
+
+.tech-brand-name {
+
+    font-size: 1.05rem;
+
+    font-weight: 700;
+
+    letter-spacing: -0.3px;
+
+}
+
+
+.tech-brand-subtitle {
+
+    font-size: 0.78rem;
+
+    font-weight: 400;
+
+    color: var(--verde-claro);
+
+}
+
+
+/* =========================================
+   NAVIGATION ACTIONS
+========================================= */
+
+.tech-navbar-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+}
+
+
+/* =========================================
+   LOGIN LINK
+========================================= */
+
+.tech-login {
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 0.85rem;
+
+    font-weight: 500;
+
+    transition: 0.2s;
+
+}
+
+
+.tech-login:hover {
+
+    color: var(--verde-claro);
+
+}
+
+
+/* =========================================
+   REGISTER BUTTON
+========================================= */
+
+.tech-register {
+
+    background-color: var(--dourado);
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    padding: 8px 20px;
+
+    border-radius: 20px;
+
+    font-size: 0.78rem;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+
+}
+
+
+.tech-register:hover {
+
+    background-color: #8f6c2d;
+
+    color: #ffffff;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =========================================
+   MENU BUTTON
+========================================= */
+
+.tech-menu-button {
+
+    width: 38px;
+
+    height: 38px;
+
+    padding: 7px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    background: transparent;
+
+    border: 1px solid rgba(255,255,255,0.35);
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+}
+
+
+.tech-menu-button span {
+
+    display: block;
+
+    width: 100%;
+
+    height: 1px;
+
+    background-color: #ffffff;
+
+}
+
+
+/* =========================================
+   NAVIGATION PANEL
+========================================= */
+
+.tech-navigation-panel {
+
+    margin-bottom: 18px;
+
+    padding: 32px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr 1.2fr;
+
+    gap: 45px;
+
+    background-color: #ffffff;
+
+    border-radius: 4px;
+
+    box-shadow: 0 12px 35px rgba(0,0,0,0.16);
+
+}
+
+
+/* =========================================
+   NAVIGATION COLUMN
+========================================= */
+
+.tech-navigation-column {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+/* =========================================
+   SECTION TITLES
+========================================= */
+
+.tech-navigation-title {
+
+    margin-bottom: 14px;
+
+    color: var(--verde-cinza);
+
+    font-size: 0.67rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1.4px;
+
+}
+
+
+/* =========================================
+   NAVIGATION LINKS
+========================================= */
+
+.tech-navigation-link {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 11px 8px;
+
+    color: #333333;
+
+    text-decoration: none;
+
+    font-size: 0.88rem;
+
+    border-bottom: 1px solid #eeeeee;
+
+    transition: 0.2s;
+
+}
+
+
+.tech-navigation-link:last-of-type {
+
+    border-bottom: none;
+
+}
+
+
+.tech-navigation-link:hover {
+
+    color: var(--verde-principal);
+
+    background-color: #f7f8f4;
+
+    padding-left: 13px;
+
+}
+
+
+/* =========================================
+   LINK NUMBERS
+========================================= */
+
+.tech-link-number {
+
+    min-width: 24px;
+
+    color: var(--verde-claro);
+
+    font-size: 0.65rem;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================
+   STUDENT AREA HIGHLIGHT
+========================================= */
+
+.tech-navigation-highlight {
+
+    margin-top: 18px;
+
+    padding: 22px;
+
+    background-color: var(--verde-principal);
+
+    border-radius: 4px;
+
+    color: #ffffff;
+
+}
+
+
+.tech-highlight-label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--verde-claro);
+
+    font-size: 0.65rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+}
+
+
+.tech-navigation-highlight p {
+
+    margin: 0 0 18px;
+
+    color: rgba(255,255,255,0.82);
+
+    font-size: 0.78rem;
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================
+   STUDENT AREA BUTTON
+========================================= */
+
+.tech-highlight-button {
+
+    display: inline-block;
+
+    padding: 8px 14px;
+
+    background-color: var(--dourado);
+
+    color: #ffffff;
+
+    border-radius: 3px;
+
+    text-decoration: none;
+
+    font-size: 0.72rem;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+
+}
+
+
+.tech-highlight-button:hover {
+
+    background-color: #8f6c2d;
+
+    color: #ffffff;
+
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991px) {
+
+    .tech-navigation-panel {
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 30px;
+
+    }
+
+    .tech-navigation-column:last-child {
+
+        grid-column: 1 / -1;
+
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .tech-navbar-content {
+
+        min-height: 66px;
+
+    }
+
+
+    .tech-brand-name {
+
+        font-size: 0.95rem;
+
+    }
+
+
+    .tech-brand-subtitle {
+
+        display: none;
+
+    }
+
+
+    .tech-navbar-actions {
+
+        gap: 10px;
+
+    }
+
+
+    .tech-login {
+
+        display: none;
+
+    }
+
+
+    .tech-register {
+
+        padding: 7px 15px;
+
+        font-size: 0.72rem;
+
+    }
+
+
+    .tech-navigation-panel {
+
+        display: block;
+
+        padding: 20px;
+
+        margin-bottom: 12px;
+
+    }
+
+
+    .tech-navigation-column {
+
+        margin-bottom: 28px;
+
+    }
+
+
+    .tech-navigation-column:last-child {
+
+        margin-bottom: 0;
+
+    }
+
+
+    .tech-navigation-highlight {
+
+        margin-top: 16px;
+
+    }
+
+}
+
+/* =========================================
+   ABOUT PAGE
+========================================= */
+
+.about-page {
+
+    width: 100%;
+
+}
+
+
+/* =========================================
+   ABOUT HERO
+========================================= */
+
+.about-hero {
+
+    background-color: var(--verde-claro);
+
+    padding: 70px 20px 80px;
+
+}
+
+
+.about-hero-content {
+
+    text-align: center;
+
+}
+
+
+.about-hero h1 {
+
+    margin: 0 0 30px;
+
+    color: #ffffff;
+
+    font-size: 2.2rem;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================
+   ABOUT MAIN IMAGE
+========================================= */
+
+.about-main-image {
+
+    display: block;
+
+    width: 100%;
+
+    max-width: 720px;
+
+    height: auto;
+
+    margin: 0 auto;
+
+    object-fit: cover;
+
+}
+
+
+/* =========================================
+   ABOUT CONTENT
+========================================= */
+
+.about-content {
+
+    background-color: #eeeeee;
+
+    padding: 65px 20px 75px;
+
+}
+
+
+.about-text {
+
+    max-width: 720px;
+
+    margin: 0 auto;
+
+}
+
+
+.about-text p {
+
+    margin-bottom: 32px;
+
+    color: #5d5d5d;
+
+    font-size: 1rem;
+
+    line-height: 1.65;
+
+    text-align: center;
+
+}
+
+
+/* =========================================
+   MISSION
+========================================= */
+
+.about-mission {
+
+    margin-top: 42px;
+
+    text-align: center;
+
+}
+
+
+.about-mission h2 {
+
+    margin-bottom: 8px;
+
+    color: #3d3d3d;
+
+    font-size: 1.1rem;
+
+    font-weight: 700;
+
+}
+
+
+.about-mission p {
+
+    margin-bottom: 8px;
+
+}
+
+
+/* =========================================
+   MOBILE VERSION
+========================================= */
+
+@media (max-width: 576px) {
+
+
+    .about-hero {
+
+        padding: 45px 20px 80px;
+
+    }
+
+
+    .about-hero h1 {
+
+        margin-bottom: 20px;
+
+        font-size: 1.35rem;
+
+    }
+
+
+    .about-main-image {
+
+        width: 92%;
+
+    }
+
+
+    .about-content {
+
+        padding: 40px 28px 45px;
+
+    }
+
+
+    .about-text p {
+
+        margin-bottom: 34px;
+
+        font-size: 0.92rem;
+
+        line-height: 1.55;
+
+    }
+
+
+    .about-mission {
+
+        margin-top: 38px;
+
+    }
+
+
+    .about-mission h2 {
+
+        font-size: 1rem;
+
+    }
+
+}
+
+
+/* =========================================
+   TABLET VERSION
+========================================= */
+
+@media (min-width: 577px) and (max-width: 991px) {
+
+
+    .about-hero {
+
+        padding: 65px 30px 75px;
+
+    }
+
+
+    .about-hero h1 {
+
+        font-size: 2rem;
+
+    }
+
+
+    .about-main-image {
+
+        max-width: 650px;
+
+    }
+
+
+    .about-content {
+
+        padding: 60px 40px 70px;
+
+    }
+
+}
+
+
+/* =========================================
+   DESKTOP VERSION
+========================================= */
+
+@media (min-width: 992px) {
+
+
+    .about-hero {
+
+        padding: 85px 30px 100px;
+
+    }
+
+
+    .about-hero h1 {
+
+        margin-bottom: 35px;
+
+        font-size: 2.6rem;
+
+    }
+
+
+    .about-main-image {
+
+        max-width: 850px;
+
+    }
+
+
+    .about-content {
+
+        padding: 85px 30px 95px;
+
+    }
+
+
+    .about-text {
+
+        max-width: 850px;
+
+    }
+
+
+    .about-text p {
+
+        font-size: 1.05rem;
+
+        line-height: 1.8;
+
+        margin-bottom: 38px;
+
+    }
+
+
+    .about-mission {
+
+        margin-top: 55px;
+
+    }
+
+
+    .about-mission h2 {
+
+        font-size: 1.25rem;
+
+    }
+
+}
+/* Estilos específicos da página Sobre */
+.hero-sobre {
+    background-color: #839745; /* Verde oliva do fundo da imagem */
+}
+
+.sobre-content {
+    background-color: #f4f4f4;
+}
+
+.sobre-content p {
+    color: #4a4a4a !important;
+    line-height: 1.6;
 }
