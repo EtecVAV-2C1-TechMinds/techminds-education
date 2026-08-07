@@ -1,64 +1,257 @@
-<!-- Navigation bar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<!-- =========================================
+     MAIN NAVIGATION
+========================================= -->
+
+<nav class="tech-navbar">
 
     <div class="container">
 
-        <!-- Brand logo -->
-        <a class="navbar-brand fw-bold" href="/techminds-education/index.php">
-            TechMinds Education
-        </a>
+        <div class="tech-navbar-content">
 
-        <!-- Mobile menu button -->
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#menu">
 
-            <span class="navbar-toggler-icon"></span>
+            <!-- Brand -->
 
-        </button>
+            <a href="/techminds-education/index.php"
+               class="tech-brand">
 
-        <!-- Navigation menu -->
-        <div class="collapse navbar-collapse" id="menu">
+                <span class="tech-brand-name">
+                    TechMinds
+                </span>
 
-            <ul class="navbar-nav ms-auto">
+                <span class="tech-brand-subtitle">
+                    Education
+                </span>
 
-                <!-- Home link -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/techminds-education/index.php">
-                        Home
+            </a>
+
+
+            <!-- Navigation Actions -->
+
+            <div class="tech-navbar-actions">
+
+
+                <!-- Login -->
+
+                <a href="/techminds-education/pages/login.php"
+                   class="tech-login">
+
+                    Entrar
+
+                </a>
+
+
+                <!-- Register -->
+
+                <a href="/techminds-education/pages/cadastro.php"
+                   class="tech-register">
+
+                    Cadastrar
+
+                </a>
+
+
+                <!-- Menu Button -->
+
+                <button type="button"
+                        class="tech-menu-button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#techNavigation"
+                        aria-controls="techNavigation"
+                        aria-expanded="false"
+                        aria-label="Abrir menu">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             NAVIGATION PANEL
+        ========================================= -->
+
+        <div class="collapse"
+             id="techNavigation">
+
+            <div class="tech-navigation-panel">
+
+
+                <!-- Main Navigation -->
+
+                <div class="tech-navigation-column">
+
+                    <span class="tech-navigation-title">
+                        NAVEGAÇÃO
+                    </span>
+
+
+                    <a href="/techminds-education/index.php"
+                       class="tech-navigation-link">
+
+                        <span class="tech-link-number">
+                            01
+                        </span>
+
+                        <span>
+                            Início
+                        </span>
+
                     </a>
-                </li>
 
-                <!-- About link -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/techminds-education/pages/sobre.php">
-                        Sobre
+
+                    <a href="/techminds-education/pages/sobre.php"
+                       class="tech-navigation-link">
+
+                        <span class="tech-link-number">
+                            02
+                        </span>
+
+                        <span>
+                            Sobre a Instituição
+                        </span>
+
                     </a>
-                </li>
 
-                <!-- Contact link -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/techminds-education/pages/contato.php">
-                        Contato
+
+                    <a href="/techminds-education/pages/contato.php"
+                       class="tech-navigation-link">
+
+                        <span class="tech-link-number">
+                            03
+                        </span>
+
+                        <span>
+                            Contato
+                        </span>
+
                     </a>
-                </li>
 
-                <!-- Login link -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/techminds-education/pages/login.php">
-                        Entrar
+                </div>
+
+
+                <!-- Academic Environment -->
+
+                <div class="tech-navigation-column">
+
+                    <span class="tech-navigation-title">
+                        AMBIENTE ACADÊMICO
+                    </span>
+
+
+                    <a href="/techminds-education/pages/conteudos.php"
+                       class="tech-navigation-link">
+
+                        <span class="tech-link-number">
+                            04
+                        </span>
+
+                        <span>
+                            Conteúdos
+                        </span>
+
                     </a>
-                </li>
 
-                <!-- Register button -->
-                <li class="nav-item">
-                    <a class="btn btn-tech ms-2" href="/techminds-education/pages/cadastro.php">
-                        Cadastrar
+
+                    <a href="/techminds-education/pages/exercicios.php"
+                       class="tech-navigation-link">
+
+                        <span class="tech-link-number">
+                            05
+                        </span>
+
+                        <span>
+                            Exercícios
+                        </span>
+
                     </a>
-                </li>
 
-            </ul>
+
+                    <a href="/techminds-education/pages/simulados.php"
+                       class="tech-navigation-link">
+
+                        <span class="tech-link-number">
+                            06
+                        </span>
+
+                        <span>
+                            Simulados
+                        </span>
+
+                    </a>
+
+
+                    <a href="/techminds-education/pages/desempenho.php"
+                       class="tech-navigation-link">
+
+                        <span class="tech-link-number">
+                            07
+                        </span>
+
+                        <span>
+                            Meu Desempenho
+                        </span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- Administrative Area -->
+
+                <div class="tech-navigation-column">
+
+                    <span class="tech-navigation-title">
+                        ADMINISTRAÇÃO
+                    </span>
+
+
+                    <a href="/techminds-education/pages/admin.php"
+                       class="tech-navigation-link">
+
+                        <span class="tech-link-number">
+                            08
+                        </span>
+
+                        <span>
+                            Área do Administrador
+                        </span>
+
+                    </a>
+
+
+                    <!-- Student Area Highlight -->
+
+                    <div class="tech-navigation-highlight">
+
+                        <span class="tech-highlight-label">
+                            ÁREA DO ALUNO
+                        </span>
+
+                        <p>
+                            Acesse seus conteúdos,
+                            atividades e acompanhe
+                            seu desempenho acadêmico.
+                        </p>
+
+                        <a href="/techminds-education/pages/login.php"
+                           class="tech-highlight-button">
+
+                            Acessar área do aluno
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
 
         </div>
 
