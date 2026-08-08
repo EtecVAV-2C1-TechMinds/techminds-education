@@ -25,8 +25,46 @@
                         exercícios e acompanhar seu progresso.
                     </p>
 
-                    <!-- Login form -->
-                    <form>
+                   <?php if (isset($_GET['erro'])): ?>
+
+    <div class="alert alert-danger text-center">
+
+        <?php
+
+        switch ($_GET['erro']) {
+
+            case 'preencha':
+                echo 'Preencha todos os campos.';
+                break;
+
+            case 'email':
+                echo 'Digite um e-mail válido.';
+                break;
+
+            case 'login':
+                echo 'E-mail ou senha incorretos.';
+                break;
+
+            case 'desativado':
+                echo 'Sua conta está desativada.';
+                break;
+
+            default:
+                echo 'Não foi possível realizar o login.';
+
+        }
+
+        ?>
+
+    </div>
+
+<?php endif; ?>
+
+<!-- Login form -->
+<form
+    method="POST"
+    action="../controllers/LoginController.php"
+>
 
                         <!-- Email field -->
                         <div class="mb-3">
@@ -35,8 +73,13 @@
                                 E-mail
                             </label>
 
-                            <input type="email"
-                                   class="form-control">
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="Digite seu e-mail"
+                                required
+                                >
 
                         </div>
 
@@ -47,8 +90,13 @@
                                 Senha
                             </label>
 
-                            <input type="password"
-                                   class="form-control">
+                            <input
+                                type="password"
+                                name="senha"
+                                class="form-control"
+                                placeholder="Digite sua senha"
+                                required
+                                >
 
                         </div>
 
