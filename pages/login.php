@@ -5,130 +5,166 @@
 <!-- Login section -->
 <section class="container py-5">
 
-    <div class="row justify-content-center">
+    <?php
 
-        <div class="col-md-5">
+<?php
 
-            <!-- Login card -->
-            <div class="card shadow">
+/* =========================================
+   TECHMINDS EDUCATION
+   LOGIN PAGE
+========================================= */
 
-                <div class="card-body p-5">
+?>
 
-                    <!-- Page heading -->
-                    <h2 class="text-center mb-4">
-                        Entrar na Plataforma
-                    </h2>
+<div class="row justify-content-center">
 
-                    <!-- Login description -->
-                    <p class="text-center">
-                        Faça login para acessar conteúdos,
-                        exercícios e acompanhar seu progresso.
-                    </p>
+    <div class="col-md-5">
 
-                   <?php if (isset($_GET['erro'])): ?>
+        <!-- Login card -->
+        <div class="card shadow">
 
-    <div class="alert alert-danger text-center">
+            <div class="card-body p-5">
 
-        <?php
+                <!-- Page heading -->
+                <h2 class="text-center mb-4">
+                    Entrar na Plataforma
+                </h2>
 
-        switch ($_GET['erro']) {
 
-            case 'preencha':
-                echo 'Preencha todos os campos.';
-                break;
+                <!-- Login description -->
+                <p class="text-center">
+                    Faça login para acessar conteúdos,
+                    exercícios e acompanhar seu progresso.
+                </p>
 
-            case 'email':
-                echo 'Digite um e-mail válido.';
-                break;
 
-            case 'login':
-                echo 'E-mail ou senha incorretos.';
-                break;
+                <!-- Error messages -->
+                <?php if (isset($_GET['erro'])): ?>
 
-            case 'desativado':
-                echo 'Sua conta está desativada.';
-                break;
+                    <div class="alert alert-danger text-center">
 
-            default:
-                echo 'Não foi possível realizar o login.';
+                        <?php
 
-        }
+                        switch ($_GET['erro']) {
 
-        ?>
+                            case 'preencha':
 
-    </div>
+                                echo 'Preencha todos os campos.';
 
-<?php endif; ?>
+                                break;
 
-<!-- Login form -->
-<form
-    method="POST"
-    action="../controllers/LoginController.php"
->
 
-                        <!-- Email field -->
-                        <div class="mb-3">
+                            case 'email':
 
-                            <label class="form-label">
-                                E-mail
-                            </label>
+                                echo 'Digite um e-mail válido.';
 
-                            <input
-                                type="email"
-                                name="email"
-                                class="form-control"
-                                placeholder="Digite seu e-mail"
-                                required
-                                >
+                                break;
 
-                        </div>
 
-                        <!-- Password field -->
-                        <div class="mb-3">
+                            case 'login':
 
-                            <label class="form-label">
-                                Senha
-                            </label>
+                                echo 'E-mail ou senha incorretos.';
 
-                            <input
-                                type="password"
-                                name="senha"
-                                class="form-control"
-                                placeholder="Digite sua senha"
-                                required
-                                >
+                                break;
 
-                        </div>
 
-                        <!-- Submit button -->
-                        <button class="btn btn-tech w-100">
+                            case 'desativado':
 
-                            Entrar
+                                echo 'Sua conta está desativada.';
 
-                        </button>
+                                break;
 
-                    </form>
 
-                    <hr>
+                            default:
 
-                    <!-- Registration link -->
-                    <p class="text-center">
+                                echo 'Não foi possível realizar o login.';
 
-                        Ainda não possui conta?
+                        }
 
-                        <a href="cadastro.php">
-                            Cadastre-se aqui
-                        </a>
+                        ?>
 
-                    </p>
+                    </div>
 
-                </div>
+                <?php endif; ?>
+
+
+                <!-- Login form -->
+                <form
+                    method="POST"
+                    action="../controllers/LoginController.php"
+                >
+
+                    <!-- Email field -->
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            E-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            placeholder="Digite seu e-mail"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Password field -->
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Senha
+                        </label>
+
+                        <input
+                            type="password"
+                            name="senha"
+                            class="form-control"
+                            placeholder="Digite sua senha"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Submit button -->
+                    <button
+                        type="submit"
+                        class="btn btn-tech w-100"
+                    >
+
+                        Entrar
+
+                    </button>
+
+                </form>
+
+
+                <hr>
+
+
+                <!-- Registration link -->
+                <p class="text-center">
+
+                    Ainda não possui conta?
+
+                    <a href="cadastro.php">
+                        Cadastre-se aqui
+                    </a>
+
+                </p>
+
 
             </div>
 
         </div>
 
     </div>
+
+</div>
 
 </section>
 
