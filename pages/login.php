@@ -5,19 +5,7 @@
 <!-- Login section -->
 <section class="container py-5">
 
-    <?php
-
-<?php
-
-/* =========================================
-   TECHMINDS EDUCATION
-   LOGIN PAGE
-========================================= */
-
-?>
-
-<div class="row justify-content-center">
-
+<div class="container-fluid min-vh-100 d-flex justify-content-center align-items-start pt-5">
     <div class="col-md-5">
 
         <!-- Login card -->
@@ -25,76 +13,49 @@
 
             <div class="card-body p-5">
 
-                <!-- Page heading -->
                 <h2 class="text-center mb-4">
                     Entrar na Plataforma
                 </h2>
 
-
-                <!-- Login description -->
                 <p class="text-center">
                     Faça login para acessar conteúdos,
                     exercícios e acompanhar seu progresso.
                 </p>
 
-
-                <!-- Error messages -->
                 <?php if (isset($_GET['erro'])): ?>
 
                     <div class="alert alert-danger text-center">
 
                         <?php
-
                         switch ($_GET['erro']) {
 
                             case 'preencha':
-
                                 echo 'Preencha todos os campos.';
-
                                 break;
-
 
                             case 'email':
-
                                 echo 'Digite um e-mail válido.';
-
                                 break;
-
 
                             case 'login':
-
                                 echo 'E-mail ou senha incorretos.';
-
                                 break;
-
 
                             case 'desativado':
-
                                 echo 'Sua conta está desativada.';
-
                                 break;
 
-
                             default:
-
                                 echo 'Não foi possível realizar o login.';
-
                         }
-
                         ?>
 
                     </div>
 
                 <?php endif; ?>
 
+                <form method="POST" action="../controllers/LoginController.php">
 
-                <!-- Login form -->
-                <form
-                    method="POST"
-                    action="../controllers/LoginController.php"
-                >
-
-                    <!-- Email field -->
                     <div class="mb-3">
 
                         <label class="form-label">
@@ -111,8 +72,6 @@
 
                     </div>
 
-
-                    <!-- Password field -->
                     <div class="mb-3">
 
                         <label class="form-label">
@@ -129,34 +88,24 @@
 
                     </div>
 
-
-                    <!-- Submit button -->
                     <button
                         type="submit"
                         class="btn btn-tech w-100"
                     >
-
                         Entrar
-
                     </button>
 
                 </form>
 
-
                 <hr>
 
-
-                <!-- Registration link -->
                 <p class="text-center">
-
                     Ainda não possui conta?
 
                     <a href="cadastro.php">
                         Cadastre-se aqui
                     </a>
-
                 </p>
-
 
             </div>
 
