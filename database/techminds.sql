@@ -12,7 +12,6 @@ CREATE DATABASE IF NOT EXISTS techminds
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
-
 USE techminds;
 
 
@@ -152,7 +151,8 @@ CREATE TABLE IF NOT EXISTS questoes (
         'facil',
         'media',
         'dificil'
-    ) NOT NULL DEFAULT 'media',
+    )
+    NOT NULL DEFAULT 'media',
 
     ativo TINYINT(1)
         NOT NULL DEFAULT 1,
@@ -202,7 +202,8 @@ CREATE TABLE IF NOT EXISTS simulado_questoes (
 
     questao_id INT UNSIGNED NOT NULL,
 
-    ordem INT NOT NULL DEFAULT 1,
+    ordem INT
+        NOT NULL DEFAULT 1,
 
     FOREIGN KEY (simulado_id)
         REFERENCES simulados(id)
