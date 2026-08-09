@@ -9,7 +9,7 @@ require_once __DIR__ . '/../models/Conteudo.php';
 
 
 /* =========================================
-   CREATE MODEL
+   CREATE CONTENT MODEL
 ========================================= */
 
 $conteudoModel = new Conteudo();
@@ -36,8 +36,7 @@ if (isset($_GET['editar'])) {
 
     if ($id > 0) {
 
-        $conteudoEditar =
-            $conteudoModel->buscarPorId($id);
+        $conteudoEditar = $conteudoModel->buscarPorId($id);
     }
 }
 
@@ -77,6 +76,432 @@ if (isset($_GET['editar'])) {
         href="../assets/css/style.css"
     >
 
+
+    <!-- Dashboard styles -->
+
+    <style>
+
+        /* =========================================
+           DASHBOARD PAGE
+        ========================================= */
+
+        body {
+            background-color: #ffffff;
+            color: #333333;
+        }
+
+
+        /* =========================================
+           ADMIN HEADER
+        ========================================= */
+
+        .admin-header {
+            background-color: #1A2601;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+
+        .admin-logo {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+
+        .admin-menu {
+            width: 34px;
+            height: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+
+        .admin-menu span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #ffffff;
+            border-radius: 10px;
+        }
+
+
+        /* =========================================
+           PAGE TITLE
+        ========================================= */
+
+        .dashboard-hero {
+            background-color: #93A651;
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+
+        .dashboard-hero h1 {
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+
+        .dashboard-hero p {
+            color: #ffffff;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+
+        /* =========================================
+           MAIN CONTENT
+        ========================================= */
+
+        .dashboard-content {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 45px 20px;
+        }
+
+
+        /* =========================================
+           FORM CARD
+        ========================================= */
+
+        .dashboard-card {
+            background-color: #f2f2f2;
+            border: none;
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .dashboard-card-title {
+            color: #1A2601;
+            font-size: 1.45rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================================
+           FORM FIELDS
+        ========================================= */
+
+        .dashboard-label {
+            color: #555555;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 7px;
+        }
+
+
+        .dashboard-input,
+        .dashboard-select,
+        .dashboard-textarea {
+            width: 100%;
+            border: none;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 12px 15px;
+            color: #444444;
+            outline: none;
+            box-shadow: inset 0 0 0 1px #dddddd;
+        }
+
+
+        .dashboard-input:focus,
+        .dashboard-select:focus,
+        .dashboard-textarea:focus {
+            box-shadow: inset 0 0 0 2px #93A651;
+        }
+
+
+        .dashboard-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .dashboard-button {
+            background-color: #A77E34;
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            padding: 11px 28px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+
+        .dashboard-button:hover {
+            background-color: #8f692b;
+            color: #ffffff;
+        }
+
+
+        .dashboard-cancel {
+            background-color: #757B4B;
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            padding: 11px 28px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+
+        .dashboard-cancel:hover {
+            color: #ffffff;
+            background-color: #60643c;
+        }
+
+
+        /* =========================================
+           CONTENTS SECTION
+        ========================================= */
+
+        .contents-title {
+            color: #1A2601;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 50px 0 25px;
+        }
+
+
+        .contents-count {
+            display: block;
+            width: fit-content;
+            margin: 0 auto 30px;
+            background-color: #93A651;
+            color: #ffffff;
+            padding: 5px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+
+        /* =========================================
+           CONTENT CARDS
+        ========================================= */
+
+        .content-card {
+            height: 100%;
+            background-color: #f2f2f2;
+            border-radius: 20px;
+            padding: 25px;
+            border: none;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+        }
+
+
+        .content-subject {
+            display: inline-block;
+            background-color: #757B4B;
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 0.75rem;
+            margin-bottom: 15px;
+        }
+
+
+        .content-card h3 {
+            color: #1A2601;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+
+        .content-card p {
+            color: #666666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+
+        .content-status {
+            font-size: 0.75rem;
+            color: #5d7034;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+
+        .content-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+
+        .edit-button,
+        .delete-button {
+            flex: 1;
+            text-align: center;
+            padding: 8px 10px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+
+        .edit-button {
+            background-color: #A77E34;
+            color: #ffffff;
+        }
+
+
+        .edit-button:hover {
+            background-color: #8f692b;
+            color: #ffffff;
+        }
+
+
+        .delete-button {
+            background-color: #757B4B;
+            color: #ffffff;
+        }
+
+
+        .delete-button:hover {
+            background-color: #60643c;
+            color: #ffffff;
+        }
+
+
+        /* =========================================
+           EMPTY CONTENT MESSAGE
+        ========================================= */
+
+        .empty-content {
+            background-color: #f2f2f2;
+            border-radius: 20px;
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+
+        .empty-content h3 {
+            color: #1A2601;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+
+        .empty-content p {
+            color: #777777;
+            margin-bottom: 0;
+        }
+
+
+        /* =========================================
+           ALERTS
+        ========================================= */
+
+        .dashboard-alert {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            border: none;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+
+        /* =========================================
+           ADMIN FOOTER
+        ========================================= */
+
+        .admin-footer {
+            background-color: #1A2601;
+            color: #ffffff;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 30px;
+        }
+
+
+        .admin-footer-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+
+        .admin-footer p {
+            margin: 3px 0;
+            font-size: 0.8rem;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 768px) {
+
+            .admin-header {
+                min-height: 65px;
+            }
+
+
+            .admin-logo {
+                font-size: 0.95rem;
+            }
+
+
+            .dashboard-hero {
+                padding: 35px 20px;
+            }
+
+
+            .dashboard-hero h1 {
+                font-size: 1.65rem;
+            }
+
+
+            .dashboard-content {
+                padding: 30px 15px;
+            }
+
+
+            .dashboard-card {
+                padding: 22px 18px;
+                border-radius: 18px;
+            }
+
+
+            .dashboard-card-title {
+                font-size: 1.25rem;
+            }
+
+
+            .contents-title {
+                font-size: 1.4rem;
+                margin-top: 40px;
+            }
+
+
+            .content-card {
+                padding: 22px;
+            }
+
+
+        }
+
+    </style>
+
 </head>
 
 
@@ -84,32 +509,56 @@ if (isset($_GET['editar'])) {
 
 
 <!-- =========================================
-     ADMIN NAVBAR
+     ADMIN HEADER
 ========================================= -->
 
-<nav class="navbar navbar-dark">
+<header class="admin-header">
 
     <div class="container">
 
-        <span class="navbar-brand fw-bold">
+        <div class="d-flex justify-content-between align-items-center">
 
-            TechMinds Education
+            <a
+                href="../index.php"
+                class="admin-logo"
+            >
 
-        </span>
+                TechMinds Education
+
+            </a>
 
 
-        <a
-            href="../index.php"
-            class="btn btn-outline-light btn-sm"
-        >
+            <div class="admin-menu">
 
-            Voltar ao site
+                <span></span>
+                <span></span>
+                <span></span>
 
-        </a>
+            </div>
+
+        </div>
 
     </div>
 
-</nav>
+</header>
+
+
+
+<!-- =========================================
+     PAGE HERO
+========================================= -->
+
+<section class="dashboard-hero">
+
+    <h1>
+        Painel Administrativo
+    </h1>
+
+    <p>
+        Área de gerenciamento da plataforma
+    </p>
+
+</section>
 
 
 
@@ -117,28 +566,7 @@ if (isset($_GET['editar'])) {
      MAIN CONTENT
 ========================================= -->
 
-<main class="container py-5">
-
-
-    <!-- Page heading -->
-
-    <div class="mb-5">
-
-        <h1 class="fw-bold">
-
-            Painel Administrativo
-
-        </h1>
-
-        <p class="text-muted">
-
-            Gerencie os conteúdos da plataforma
-            TechMinds Education.
-
-        </p>
-
-    </div>
-
+<main class="dashboard-content">
 
 
     <!-- =========================================
@@ -147,7 +575,7 @@ if (isset($_GET['editar'])) {
 
     <?php if (isset($_GET['sucesso'])): ?>
 
-        <div class="alert alert-success">
+        <div class="alert alert-success dashboard-alert">
 
             <?php
 
@@ -193,7 +621,7 @@ if (isset($_GET['editar'])) {
 
     <?php if (isset($_GET['erro'])): ?>
 
-        <div class="alert alert-danger">
+        <div class="alert alert-danger dashboard-alert">
 
             <?php
 
@@ -244,12 +672,11 @@ if (isset($_GET['editar'])) {
          CONTENT FORM
     ========================================= -->
 
-    <div class="card border-0 shadow-sm mb-5">
+    <section>
 
-        <div class="card-body p-4 p-lg-5">
+        <div class="dashboard-card">
 
-
-            <h2 class="h4 fw-bold mb-4">
+            <h2 class="dashboard-card-title">
 
                 <?php if ($conteudoEditar): ?>
 
@@ -262,7 +689,6 @@ if (isset($_GET['editar'])) {
                 <?php endif; ?>
 
             </h2>
-
 
 
             <form
@@ -284,7 +710,6 @@ if (isset($_GET['editar'])) {
                 <?php endif; ?>
 
 
-
                 <div class="row g-4">
 
 
@@ -294,7 +719,7 @@ if (isset($_GET['editar'])) {
 
                         <label
                             for="materia_id"
-                            class="form-label fw-semibold"
+                            class="dashboard-label"
                         >
 
                             Matéria
@@ -305,7 +730,7 @@ if (isset($_GET['editar'])) {
                         <select
                             name="materia_id"
                             id="materia_id"
-                            class="form-select"
+                            class="dashboard-select"
                             required
                         >
 
@@ -336,9 +761,11 @@ if (isset($_GET['editar'])) {
                                 >
 
                                     <?php
+
                                     echo htmlspecialchars(
                                         $materia['nome']
                                     );
+
                                     ?>
 
                                 </option>
@@ -357,7 +784,7 @@ if (isset($_GET['editar'])) {
 
                         <label
                             for="titulo"
-                            class="form-label fw-semibold"
+                            class="dashboard-label"
                         >
 
                             Título
@@ -369,7 +796,7 @@ if (isset($_GET['editar'])) {
                             type="text"
                             name="titulo"
                             id="titulo"
-                            class="form-control"
+                            class="dashboard-input"
                             placeholder="Digite o título do conteúdo"
 
                             value="<?php
@@ -395,7 +822,7 @@ if (isset($_GET['editar'])) {
 
                         <label
                             for="descricao"
-                            class="form-label fw-semibold"
+                            class="dashboard-label"
                         >
 
                             Descrição
@@ -406,8 +833,7 @@ if (isset($_GET['editar'])) {
                         <textarea
                             name="descricao"
                             id="descricao"
-                            class="form-control"
-                            rows="5"
+                            class="dashboard-textarea"
                             placeholder="Digite uma descrição para o conteúdo"
                             required
                         ><?php
@@ -426,12 +852,12 @@ if (isset($_GET['editar'])) {
 
                     <!-- Buttons -->
 
-                    <div class="col-12 d-flex gap-2">
+                    <div class="col-12 text-center">
 
 
                         <button
                             type="submit"
-                            class="btn btn-tech px-4"
+                            class="dashboard-button"
                         >
 
                             <?php if ($conteudoEditar): ?>
@@ -452,7 +878,7 @@ if (isset($_GET['editar'])) {
 
                             <a
                                 href="dashboard.php"
-                                class="btn btn-outline-secondary"
+                                class="dashboard-cancel ms-2"
                             >
 
                                 Cancelar
@@ -470,7 +896,7 @@ if (isset($_GET['editar'])) {
 
         </div>
 
-    </div>
+    </section>
 
 
 
@@ -478,251 +904,206 @@ if (isset($_GET['editar'])) {
          CONTENT LIST
     ========================================= -->
 
-    <div class="card border-0 shadow-sm">
+    <section>
 
-        <div class="card-body p-4 p-lg-5">
+        <h2 class="contents-title">
 
+            Conteúdos Cadastrados
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
-
-                <h2 class="h4 fw-bold mb-0">
-
-                    Conteúdos cadastrados
-
-                </h2>
+        </h2>
 
 
-                <span class="badge text-bg-secondary">
+        <span class="contents-count">
 
-                    <?php echo count($conteudos); ?>
+            <?php echo count($conteudos); ?>
 
-                </span>
+            <?php
+
+            echo count($conteudos) == 1
+                ? ' conteúdo'
+                : ' conteúdos';
+
+            ?>
+
+        </span>
+
+
+
+        <?php if (empty($conteudos)): ?>
+
+
+            <div class="empty-content">
+
+                <h3>
+
+                    Nenhum conteúdo cadastrado
+
+                </h3>
+
+
+                <p>
+
+                    Cadastre o primeiro conteúdo
+                    utilizando o formulário acima.
+
+                </p>
 
             </div>
 
 
+        <?php else: ?>
 
-            <?php if (empty($conteudos)): ?>
 
+            <div class="row g-4">
 
-                <div class="text-center py-5">
 
-                    <h3 class="h5">
+                <?php foreach ($conteudos as $conteudo): ?>
 
-                        Nenhum conteúdo cadastrado
 
-                    </h3>
+                    <div class="col-md-6 col-lg-4">
 
 
-                    <p class="text-muted mb-0">
+                        <article class="content-card">
 
-                        Cadastre o primeiro conteúdo usando
-                        o formulário acima.
 
-                    </p>
+                            <!-- Subject -->
 
-                </div>
+                            <span class="content-subject">
 
+                                <?php
 
-            <?php else: ?>
+                                echo htmlspecialchars(
+                                    $conteudo['materia']
+                                );
 
+                                ?>
 
-                <div class="table-responsive">
+                            </span>
 
-                    <table class="table table-hover align-middle">
 
-                        <thead>
 
-                            <tr>
+                            <!-- Title -->
 
-                                <th>
-                                    ID
-                                </th>
+                            <h3>
 
-                                <th>
-                                    Matéria
-                                </th>
+                                <?php
 
-                                <th>
-                                    Título
-                                </th>
+                                echo htmlspecialchars(
+                                    $conteudo['titulo']
+                                );
 
-                                <th>
-                                    Descrição
-                                </th>
+                                ?>
 
-                                <th>
-                                    Status
-                                </th>
+                            </h3>
 
-                                <th class="text-end">
-                                    Ações
-                                </th>
 
-                            </tr>
 
-                        </thead>
+                            <!-- Description -->
 
+                            <p>
 
-                        <tbody>
+                                <?php
 
+                                echo htmlspecialchars(
+                                    $conteudo['descricao']
+                                );
 
-                            <?php foreach ($conteudos as $conteudo): ?>
+                                ?>
 
+                            </p>
 
-                                <tr>
 
 
-                                    <!-- ID -->
+                            <!-- Status -->
 
-                                    <td>
+                            <div class="content-status">
 
-                                        <?php
-                                        echo $conteudo['id'];
-                                        ?>
+                                ● Conteúdo ativo
 
-                                    </td>
+                            </div>
 
 
 
-                                    <!-- Subject -->
+                            <!-- Actions -->
 
-                                    <td>
+                            <div class="content-actions">
 
-                                        <span class="fw-semibold">
 
-                                            <?php
+                                <a
+                                    href="dashboard.php?editar=<?php echo $conteudo['id']; ?>"
+                                    class="edit-button"
+                                >
 
-                                            echo htmlspecialchars(
-                                                $conteudo['materia']
-                                            );
+                                    Editar
 
-                                            ?>
+                                </a>
 
-                                        </span>
 
-                                    </td>
+                                <a
+                                    href="../controllers/ConteudoController.php?acao=excluir&id=<?php echo $conteudo['id']; ?>"
+                                    class="delete-button"
 
+                                    onclick="return confirm('Tem certeza que deseja excluir este conteúdo?');"
+                                >
 
+                                    Excluir
 
-                                    <!-- Title -->
+                                </a>
 
-                                    <td>
 
-                                        <?php
+                            </div>
 
-                                        echo htmlspecialchars(
-                                            $conteudo['titulo']
-                                        );
 
-                                        ?>
+                        </article>
 
-                                    </td>
 
+                    </div>
 
 
-                                    <!-- Description -->
+                <?php endforeach; ?>
 
-                                    <td>
 
-                                        <?php
+            </div>
 
-                                        echo htmlspecialchars(
-                                            $conteudo['descricao']
-                                        );
 
-                                        ?>
+        <?php endif; ?>
 
-                                    </td>
 
-
-
-                                    <!-- Status -->
-
-                                    <td>
-
-                                        <?php if ($conteudo['ativo']): ?>
-
-                                            <span class="badge text-bg-success">
-
-                                                Ativo
-
-                                            </span>
-
-                                        <?php else: ?>
-
-                                            <span class="badge text-bg-secondary">
-
-                                                Inativo
-
-                                            </span>
-
-                                        <?php endif; ?>
-
-                                    </td>
-
-
-
-                                    <!-- Actions -->
-
-                                    <td class="text-end">
-
-
-                                        <a
-                                            href="dashboard.php?editar=<?php echo $conteudo['id']; ?>"
-                                            class="btn btn-sm btn-outline-primary"
-                                        >
-
-                                            Editar
-
-                                        </a>
-
-
-                                        <a
-                                            href="../controllers/ConteudoController.php?acao=excluir&id=<?php echo $conteudo['id']; ?>"
-                                            class="btn btn-sm btn-outline-danger"
-
-                                            onclick="return confirm('Tem certeza que deseja excluir este conteúdo?');"
-                                        >
-
-                                            Excluir
-
-                                        </a>
-
-
-                                    </td>
-
-
-                                </tr>
-
-
-                            <?php endforeach; ?>
-
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-
-            <?php endif; ?>
-
-
-        </div>
-
-    </div>
+    </section>
 
 
 </main>
 
 
 
-<!-- Bootstrap JS -->
+<!-- =========================================
+     FOOTER
+========================================= -->
 
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-></script>
+<footer class="admin-footer">
+
+    <div class="admin-footer-title">
+
+        TechMinds Education
+
+    </div>
+
+
+    <p>
+
+        Educação, tecnologia e preparação para o Enem.
+
+    </p>
+
+
+    <p>
+
+        © 2026 - Todos os direitos reservados
+
+    </p>
+
+</footer>
+
 
 
 </body>
