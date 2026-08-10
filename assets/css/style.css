@@ -1122,3 +1122,175 @@ body {
     }
 
 }
+/* =========================================
+   CONTENT PAGE
+========================================= */
+
+.content-page-header {
+    background-color: var(--green-main);
+    color: #ffffff;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.content-page-header h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.content-subject {
+    margin: 0 0 8px;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+
+/* =========================================
+   CONTENT AREA
+========================================= */
+
+.content-page-section {
+    background-color: #f1f1f1;
+    min-height: 500px;
+    padding: 35px 20px 60px;
+}
+
+
+/* =========================================
+   CONTENT CARD
+========================================= */
+
+.content-page-card {
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+
+    background-color: #ffffff;
+
+    border-radius: 15px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.content-description {
+    background-color: #b0b29a;
+
+    color: #ffffff;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    margin-bottom: 30px;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   CONTENT BODY
+========================================= */
+
+.content-body h2 {
+    color: var(--green-dark);
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    margin-bottom: 15px;
+}
+
+.content-body p {
+    color: #555555;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.content-actions {
+    margin-top: 30px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #dddddd;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+
+    .content-page-header {
+        padding: 28px 15px;
+    }
+
+    .content-page-header h1 {
+        font-size: 25px;
+    }
+
+    .content-page-section {
+        padding: 25px 15px 45px;
+    }
+
+    .content-page-card {
+        padding: 20px;
+
+        border-radius: 12px;
+    }
+
+    .content-description {
+        padding: 16px;
+
+        font-size: 14px;
+    }
+
+    .content-body h2 {
+        font-size: 19px;
+    }
+
+    .content-body p {
+        font-size: 14px;
+    }
+
+}
+/* =========================================
+   LINKS DOS CONTEÚDOS
+========================================= */
+
+/* Força a cor para links normais e já visitados */
+.subject-card .content-list li a,
+.subject-card .content-list li a:visited {
+    color: #ffffff !important; /* Mude para a cor que desejar (ex: #ffffff para branco) */
+    text-decoration: none !important;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+/* Cor ao passar o mouse ou focar */
+.subject-card .content-list li a:hover,
+.subject-card .content-list li a:focus {
+    color: #f0f0f0 !important; /* Cor suave ao passar o mouse */
+    text-decoration: underline !important;
+}
