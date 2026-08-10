@@ -50,7 +50,7 @@
                 </a>
 
 
-                <!-- Menu Button -->
+                <!-- Menu Button (Toggle com Bootstrap + JS) -->
 
                 <button type="button"
                         class="tech-menu-button"
@@ -58,7 +58,7 @@
                         data-bs-target="#techNavigation"
                         aria-controls="techNavigation"
                         aria-expanded="false"
-                        aria-label="Abrir menu">
+                        aria-label="Alternar menu">
 
                     <span></span>
                     <span></span>
@@ -258,3 +258,21 @@
     </div>
 
 </nav>
+
+<!-- =========================================
+     TOGGLE BEHAVIOR (Garante o clique Toggle de abrir/fechar)
+========================================= -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const menuButton = document.querySelector('.tech-menu-button');
+    const navPanel = document.querySelector('#techNavigation');
+
+    if (menuButton && navPanel) {
+        menuButton.addEventListener('click', function () {
+            // Se o Bootstrap JS estiver ativo, ele trata automaticamente via data-bs-toggle
+            // Mas adicionamos a classe 'active' para criar animações no botão (ex: virar um X)
+            menuButton.classList.toggle('active');
+        });
+    }
+});
+</script>
