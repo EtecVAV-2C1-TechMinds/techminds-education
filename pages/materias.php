@@ -51,6 +51,24 @@ foreach ($conteudos as $conteudo) {
          MAIN STYLESHEET
     ========================================== -->
     <link rel="stylesheet" href="../assets/css/style.css">
+
+    <!-- ESTILO DEDICADO PARA OS LINKS DOS CARDS -->
+    <style>
+        .subject-card .content-list li a,
+        .subject-card .content-list li a:link,
+        .subject-card .content-list li a:visited {
+            color: #283818 !important; /* Verde oliva escuro harmonizado */
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .subject-card .content-list li a:hover,
+        .subject-card .content-list li a:focus {
+            color: #16240d !important; /* Verde ainda mais escuro ao passar o mouse */
+            text-decoration: underline !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -99,7 +117,12 @@ foreach ($conteudos as $conteudo) {
                             <ul class="content-list mb-0 ps-4">
                                 <?php foreach ($listaConteudos as $conteudo): ?>
                                     <li>
-                                        <?= htmlspecialchars($conteudo['titulo']); ?>
+                                        <a
+                                            href="conteudo.php?id=<?= (int) $conteudo['id']; ?>"
+                                            style="color: #283818 !important; text-decoration: none; font-weight: 600;"
+                                        >
+                                            <?= htmlspecialchars($conteudo['titulo']); ?>
+                                        </a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
