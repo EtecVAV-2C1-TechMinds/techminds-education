@@ -37,14 +37,14 @@ class Conteudo
     public function listar()
     {
 
-        $sql = "
+       $sql = "
             SELECT
-                c.id,
-                c.titulo,
-                c.descricao,
-                c.ativo,
-                c.data_criacao,
-                m.nome AS materia
+             c.id,
+             c.materia_id,
+             c.titulo,
+             c.descricao,
+             c.ativo,
+             c.data_criacao,m.nome AS materia
             FROM conteudos c
 
             INNER JOIN materias m
