@@ -932,3 +932,193 @@ body {
     color: #4a4a4a !important;
     line-height: 1.6;
 }
+
+/* =========================================
+   TECHMINDS EDUCATION
+   PÁGINA DE CONTEÚDOS
+========================================= */
+
+
+/* =========================================
+   CABEÇALHO DA PÁGINA
+========================================= */
+
+.subjects-header {
+    background-color: var(--green-main);
+    color: #ffffff;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.subjects-header h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.subjects-header p {
+    margin: 8px 0 0;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+
+/* =========================================
+   ÁREA DAS MATÉRIAS
+========================================= */
+
+.subjects-section {
+    background-color: #f1f1f1;
+    min-height: 500px;
+    padding: 35px 20px 60px;
+}
+
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.subjects-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   CARD DA MATÉRIA
+========================================= */
+
+.subject-card {
+    width: 100%;
+    background-color: #b0b29a;
+    border-radius: 15px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* Efeito ao passar o mouse */
+
+.subject-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================
+   NOME DA MATÉRIA
+========================================= */
+
+.subject-card h2 {
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 700;
+
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+
+/* =========================================
+   LISTA DE CONTEÚDOS
+========================================= */
+
+.content-list {
+    margin: 0;
+    padding-left: 22px;
+
+    color: #4f4f4f;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.content-list li {
+    margin-bottom: 3px;
+}
+
+
+/* =========================================
+   QUANDO NÃO EXISTIR CONTEÚDO
+========================================= */
+
+.no-content {
+    color: rgba(255, 255, 255, 0.75);
+
+    font-size: 13px;
+
+    margin: 0;
+}
+
+
+/* =========================================
+   NENHUMA MATÉRIA
+========================================= */
+
+.empty-subjects {
+    background-color: #ffffff;
+
+    border-radius: 15px;
+
+    padding: 35px 20px;
+
+    text-align: center;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.empty-subjects h2 {
+    color: var(--green-dark);
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    margin-bottom: 10px;
+}
+
+.empty-subjects p {
+    color: #666666;
+
+    margin-bottom: 0;
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (min-width: 768px) {
+
+    .subjects-header {
+        padding: 45px 20px;
+    }
+
+    .subjects-header h1 {
+        font-size: 38px;
+    }
+
+    .subjects-section {
+        padding: 50px 20px 70px;
+    }
+
+    .subjects-container {
+        max-width: 750px;
+    }
+
+    .subject-card {
+        padding: 22px 25px;
+    }
+
+}
