@@ -161,5 +161,41 @@ foreach ($conteudos as $conteudo) {
 ========================================= -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- =========================================
+     LÓGICA PARA NAVEGAÇÃO E FECHAMENTO DO MENU
+========================================= -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const menuNav = document.querySelector('.navbar-collapse');
+    
+    if (!menuNav) return;
+
+    // Instância nativa do Bootstrap Collapse
+    const bsCollapse = bootstrap.Collapse.getOrCreateInstance(menuNav, {
+        toggle: false
+    });
+
+    // Fecha o menu ao clicar em qualquer lugar fora dele
+    document.addEventListener('click', function (event) {
+        const isClickInsideMenu = menuNav.contains(event.target);
+        const isClickOnToggler = event.target.closest('.navbar-toggler, .menu-toggle, .hamburguer, .btn-menu');
+
+        if (menuNav.classList.contains('show') && !isClickInsideMenu && !isClickOnToggler) {
+            bsCollapse.hide();
+        }
+    });
+
+    // Opcional: Fecha o menu automaticamente ao clicar em um item/link do menu
+    const navLinks = menuNav.querySelectorAll('a');
+    navLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (menuNav.classList.contains('show')) {
+                bsCollapse.hide();
+            }
+        });
+    });
+});
+</script>
+
 </body>
 </html>
