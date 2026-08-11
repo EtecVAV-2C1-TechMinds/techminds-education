@@ -37,7 +37,7 @@ class Conteudo
     public function listar()
     {
 
-       $sql = "
+        $sql = "
             SELECT
              c.id,
              c.materia_id,
