@@ -49,406 +49,346 @@ $aulaModel = new Aula();
 
 $aulas = $aulaModel->listarPorConteudo($conteudoId);
 
+// Define o título da página dinamicamente para o header.php
+$title = htmlspecialchars($conteudo['titulo']) . ' | TechMinds Education';
+
+// Includes de Header e Navbar padrão do site
+include(__DIR__ . '/../includes/header.php');
+include(__DIR__ . '/../includes/navbar.php');
+
 ?>
 
-<!DOCTYPE html>
+<style>
 
-<html lang="pt-BR">
+    /* =========================================
+       CONTENT PAGE
+    ========================================= */
 
-<head>
+    .content-page {
 
-    <meta charset="UTF-8">
+        background-color: #f1f1f1;
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        min-height: 600px;
 
-    <title>
-        <?= htmlspecialchars($conteudo['titulo']); ?>
-        | TechMinds Education
-    </title>
+        padding: 40px 20px 70px;
+
+    }
 
 
-    <!-- =========================================
-         BOOTSTRAP
-    ========================================== -->
+    .content-header {
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+        background-color: var(--green-main);
 
+        color: white;
 
-    <!-- =========================================
-         FONT AWESOME
-    ========================================== -->
+        padding: 35px 25px;
 
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
+        border-radius: 18px;
+
+        margin-bottom: 30px;
+
+        box-shadow:
+            0 5px 15px rgba(0, 0, 0, 0.08);
+
+    }
 
 
-    <!-- =========================================
-         MAIN STYLESHEET
-    ========================================== -->
+    .content-header h1 {
 
-    <link
-        rel="stylesheet"
-        href="../assets/css/style.css"
-    >
+        margin: 0 0 8px;
+
+        font-size: 30px;
+
+        font-weight: 700;
+
+    }
 
 
-    <style>
+    .content-header p {
 
-        /* =========================================
-           CONTENT PAGE
-        ========================================== */
+        margin: 0;
+
+        font-size: 15px;
+
+        opacity: 0.95;
+
+    }
+
+
+    .content-description {
+
+        background-color: white;
+
+        border-radius: 15px;
+
+        padding: 25px;
+
+        margin-bottom: 30px;
+
+        box-shadow:
+            0 5px 15px rgba(0, 0, 0, 0.06);
+
+    }
+
+
+    .content-description h2 {
+
+        color: var(--green-dark);
+
+        font-size: 21px;
+
+        font-weight: 700;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .content-description p {
+
+        color: #555;
+
+        margin: 0;
+
+        line-height: 1.6;
+
+    }
+
+
+    /* =========================================
+       LESSONS
+    ========================================= */
+
+    .lessons-title {
+
+        color: var(--green-dark);
+
+        font-size: 24px;
+
+        font-weight: 700;
+
+        margin-bottom: 18px;
+
+    }
+
+
+    .lesson-card {
+
+        background-color: #b0b29a;
+
+        border-radius: 15px;
+
+        padding: 20px 22px;
+
+        margin-bottom: 15px;
+
+        box-shadow:
+            0 5px 15px rgba(0, 0, 0, 0.08);
+
+        transition: 0.2s;
+
+    }
+
+
+    .lesson-card:hover {
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 8px 18px rgba(0, 0, 0, 0.12);
+
+    }
+
+
+    .lesson-link {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 15px;
+
+        color: white;
+
+        text-decoration: none;
+
+    }
+
+
+    .lesson-icon {
+
+        width: 45px;
+
+        height: 45px;
+
+        border-radius: 50%;
+
+        background-color: rgba(255,255,255,0.2);
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        flex-shrink: 0;
+
+    }
+
+
+    .lesson-icon i {
+
+        font-size: 18px;
+
+        color: white;
+
+    }
+
+
+    .lesson-info h3 {
+
+        margin: 0 0 4px;
+
+        font-size: 18px;
+
+        font-weight: 700;
+
+        color: white;
+
+    }
+
+
+    .lesson-info p {
+
+        margin: 0;
+
+        font-size: 13px;
+
+        color: rgba(255,255,255,0.85);
+
+    }
+
+
+    /* =========================================
+       EMPTY LESSONS
+    ========================================= */
+
+    .empty-lessons {
+
+        background-color: white;
+
+        border-radius: 15px;
+
+        padding: 40px 25px;
+
+        text-align: center;
+
+        box-shadow:
+            0 5px 15px rgba(0, 0, 0, 0.06);
+
+    }
+
+
+    .empty-lessons i {
+
+        font-size: 35px;
+
+        color: var(--green-main);
+
+        margin-bottom: 15px;
+
+    }
+
+
+    .empty-lessons h3 {
+
+        color: var(--green-dark);
+
+        font-size: 20px;
+
+        font-weight: 700;
+
+    }
+
+
+    .empty-lessons p {
+
+        color: #666;
+
+        margin: 0;
+
+    }
+
+
+    /* =========================================
+       DESKTOP
+    ========================================= */
+
+    @media (min-width: 768px) {
 
         .content-page {
 
-            background-color: #f1f1f1;
+            padding: 55px 30px 80px;
 
-            min-height: 600px;
+        }
 
-            padding: 40px 20px 70px;
+
+        .content-container {
+
+            max-width: 900px;
+
+            margin: 0 auto;
 
         }
 
 
         .content-header {
 
-            background-color: var(--green-main);
-
-            color: white;
-
-            padding: 35px 25px;
-
-            border-radius: 18px;
-
-            margin-bottom: 30px;
-
-            box-shadow:
-                0 5px 15px rgba(0, 0, 0, 0.08);
+            padding: 45px 40px;
 
         }
 
 
         .content-header h1 {
 
-            margin: 0 0 8px;
-
-            font-size: 30px;
-
-            font-weight: 700;
-
-        }
-
-
-        .content-header p {
-
-            margin: 0;
-
-            font-size: 15px;
-
-            opacity: 0.95;
+            font-size: 38px;
 
         }
 
 
         .content-description {
 
-            background-color: white;
-
-            border-radius: 15px;
-
-            padding: 25px;
-
-            margin-bottom: 30px;
-
-            box-shadow:
-                0 5px 15px rgba(0, 0, 0, 0.06);
-
-        }
-
-
-        .content-description h2 {
-
-            color: var(--green-dark);
-
-            font-size: 21px;
-
-            font-weight: 700;
-
-            margin-bottom: 10px;
-
-        }
-
-
-        .content-description p {
-
-            color: #555;
-
-            margin: 0;
-
-            line-height: 1.6;
-
-        }
-
-
-        /* =========================================
-           LESSONS
-        ========================================== */
-
-        .lessons-title {
-
-            color: var(--green-dark);
-
-            font-size: 24px;
-
-            font-weight: 700;
-
-            margin-bottom: 18px;
+            padding: 30px 35px;
 
         }
 
 
         .lesson-card {
 
-            background-color: #b0b29a;
-
-            border-radius: 15px;
-
-            padding: 20px 22px;
-
-            margin-bottom: 15px;
-
-            box-shadow:
-                0 5px 15px rgba(0, 0, 0, 0.08);
-
-            transition: 0.2s;
+            padding: 22px 25px;
 
         }
 
-
-        .lesson-card:hover {
-
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 8px 18px rgba(0, 0, 0, 0.12);
-
-        }
+    }
 
 
-        .lesson-link {
+    @media (min-width: 1200px) {
 
-            display: flex;
+        .content-container {
 
-            align-items: center;
-
-            gap: 15px;
-
-            color: white;
-
-            text-decoration: none;
+            max-width: 1000px;
 
         }
 
+    }
 
-        .lesson-icon {
+</style>
 
-            width: 45px;
 
-            height: 45px;
-
-            border-radius: 50%;
-
-            background-color: rgba(255,255,255,0.2);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            flex-shrink: 0;
-
-        }
-
-
-        .lesson-icon i {
-
-            font-size: 18px;
-
-            color: white;
-
-        }
-
-
-        .lesson-info h3 {
-
-            margin: 0 0 4px;
-
-            font-size: 18px;
-
-            font-weight: 700;
-
-            color: white;
-
-        }
-
-
-        .lesson-info p {
-
-            margin: 0;
-
-            font-size: 13px;
-
-            color: rgba(255,255,255,0.85);
-
-        }
-
-
-        /* =========================================
-           EMPTY LESSONS
-        ========================================== */
-
-        .empty-lessons {
-
-            background-color: white;
-
-            border-radius: 15px;
-
-            padding: 40px 25px;
-
-            text-align: center;
-
-            box-shadow:
-                0 5px 15px rgba(0, 0, 0, 0.06);
-
-        }
-
-
-        .empty-lessons i {
-
-            font-size: 35px;
-
-            color: var(--green-main);
-
-            margin-bottom: 15px;
-
-        }
-
-
-        .empty-lessons h3 {
-
-            color: var(--green-dark);
-
-            font-size: 20px;
-
-            font-weight: 700;
-
-        }
-
-
-        .empty-lessons p {
-
-            color: #666;
-
-            margin: 0;
-
-        }
-
-
-        /* =========================================
-           DESKTOP
-        ========================================== */
-
-        @media (min-width: 768px) {
-
-            .content-page {
-
-                padding: 55px 30px 80px;
-
-            }
-
-
-            .content-container {
-
-                max-width: 900px;
-
-                margin: 0 auto;
-
-            }
-
-
-            .content-header {
-
-                padding: 45px 40px;
-
-            }
-
-
-            .content-header h1 {
-
-                font-size: 38px;
-
-            }
-
-
-            .content-description {
-
-                padding: 30px 35px;
-
-            }
-
-
-            .lesson-card {
-
-                padding: 22px 25px;
-
-            }
-
-        }
-
-
-        @media (min-width: 1200px) {
-
-            .content-container {
-
-                max-width: 1000px;
-
-            }
-
-        }
-
-    </style>
-
-</head>
-
-
-<body>
-
-
-<!-- =========================================
-     HEADER
-========================================= -->
-
-<header class="navbar">
-
-    <div class="logo">
-        TechMinds Education
-    </div>
-
-    <div class="menu-icon">
-
-        <i class="fa-solid fa-bars"></i>
-
-    </div>
-
-</header>
+<!-- Script para reforçar o título dinâmico na aba do navegador -->
+<script>
+    document.title = "<?= addslashes($conteudo['titulo']); ?> | TechMinds Education";
+</script>
 
 
 <!-- =========================================
@@ -527,7 +467,7 @@ $aulas = $aulaModel->listarPorConteudo($conteudoId);
             <?php if (!empty($aulas)): ?>
 
 
-                <?php foreach ($aulas as $aula): ?>
+                <?php foreach ($aulas as$aula): ?>
 
                     <div class="lesson-card">
 
@@ -632,12 +572,7 @@ $aulas = $aulaModel->listarPorConteudo($conteudoId);
 
 
 <!-- =========================================
-     FOOTER
+     FOOTER REUTILIZÁVEL DO SITE
 ========================================= -->
 
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
-
-
-</body>
-
-</html>
