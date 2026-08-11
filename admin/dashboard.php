@@ -40,508 +40,417 @@ if (isset($_GET['editar'])) {
     }
 }
 
+// Define o título para a tag <title> no header.php
+$title = "Painel Administrativo | TechMinds Education";
+
+// Includes do Header e da Navbar padrão do projeto
+include(__DIR__ . '/../includes/header.php');
+include(__DIR__ . '/../includes/navbar.php');
+
 ?>
 
+<!-- Estilos exclusivos do Dashboard -->
+<style>
 
-<!DOCTYPE html>
+    /* =========================================
+       DASHBOARD PAGE
+    ========================================= */
 
-<html lang="pt-BR">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        Painel Administrativo | TechMinds Education
-    </title>
+    body {
+        background-color: #ffffff;
+        color: #333333;
+    }
 
 
-    <!-- Bootstrap -->
+    /* =========================================
+       ADMIN HEADER
+    ========================================= */
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-
-    <!-- Project CSS -->
-
-    <link
-        rel="stylesheet"
-        href="../assets/css/style.css"
-    >
+    .admin-header {
+        background-color: #1A2601;
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+    }
 
 
-    <!-- Dashboard styles -->
-
-    <style>
-
-        /* =========================================
-           DASHBOARD PAGE
-        ========================================= */
-
-        body {
-            background-color: #ffffff;
-            color: #333333;
-        }
+    .admin-logo {
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
 
 
-        /* =========================================
-           ADMIN HEADER
-        ========================================= */
+    .admin-menu {
+        width: 34px;
+        height: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+
+    .admin-menu span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: #ffffff;
+        border-radius: 10px;
+    }
+
+
+    /* =========================================
+       PAGE TITLE
+    ========================================= */
+
+    .dashboard-hero {
+        background-color: #93A651;
+        padding: 45px 20px;
+        text-align: center;
+    }
+
+
+    .dashboard-hero h1 {
+        color: #ffffff;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+
+    .dashboard-hero p {
+        color: #ffffff;
+        margin: 0;
+        font-size: 0.95rem;
+    }
+
+
+    /* =========================================
+       MAIN CONTENT
+    ========================================= */
+
+    .dashboard-content {
+        max-width: 1050px;
+        margin: 0 auto;
+        padding: 45px 20px;
+    }
+
+
+    /* =========================================
+       FORM CARD
+    ========================================= */
+
+    .dashboard-card {
+        background-color: #f2f2f2;
+        border: none;
+        border-radius: 22px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+
+    .dashboard-card-title {
+        color: #1A2601;
+        font-size: 1.45rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+
+    /* =========================================
+       FORM FIELDS
+    ========================================= */
+
+    .dashboard-label {
+        color: #555555;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 7px;
+    }
+
+
+    .dashboard-input,
+    .dashboard-select,
+    .dashboard-textarea {
+        width: 100%;
+        border: none;
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 12px 15px;
+        color: #444444;
+        outline: none;
+        box-shadow: inset 0 0 0 1px #dddddd;
+    }
+
+
+    .dashboard-input:focus,
+    .dashboard-select:focus,
+    .dashboard-textarea:focus {
+        box-shadow: inset 0 0 0 2px #93A651;
+    }
+
+
+    .dashboard-textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+
+    /* =========================================
+       BUTTONS
+    ========================================= */
+
+    .dashboard-button {
+        background-color: #A77E34;
+        color: #ffffff;
+        border: none;
+        border-radius: 25px;
+        padding: 11px 28px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+
+    .dashboard-button:hover {
+        background-color: #8f692b;
+        color: #ffffff;
+    }
+
+
+    .dashboard-cancel {
+        background-color: #757B4B;
+        color: #ffffff;
+        border: none;
+        border-radius: 25px;
+        padding: 11px 28px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+
+    .dashboard-cancel:hover {
+        color: #ffffff;
+        background-color: #60643c;
+    }
+
+
+    /* =========================================
+       CONTENTS SECTION
+    ========================================= */
+
+    .contents-title {
+        color: #1A2601;
+        font-size: 1.6rem;
+        font-weight: 700;
+        text-align: center;
+        margin: 50px 0 25px;
+    }
+
+
+    .contents-count {
+        display: block;
+        width: fit-content;
+        margin: 0 auto 30px;
+        background-color: #93A651;
+        color: #ffffff;
+        padding: 5px 18px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+    }
+
+
+    /* =========================================
+       CONTENT CARDS
+    ========================================= */
+
+    .content-card {
+        height: 100%;
+        background-color: #f2f2f2;
+        border-radius: 20px;
+        padding: 25px;
+        border: none;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+    }
+
+
+    .content-subject {
+        display: inline-block;
+        background-color: #757B4B;
+        color: #ffffff;
+        border-radius: 20px;
+        padding: 5px 15px;
+        font-size: 0.75rem;
+        margin-bottom: 15px;
+    }
+
+
+    .content-card h3 {
+        color: #1A2601;
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+
+    .content-card p {
+        color: #666666;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+
+    .content-status {
+        font-size: 0.75rem;
+        color: #5d7034;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
+
+
+    .content-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+
+    .edit-button,
+    .delete-button {
+        flex: 1;
+        text-align: center;
+        padding: 8px 10px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+
+    .edit-button {
+        background-color: #A77E34;
+        color: #ffffff;
+    }
+
+
+    .edit-button:hover {
+        background-color: #8f692b;
+        color: #ffffff;
+    }
+
+
+    .delete-button {
+        background-color: #757B4B;
+        color: #ffffff;
+    }
+
+
+    .delete-button:hover {
+        background-color: #60643c;
+        color: #ffffff;
+    }
+
+
+    /* =========================================
+       EMPTY CONTENT MESSAGE
+    ========================================= */
+
+    .empty-content {
+        background-color: #f2f2f2;
+        border-radius: 20px;
+        padding: 45px 20px;
+        text-align: center;
+    }
+
+
+    .empty-content h3 {
+        color: #1A2601;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+
+    .empty-content p {
+        color: #777777;
+        margin-bottom: 0;
+    }
+
+
+    /* =========================================
+       ALERTS
+    ========================================= */
+
+    .dashboard-alert {
+        max-width: 700px;
+        margin: 0 auto 30px;
+        border: none;
+        border-radius: 15px;
+        text-align: center;
+    }
+
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @media (max-width: 768px) {
 
         .admin-header {
-            background-color: #1A2601;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
+            min-height: 65px;
         }
 
 
         .admin-logo {
-            color: #ffffff;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-        }
-
-
-        .admin-menu {
-            width: 34px;
-            height: 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-
-        .admin-menu span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background-color: #ffffff;
-            border-radius: 10px;
-        }
-
-
-        /* =========================================
-           PAGE TITLE
-        ========================================= */
-
-        .dashboard-hero {
-            background-color: #93A651;
-            padding: 45px 20px;
-            text-align: center;
-        }
-
-
-        .dashboard-hero h1 {
-            color: #ffffff;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-
-        .dashboard-hero p {
-            color: #ffffff;
-            margin: 0;
             font-size: 0.95rem;
         }
 
 
-        /* =========================================
-           MAIN CONTENT
-        ========================================= */
-
-        .dashboard-content {
-            max-width: 1050px;
-            margin: 0 auto;
-            padding: 45px 20px;
+        .dashboard-hero {
+            padding: 35px 20px;
         }
 
 
-        /* =========================================
-           FORM CARD
-        ========================================= */
+        .dashboard-hero h1 {
+            font-size: 1.65rem;
+        }
+
+
+        .dashboard-content {
+            padding: 30px 15px;
+        }
+
 
         .dashboard-card {
-            background-color: #f2f2f2;
-            border: none;
-            border-radius: 22px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 22px 18px;
+            border-radius: 18px;
         }
 
 
         .dashboard-card-title {
-            color: #1A2601;
-            font-size: 1.45rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 25px;
+            font-size: 1.25rem;
         }
 
-
-        /* =========================================
-           FORM FIELDS
-        ========================================= */
-
-        .dashboard-label {
-            color: #555555;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 7px;
-        }
-
-
-        .dashboard-input,
-        .dashboard-select,
-        .dashboard-textarea {
-            width: 100%;
-            border: none;
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 12px 15px;
-            color: #444444;
-            outline: none;
-            box-shadow: inset 0 0 0 1px #dddddd;
-        }
-
-
-        .dashboard-input:focus,
-        .dashboard-select:focus,
-        .dashboard-textarea:focus {
-            box-shadow: inset 0 0 0 2px #93A651;
-        }
-
-
-        .dashboard-textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-
-        /* =========================================
-           BUTTONS
-        ========================================= */
-
-        .dashboard-button {
-            background-color: #A77E34;
-            color: #ffffff;
-            border: none;
-            border-radius: 25px;
-            padding: 11px 28px;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-
-
-        .dashboard-button:hover {
-            background-color: #8f692b;
-            color: #ffffff;
-        }
-
-
-        .dashboard-cancel {
-            background-color: #757B4B;
-            color: #ffffff;
-            border: none;
-            border-radius: 25px;
-            padding: 11px 28px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-
-        .dashboard-cancel:hover {
-            color: #ffffff;
-            background-color: #60643c;
-        }
-
-
-        /* =========================================
-           CONTENTS SECTION
-        ========================================= */
 
         .contents-title {
-            color: #1A2601;
-            font-size: 1.6rem;
-            font-weight: 700;
-            text-align: center;
-            margin: 50px 0 25px;
+            font-size: 1.4rem;
+            margin-top: 40px;
         }
 
-
-        .contents-count {
-            display: block;
-            width: fit-content;
-            margin: 0 auto 30px;
-            background-color: #93A651;
-            color: #ffffff;
-            padding: 5px 18px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
-
-
-        /* =========================================
-           CONTENT CARDS
-        ========================================= */
 
         .content-card {
-            height: 100%;
-            background-color: #f2f2f2;
-            border-radius: 20px;
-            padding: 25px;
-            border: none;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+            padding: 22px;
         }
 
+    }
 
-        .content-subject {
-            display: inline-block;
-            background-color: #757B4B;
-            color: #ffffff;
-            border-radius: 20px;
-            padding: 5px 15px;
-            font-size: 0.75rem;
-            margin-bottom: 15px;
-        }
+</style>
 
 
-        .content-card h3 {
-            color: #1A2601;
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-
-        .content-card p {
-            color: #666666;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-
-        .content-status {
-            font-size: 0.75rem;
-            color: #5d7034;
-            font-weight: 600;
-            margin-bottom: 18px;
-        }
-
-
-        .content-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-
-        .edit-button,
-        .delete-button {
-            flex: 1;
-            text-align: center;
-            padding: 8px 10px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-
-        .edit-button {
-            background-color: #A77E34;
-            color: #ffffff;
-        }
-
-
-        .edit-button:hover {
-            background-color: #8f692b;
-            color: #ffffff;
-        }
-
-
-        .delete-button {
-            background-color: #757B4B;
-            color: #ffffff;
-        }
-
-
-        .delete-button:hover {
-            background-color: #60643c;
-            color: #ffffff;
-        }
-
-
-        /* =========================================
-           EMPTY CONTENT MESSAGE
-        ========================================= */
-
-        .empty-content {
-            background-color: #f2f2f2;
-            border-radius: 20px;
-            padding: 45px 20px;
-            text-align: center;
-        }
-
-
-        .empty-content h3 {
-            color: #1A2601;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-
-        .empty-content p {
-            color: #777777;
-            margin-bottom: 0;
-        }
-
-
-        /* =========================================
-           ALERTS
-        ========================================= */
-
-        .dashboard-alert {
-            max-width: 700px;
-            margin: 0 auto 30px;
-            border: none;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-
-        /* =========================================
-           ADMIN FOOTER
-        ========================================= */
-
-        .admin-footer {
-            background-color: #1A2601;
-            color: #ffffff;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 30px;
-        }
-
-
-        .admin-footer-title {
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-
-
-        .admin-footer p {
-            margin: 3px 0;
-            font-size: 0.8rem;
-        }
-
-
-        /* =========================================
-           MOBILE
-        ========================================= */
-
-        @media (max-width: 768px) {
-
-            .admin-header {
-                min-height: 65px;
-            }
-
-
-            .admin-logo {
-                font-size: 0.95rem;
-            }
-
-
-            .dashboard-hero {
-                padding: 35px 20px;
-            }
-
-
-            .dashboard-hero h1 {
-                font-size: 1.65rem;
-            }
-
-
-            .dashboard-content {
-                padding: 30px 15px;
-            }
-
-
-            .dashboard-card {
-                padding: 22px 18px;
-                border-radius: 18px;
-            }
-
-
-            .dashboard-card-title {
-                font-size: 1.25rem;
-            }
-
-
-            .contents-title {
-                font-size: 1.4rem;
-                margin-top: 40px;
-            }
-
-
-            .content-card {
-                padding: 22px;
-            }
-
-
-        }
-
-    </style>
-
-</head>
-
-
-<body>
-
-
-<!-- =========================================
-     ADMIN HEADER
-========================================= -->
-
-<header class="admin-header">
-
-    <div class="container">
-
-        <div class="d-flex justify-content-between align-items-center">
-
-            <a
-                href="../index.php"
-                class="admin-logo"
-            >
-
-                TechMinds Education
-
-            </a>
-
-
-            <div class="admin-menu">
-
-                <span></span>
-                <span></span>
-                <span></span>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</header>
-
+<!-- Script para garantir a atualização do título da aba no navegador -->
+<script>
+    document.title = "Painel Administrativo | TechMinds Education";
+</script>
 
 
 <!-- =========================================
@@ -1077,35 +986,7 @@ if (isset($_GET['editar'])) {
 
 
 <!-- =========================================
-     FOOTER
+     FOOTER REUTILIZÁVEL DO SITE
 ========================================= -->
 
-<footer class="admin-footer">
-
-    <div class="admin-footer-title">
-
-        TechMinds Education
-
-    </div>
-
-
-    <p>
-
-        Educação, tecnologia e preparação para o Enem.
-
-    </p>
-
-
-    <p>
-
-        © 2026 - Todos os direitos reservados
-
-    </p>
-
-</footer>
-
-
-
-</body>
-
-</html>
+<?php include(__DIR__ . '/../includes/footer.php'); ?>
