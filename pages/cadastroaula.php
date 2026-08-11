@@ -8,486 +8,321 @@
 require_once __DIR__ . '/../models/Aula.php';
 
 $aulaModel = new Aula();
-
 $conteudos = $aulaModel->listarConteudos();
 
-// Define o título que o header.php vai carregar
 $title = "Cadastrar Vídeo Aulas | TechMinds Education";
 
-// Includes padrão da aplicação
 include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../includes/navbar.php');
 
 ?>
 
-<!-- Estilos da Tela de Cadastro de Aulas (Design Fiel ao Protótipo) -->
 <style>
     :root {
+        --green-primary: #6B783E;
         --green-dark: #233703;
         --green-banner: #8A9E48;
-        --green-input: #6B783E;
-        --green-btn: #6B783E;
-        --bg-light: #EBEBEB;
+        --bg-light: #F4F6F8;
+        --text-color: #2D3748;
+        --border-color: #E2E8F0;
     }
 
     body {
         background-color: var(--bg-light) !important;
+        color: var(--text-color);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     /* BANNER */
     .banner {
         background-color: var(--green-banner);
-        color: var(--green-dark);
+        color: #ffffff;
         text-align: center;
-        padding: 30px 20px;
+        padding: 40px 20px;
     }
 
     .banner h1 {
         font-weight: 800;
         font-size: 2rem;
-        line-height: 1.1;
-        margin-bottom: 5px;
-        color: #273708;
+        margin-bottom: 8px;
+        color: var(--green-dark);
     }
 
     .banner p {
         margin: 0;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #ffffff;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.9);
     }
 
     /* MAIN CONTENT */
     .content {
-        padding: 30px 20px;
-        max-width: 500px;
+        padding: 40px 20px;
+        max-width: 580px;
         margin: 0 auto;
     }
 
+    /* CARD DO FORMULÁRIO */
+    .form-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    }
+
     .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 22px;
     }
 
     .form-group label {
         display: block;
         font-weight: 600;
-        margin-bottom: 8px;
-        color: #333333;
-        font-size: 0.95rem;
+        margin-bottom: 6px;
+        color: #4A5568;
+        font-size: 0.875rem;
     }
 
-    /* INPUTS & SELECTS FORMATO PÍLULA */
+    /* INPUTS & SELECTS */
     .form-control, 
     select.form-control,
     textarea.form-control {
-        background-color: var(--green-input) !important;
-        border: none !important;
-        border-radius: 20px !important;
-        color: #ffffff !important;
-        padding: 10px 18px !important;
         width: 100%;
+        background-color: #F8FAFC !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 10px !important;
+        color: var(--text-color) !important;
+        padding: 12px 16px !important;
+        font-size: 0.95rem;
         outline: none;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+        transition: all 0.2s ease-in-out;
     }
 
     .form-control::placeholder,
     textarea.form-control::placeholder {
-        color: #e0e0e0 !important;
+        color: #A0AEC0 !important;
     }
 
     .form-control:focus {
-        background-color: var(--green-input) !important;
-        color: #ffffff !important;
-        box-shadow: 0 0 0 0.25rem rgba(107, 120, 62, 0.4) !important;
+        background-color: #ffffff !important;
+        border-color: var(--green-primary) !important;
+        box-shadow: 0 0 0 3px rgba(107, 120, 62, 0.15) !important;
     }
 
     select.form-control {
         appearance: none;
         -webkit-appearance: none;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e") !important;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236B783E'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e") !important;
         background-repeat: no-repeat !important;
-        background-position: right 12px center !important;
+        background-position: right 14px center !important;
         background-size: 20px !important;
+        padding-right: 40px !important;
     }
 
-    select.form-control option {
-        background-color: #ffffff;
-        color: #333333;
-    }
-
-    /* ÁREA DE UPLOAD DO VÍDEO */
-    .upload-container {
+    /* ÁREA DE UPLOAD LIMPA E MODERNA */
+    .upload-box {
+        border: 2px dashed #CBD5E0;
+        border-radius: 12px;
+        padding: 24px 16px;
         text-align: center;
-        margin: 20px 0 25px 0;
-    }
-
-    .upload-image-icon {
-        width: 110px;
-        height: auto;
-        display: inline-block;
-        margin-bottom: 15px;
+        background-color: #F8FAFC;
         cursor: pointer;
+        transition: border-color 0.2s, background-color 0.2s;
     }
 
-    .btn-upload-label {
-        background-color: var(--green-btn);
-        color: #ffffff;
-        border: none;
-        border-radius: 20px;
-        padding: 8px 35px;
+    .upload-box:hover {
+        border-color: var(--green-primary);
+        background-color: #F1F5F9;
+    }
+
+    .upload-icon {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 8px;
+        opacity: 0.7;
+    }
+
+    .upload-text {
+        font-size: 0.875rem;
+        color: #4A5568;
+        margin: 0;
+    }
+
+    .upload-text span {
+        color: var(--green-primary);
         font-weight: 600;
-        font-size: 0.95rem;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.12);
-        display: inline-block;
-        cursor: pointer;
-        transition: transform 0.2s, opacity 0.2s;
-    }
-
-    .btn-upload-label:hover {
-        opacity: 0.95;
-        color: #ffffff;
-        transform: translateY(-1px);
+        text-decoration: underline;
     }
 
     .file-selected-info {
-        margin-top: 8px;
+        margin-top: 10px;
         font-size: 0.85rem;
         color: var(--green-dark);
         font-weight: 600;
+        word-break: break-all;
+    }
+
+    /* SEPARADOR "OU" */
+    .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 16px 0;
+        color: #A0AEC0;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .divider span {
+        padding: 0 10px;
     }
 
     /* BOTÃO SUBMIT */
     .btn-submit {
-        background-color: var(--green-btn);
+        width: 100%;
+        background-color: var(--green-primary);
         color: #ffffff;
         border: none;
-        border-radius: 20px;
-        padding: 8px 35px;
+        border-radius: 10px;
+        padding: 14px 20px;
         font-weight: 600;
-        font-size: 0.95rem;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-top: 10px;
-        transition: opacity 0.2s;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
     .btn-submit:hover {
-        opacity: 0.9;
+        background-color: var(--green-dark);
+    }
+
+    .btn-submit:active {
+        transform: scale(0.99);
     }
 </style>
 
-
-<!-- Script para garantir a troca do título da aba do navegador -->
 <script>
     document.title = "Cadastrar Vídeo Aulas | TechMinds Education";
 </script>
 
-
-<!-- =========================================
-     CABEÇALHO
-========================================= -->
-
+<!-- CABEÇALHO -->
 <section class="banner">
-
-    <h1>
-        Cadastrar<br>
-        Vídeo Aulas
-    </h1>
-
-    <p>
-        Área do administrador
-    </p>
-
+    <h1>Cadastrar Vídeo Aula</h1>
+    <p>Painel Administrativo TechMinds</p>
 </section>
 
-
-<!-- =========================================
-     CONTEÚDO
-========================================= -->
-
+<!-- CONTEÚDO -->
 <main class="content">
+    <div class="form-card">
 
-    <div class="form-wrapper">
-
-
-        <!-- =========================================
-             MENSAGENS DE ERRO
-        ========================================== -->
-
+        <!-- MENSAGENS DE ERRO -->
         <?php if (isset($_GET['erro'])): ?>
-
-            <div class="alert alert-danger rounded-4">
-
+            <div class="alert alert-danger rounded-3 mb-4">
                 <?php
-
                 switch ($_GET['erro']) {
-
-                    case 'preencha':
-                        echo 'Preencha todos os campos obrigatórios.';
-                        break;
-
-                    case 'criar':
-                        echo 'Não foi possível cadastrar a aula.';
-                        break;
-
-                    case 'editar':
-                        echo 'Não foi possível editar a aula.';
-                        break;
-
-                    case 'excluir':
-                        echo 'Não foi possível excluir a aula.';
-                        break;
-
-                    default:
-                        echo 'Ocorreu um erro.';
+                    case 'preencha': echo 'Preencha todos os campos obrigatórios.'; break;
+                    case 'criar': echo 'Não foi possível cadastrar a aula.'; break;
+                    case 'editar': echo 'Não foi possível editar a aula.'; break;
+                    case 'excluir': echo 'Não foi possível excluir a aula.'; break;
+                    default: echo 'Ocorreu um erro ao processar a requisição.';
                 }
-
                 ?>
-
             </div>
-
         <?php endif; ?>
 
-
-        <!-- =========================================
-             MENSAGENS DE SUCESSO
-        ========================================== -->
-
+        <!-- MENSAGENS DE SUCESSO -->
         <?php if (isset($_GET['sucesso'])): ?>
-
-            <div class="alert alert-success rounded-4">
-
+            <div class="alert alert-success rounded-3 mb-4">
                 <?php
-
                 switch ($_GET['sucesso']) {
-
-                    case 'criado':
-                        echo 'Aula cadastrada com sucesso!';
-                        break;
-
-                    case 'editado':
-                        echo 'Aula editada com sucesso!';
-                        break;
-
-                    case 'excluido':
-                        echo 'Aula excluída com sucesso!';
-                        break;
-
-                    default:
-                        echo 'Operação realizada com sucesso.';
+                    case 'criado': echo 'Aula cadastrada com sucesso!'; break;
+                    case 'editado': echo 'Aula editada com sucesso!'; break;
+                    case 'excluido': echo 'Aula excluída com sucesso!'; break;
+                    default: echo 'Operação realizada com sucesso.';
                 }
-
                 ?>
-
             </div>
-
         <?php endif; ?>
 
-
-        <!-- =========================================
-             FORMULÁRIO
-        ========================================== -->
-
-        <form
-            action="../controllers/AulaController.php?acao=criar"
-            method="POST"
-            enctype="multipart/form-data"
-        >
-
+        <!-- FORMULÁRIO -->
+        <form action="../controllers/AulaController.php?acao=criar" method="POST" enctype="multipart/form-data">
 
             <!-- CONTEÚDO -->
-
             <div class="form-group">
-
-                <label for="conteudo_id">
-                    Conteúdo/Matéria:
-                </label>
-
-                <select
-                    id="conteudo_id"
-                    name="conteudo_id"
-                    class="form-control"
-                    required
-                >
-
-                    <option value="">
-                        Selecione o conteúdo
-                    </option>
-
-
+                <label for="conteudo_id">Conteúdo / Matéria</label>
+                <select id="conteudo_id" name="conteudo_id" class="form-control" required>
+                    <option value="" disabled selected>Selecione a matéria correspondente</option>
                     <?php foreach ($conteudos as $conteudo): ?>
-
-                        <option
-                            value="<?= (int) $conteudo['id']; ?>"
-                        >
-
-                            <?= htmlspecialchars(
-                                $conteudo['titulo']
-                            ); ?>
-
+                        <option value="<?= (int) $conteudo['id']; ?>">
+                            <?= htmlspecialchars($conteudo['titulo']); ?>
                         </option>
-
                     <?php endforeach; ?>
-
                 </select>
-
             </div>
-
 
             <!-- TÍTULO -->
-
             <div class="form-group">
-
-                <label for="titulo">
-                    Título da aula:
-                </label>
-
-                <input
-                    type="text"
-                    id="titulo"
-                    name="titulo"
-                    class="form-control"
-                    placeholder="Digite o título da aula"
-                    required
-                >
-
+                <label for="titulo">Título da Aula</label>
+                <input type="text" id="titulo" name="titulo" class="form-control" placeholder="Ex: Introdução às Variáveis" required>
             </div>
-
 
             <!-- DESCRIÇÃO -->
-
             <div class="form-group">
-
-                <label for="descricao">
-                    Descrição:
-                </label>
-
-                <textarea
-                    id="descricao"
-                    name="descricao"
-                    class="form-control"
-                    rows="3"
-                    placeholder="Digite uma descrição para a aula"
-                    required
-                ></textarea>
-
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" name="descricao" class="form-control" rows="3" placeholder="Resumo dos tópicos abordados nesta aula" required></textarea>
             </div>
 
-
-            <!-- VÍDEO -->
-
+            <!-- VÍDEO (UPLOAD / LINK) -->
             <div class="form-group">
-
-                <label for="video">
-                    Vídeo:
+                <label>Arquivo de Vídeo ou Link</label>
+                
+                <!-- Caixa de Dropzone/Upload -->
+                <label for="video_file" class="upload-box">
+                    <img src="../assets/img/upload_icon.png" alt="Upload" class="upload-icon" onerror="this.style.display='none'">
+                    <p class="upload-text"><span>Clique para enviar</span> ou arraste o arquivo até aqui</p>
+                    <input type="file" id="video_file" name="video_file" accept="video/*" style="display: none;" onchange="exibirNomeArquivo(this)">
                 </label>
+                <div id="file-info" class="file-selected-info"></div>
 
-                <div class="upload-container">
+                <div class="divider"><span>ou</span></div>
 
-                    <!-- Imagem da seta de Upload -->
-                    <label for="video_file">
-                        <img 
-                            src="../assets/img/upload_icon.png" 
-                            alt="Upload Vídeo" 
-                            class="upload-image-icon"
-                        >
-                    </label>
-
-                    <br>
-
-                    <!-- Botão Faça Upload -->
-                    <label for="video_file" class="btn-upload-label">
-                        Faça Upload
-                    </label>
-
-                    <!-- Input oculto para carregar o arquivo do computador -->
-                    <input
-                        type="file"
-                        id="video_file"
-                        name="video_file"
-                        accept="video/*"
-                        style="display: none;"
-                        onchange="exibirNomeArquivo(this)"
-                    >
-
-                    <!-- Input mantido para compatibilidade com inserção de URL se necessário -->
-                    <input
-                        type="text"
-                        id="video"
-                        name="video"
-                        class="form-control mt-3"
-                        placeholder="Ou cole o link do vídeo"
-                    >
-
-                    <div id="file-info" class="file-selected-info"></div>
-
-                </div>
-
+                <!-- Input para URL -->
+                <input type="text" id="video" name="video" class="form-control" placeholder="Cole a URL do vídeo (YouTube, Vimeo, etc.)">
             </div>
 
-
-            <!-- MATERIAL -->
-
+            <!-- MATERIAL COMPLEMENTAR -->
             <div class="form-group">
-
-                <label for="material">
-                    Material complementar:
-                </label>
-
-                <input
-                    type="text"
-                    id="material"
-                    name="material"
-                    class="form-control"
-                    placeholder="Link ou arquivo do material"
-                >
-
+                <label for="material">Material Complementar</label>
+                <input type="text" id="material" name="material" class="form-control" placeholder="Link de slides, PDF ou repositório no GitHub">
             </div>
 
-
-            <!-- ORDEM -->
-
+            <!-- ORDEM DA AULA -->
             <div class="form-group">
-
-                <label for="ordem">
-                    Ordem da aula:
-                </label>
-
-                <input
-                    type="number"
-                    id="ordem"
-                    name="ordem"
-                    class="form-control"
-                    style="max-width: 120px;"
-                    value="1"
-                    min="1"
-                >
-
+                <label for="ordem">Ordem de Exibição</label>
+                <input type="number" id="ordem" name="ordem" class="form-control" style="max-width: 140px;" value="1" min="1">
             </div>
 
-
-            <!-- BOTÃO -->
-
-            <button
-                type="submit"
-                class="btn-submit"
-            >
-
-                Adicionar
-
+            <!-- BOTÃO SUBMIT -->
+            <button type="submit" class="btn-submit">
+                Cadastrar Aula
             </button>
 
-
         </form>
-
     </div>
-
 </main>
 
 <script>
     function exibirNomeArquivo(input) {
         const infoDiv = document.getElementById('file-info');
         if (input.files && input.files[0]) {
-            infoDiv.textContent = 'Arquivo: ' + input.files[0].name;
+            infoDiv.textContent = '✔ Arquivo selecionado: ' + input.files[0].name;
         } else {
             infoDiv.textContent = '';
         }
