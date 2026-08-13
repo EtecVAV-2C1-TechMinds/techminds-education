@@ -155,6 +155,82 @@ include(__DIR__ . '/../includes/navbar.php');
     }
 
 
+
+    /* =========================================
+   QUESTIONS
+========================================= */
+
+.questions-section {
+
+    margin-bottom: 35px;
+
+}
+
+
+.questions-button {
+
+    background-color: var(--green-main);
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 15px;
+
+    padding: 20px 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.08);
+
+    transition: 0.2s;
+
+}
+
+
+.questions-button:hover {
+
+    transform: translateY(-2px);
+
+    color: white;
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.12);
+
+}
+
+
+.questions-button span {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-weight: 700;
+
+}
+
+
+.questions-button span i {
+
+    font-size: 20px;
+
+}
+
+
+.questions-button > i {
+
+    font-size: 18px;
+
+}
+
     /* =========================================
        LESSONS
     ========================================= */
@@ -451,6 +527,32 @@ include(__DIR__ . '/../includes/navbar.php');
             </section>
 
         <?php endif; ?>
+<!-- =========================================
+     QUESTIONS
+========================================= -->
+
+<section class="questions-section">
+
+    <h2 class="lessons-title">
+        Questões
+    </h2>
+
+    <a
+        href="questoes_conteudo.php?conteudo_id=<?= (int) $conteudo['id']; ?>"
+        class="questions-button"
+    >
+
+        <span>
+            <i class="fa-solid fa-circle-question"></i>
+            Acessar questões deste conteúdo
+        </span>
+
+        <i class="fa-solid fa-arrow-right"></i>
+
+    </a>
+
+</section>
+
 
 
         <!-- =========================================
