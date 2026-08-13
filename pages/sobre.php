@@ -1,6 +1,7 @@
 <?php include('../includes/header.php'); ?>
 <?php include('../includes/navbar.php'); ?>
 
+
 <main id="main-content">
     <header class="hero-sobre py-5 text-center text-white" style="background-color: #839745;">
         <div class="container px-4">
