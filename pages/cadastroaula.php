@@ -15,6 +15,11 @@ $title = "Cadastrar Vídeo Aulas | TechMinds Education";
 include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../includes/navbar.php');
 
+
+$bannerTitulo = "Cadastrar Vídeo Aula";
+$bannerSubtitulo = "Painel Administrativo TechMinds";
+include(__DIR__ . '/../includes/banner.php');
+
 ?>
 
 <style>
@@ -31,28 +36,6 @@ include(__DIR__ . '/../includes/navbar.php');
         background-color: var(--bg-light) !important;
         color: var(--text-color);
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-
-    /* BANNER */
-    .banner {
-        background-color: var(--green-banner);
-        color: #ffffff;
-        text-align: center;
-        padding: 40px 20px;
-    }
-
-    .banner h1 {
-        font-weight: 800;
-        font-size: 2rem;
-        margin-bottom: 8px;
-        color: var(--green-dark);
-    }
-
-    .banner p {
-        margin: 0;
-        font-size: 0.95rem;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.9);
     }
 
     /* MAIN CONTENT */
@@ -206,69 +189,14 @@ include(__DIR__ . '/../includes/navbar.php');
     .btn-submit:active {
         transform: scale(0.99);
     }
-    /* =========================================
-   BOTÃO GERENCIAR AULAS
-========================================= */
-
-.admin-navigation {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.btn-manage-aulas {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-
-    background-color: #ffffff;
-    color: var(--green-dark);
-
-    border: 1px solid var(--green-primary);
-    border-radius: 10px;
-
-    padding: 10px 16px;
-
-    font-size: 0.9rem;
-    font-weight: 600;
-
-    text-decoration: none;
-
-    transition: all 0.2s ease;
-}
-
-.btn-manage-aulas:hover {
-    background-color: var(--green-primary);
-    color: #ffffff;
-}
 </style>
 
 <script>
     document.title = "Cadastrar Vídeo Aulas | TechMinds Education";
 </script>
 
-<!-- CABEÇALHO -->
-<section class="banner">
-    <h1>Cadastrar Vídeo Aula</h1>
-    <p>Painel Administrativo TechMinds</p>
-</section>
-
 <!-- CONTEÚDO -->
 <main class="content">
-
-    <!-- =========================================
-         NAVEGAÇÃO ADMINISTRATIVA
-    ========================================== -->
-
-    <div class="admin-navigation">
-
-        <a href="../admin/aulas.php" class="btn-manage-aulas">
-            ← Ver aulas cadastradas
-        </a>
-
-    </div>
-
-
     <div class="form-card">
 
         <!-- MENSAGENS DE ERRO -->
@@ -281,9 +209,6 @@ include(__DIR__ . '/../includes/navbar.php');
                     case 'editar': echo 'Não foi possível editar a aula.'; break;
                     case 'excluir': echo 'Não foi possível excluir a aula.'; break;
                     default: echo 'Ocorreu um erro ao processar a requisição.';
-                    case 'video':
-    echo 'Não foi possível enviar o vídeo. Verifique o formato e o tamanho do arquivo.';
-    break;
                 }
                 ?>
             </div>
