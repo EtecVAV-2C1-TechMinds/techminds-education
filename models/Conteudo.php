@@ -222,6 +222,44 @@ class Conteudo
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
+
+    /* =========================================
+   LIST ACTIVE CONTENTS BY SUBJECT
+========================================= */
+public function listarPorMateria($materia_id)
+{
+
+    $sql = "
+        SELECT
+            c.id,
+            c.materia_id,
+            c.titulo,
+            c.descricao
+
+        FROM conteudos c
+
+        WHERE c.materia_id = :materia_id
+
+        AND c.ativo = 1
+
+        AND EXISTS (
+            SELECT 1
+            FROM questoes q
+            WHERE q.conteudo_id = c.id
+        )
+
+        ORDER BY c.titulo ASC
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+
+    $stmt->execute([
+        ':materia_id' => $materia_id
+    ]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }
 
 ?>
