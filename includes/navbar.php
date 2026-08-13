@@ -144,7 +144,7 @@
                     </span>
 
 
-                    <a href="/techminds-education/pages/conteudos.php"
+                    <a href="/techminds-education/pages/materias.php"
                        class="tech-navigation-link">
 
                         <span class="tech-link-number">
