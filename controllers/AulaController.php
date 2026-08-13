@@ -11,16 +11,15 @@ $aulaModel = new Aula();
 
 $acao = $_GET['acao'] ?? '';
 
-
 /* =========================================
-   UPLOAD DE VÍDEO
+   FUNÇÃO PARA FAZER UPLOAD DO VÍDEO
 ========================================= */
 
-function processarUploadVideo()
+function processarUploadVideo(): ?string
 {
     /*
-     * Se nenhum arquivo foi selecionado,
-     * retorna null para permitir o uso de URL.
+     * Se nenhum arquivo foi enviado,
+     * retorna null.
      */
 
     if (
@@ -32,11 +31,17 @@ function processarUploadVideo()
 
 
     /* =========================================
-       CHECK UPLOAD ERROR
+       VERIFICAR ERRO DO UPLOAD
     ========================================== */
 
     if ($_FILES['video_file']['error'] !== UPLOAD_ERR_OK) {
-        return false;
+
+        header(
+            'Location: ../pages/cadastroaula.php?erro=video'
+        );
+
+        exit;
+
     }
 
 
@@ -44,100 +49,85 @@ function processarUploadVideo()
 
 
     /* =========================================
-       LIMIT SIZE
-       100 MB
+       VERIFICAR EXTENSÃO
     ========================================== */
 
-    $limite = 100 * 1024 * 1024;
-
-    if ($arquivo['size'] > $limite) {
-        return false;
-    }
-
-
-    /* =========================================
-       VALIDATE MIME TYPE
-    ========================================== */
-
-    $tiposPermitidos = [
-        'video/mp4',
-        'video/webm',
-        'video/ogg',
-        'video/quicktime',
-        'video/x-msvideo',
-        'video/x-matroska'
-    ];
-
-
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-
-    $tipoArquivo = finfo_file(
-        $finfo,
-        $arquivo['tmp_name']
+    $extensao = strtolower(
+        pathinfo(
+            $arquivo['name'],
+            PATHINFO_EXTENSION
+        )
     );
 
-    finfo_close($finfo);
 
-
-    if (!in_array($tipoArquivo, $tiposPermitidos, true)) {
-        return false;
-    }
-
-
-    /* =========================================
-       CREATE VIDEO DIRECTORY
-    ========================================== */
-
-    $pastaVideos = __DIR__ . '/../assets/videos';
-
-
-    if (!is_dir($pastaVideos)) {
-
-        if (!mkdir($pastaVideos, 0755, true)) {
-            return false;
-        }
-
-    }
-
-
-    /* =========================================
-       FILE EXTENSION
-    ========================================== */
-
-    $extensoes = [
-        'video/mp4' => 'mp4',
-        'video/webm' => 'webm',
-        'video/ogg' => 'ogv',
-        'video/quicktime' => 'mov',
-        'video/x-msvideo' => 'avi',
-        'video/x-matroska' => 'mkv'
+    $extensoesPermitidas = [
+        'mp4',
+        'webm',
+        'ogg',
+        'mov'
     ];
 
 
-    $extensao = $extensoes[$tipoArquivo] ?? 'mp4';
+    if (!in_array(
+        $extensao,
+        $extensoesPermitidas,
+        true
+    )) {
+
+        header(
+            'Location: ../pages/cadastroaula.php?erro=video'
+        );
+
+        exit;
+
+    }
 
 
     /* =========================================
-       UNIQUE FILE NAME
+       CRIAR NOME ÚNICO
     ========================================== */
 
     $nomeArquivo =
-        'aula_' .
-        date('Ymd_His') .
-        '_' .
-        bin2hex(random_bytes(5)) .
+        uniqid('aula_', true) .
         '.' .
         $extensao;
 
 
+    /* =========================================
+       PASTA DOS VÍDEOS
+    ========================================== */
+
+    $pastaVideos =
+        __DIR__ .
+        '/../assets/videos/';
+
+
+    /*
+     * Cria a pasta caso ela ainda não exista.
+     */
+
+    if (!is_dir($pastaVideos)) {
+
+        mkdir(
+            $pastaVideos,
+            0777,
+            true
+        );
+
+    }
+
+
+    /* =========================================
+       DESTINO
+    ========================================== */
+
     $destino =
         $pastaVideos .
-        DIRECTORY_SEPARATOR .
         $nomeArquivo;
 
 
     /* =========================================
-       MOVE FILE
+       MOVER ARQUIVO
     ========================================== */
 
     if (!move_uploaded_file(
@@ -145,16 +135,20 @@ function processarUploadVideo()
         $destino
     )) {
 
-        return false;
+        header(
+            'Location: ../pages/cadastroaula.php?erro=video'
+        );
+
+        exit;
 
     }
 
 
-    /* =========================================
-       RETURN DATABASE PATH
-    ========================================== */
+    /*
+     * Caminho que será salvo no banco.
+     */
 
-    return 'assets/videos/' . $nomeArquivo;
+    return '../assets/videos/' . $nomeArquivo;
 }
 
 
@@ -174,6 +168,10 @@ if ($acao === 'criar') {
 
     }
 
+
+    /* =========================================
+       RECEBER DADOS
+    ========================================== */
 
     $conteudo_id =
         (int) ($_POST['conteudo_id'] ?? 0);
@@ -198,14 +196,32 @@ if ($acao === 'criar') {
        VALIDATION
     ========================================== */
 
-    if (
-        $conteudo_id <= 0 ||
-        empty($titulo) ||
-        empty($descricao)
-    ) {
+    if ($conteudo_id <= 0) {
 
         header(
-            'Location: ../pages/cadastroaula.php?erro=preencha'
+            'Location: ../pages/cadastroaula.php?erro=conteudo'
+        );
+
+        exit;
+
+    }
+
+
+    if ($titulo === '') {
+
+        header(
+            'Location: ../pages/cadastroaula.php?erro=titulo'
+        );
+
+        exit;
+
+    }
+
+
+    if ($descricao === '') {
+
+        header(
+            'Location: ../pages/cadastroaula.php?erro=descricao'
         );
 
         exit;
@@ -214,38 +230,29 @@ if ($acao === 'criar') {
 
 
     if ($ordem <= 0) {
+
         $ordem = 1;
+
     }
 
 
     /* =========================================
-       PROCESS VIDEO
+       UPLOAD DO VÍDEO
     ========================================== */
 
-    $uploadVideo =
+    $videoUpload =
         processarUploadVideo();
-
-
-    if ($uploadVideo === false) {
-
-        header(
-            'Location: ../pages/cadastroaula.php?erro=video'
-        );
-
-        exit;
-
-    }
 
 
     /*
      * Se foi enviado um arquivo,
-     * usamos o caminho do arquivo.
-     *
-     * Caso contrário, usamos a URL digitada.
+     * ele terá prioridade sobre a URL.
      */
 
-    if ($uploadVideo !== null) {
-        $video = $uploadVideo;
+    if ($videoUpload !== null) {
+
+        $video = $videoUpload;
+
     }
 
 
@@ -255,14 +262,19 @@ if ($acao === 'criar') {
 
     try {
 
-        $resultado = $aulaModel->criar(
-            $conteudo_id,
-            $titulo,
-            $descricao,
-            $video !== '' ? $video : null,
-            $material !== '' ? $material : null,
-            $ordem
-        );
+        $resultado =
+            $aulaModel->criar(
+                $conteudo_id,
+                $titulo,
+                $descricao,
+                $video !== ''
+                    ? $video
+                    : null,
+                $material !== ''
+                    ? $material
+                    : null,
+                $ordem
+            );
 
 
         if ($resultado) {
@@ -305,13 +317,17 @@ if ($acao === 'editar') {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
         header(
-            'Location: ../admin/aulas.php'
+            'Location: ../pages/cadastroaula.php'
         );
 
         exit;
 
     }
 
+
+    /* =========================================
+       RECEBER DADOS
+    ========================================== */
 
     $id =
         (int) ($_POST['id'] ?? 0);
@@ -342,12 +358,12 @@ if ($acao === 'editar') {
     if (
         $id <= 0 ||
         $conteudo_id <= 0 ||
-        empty($titulo) ||
-        empty($descricao)
+        $titulo === '' ||
+        $descricao === ''
     ) {
 
         header(
-            'Location: ../admin/aulas.php?erro=editar'
+            'Location: ../pages/cadastroaula.php?erro=preencha'
         );
 
         exit;
@@ -356,36 +372,33 @@ if ($acao === 'editar') {
 
 
     if ($ordem <= 0) {
+
         $ordem = 1;
+
     }
 
 
     /* =========================================
-       PROCESS NEW VIDEO
+       UPLOAD DO NOVO VÍDEO
     ========================================== */
 
-    $uploadVideo =
+    $videoUpload =
         processarUploadVideo();
 
 
-    if ($uploadVideo === false) {
-
-        header(
-            'Location: ../admin/aulas.php?erro=video'
-        );
-
-        exit;
-
-    }
-
-
     /*
-     * Se um novo vídeo foi enviado,
-     * substituímos o vídeo anterior.
+     * Se o administrador enviou
+     * um novo vídeo, substitui a URL
+     * que estava no campo.
+     *
+     * Se não enviou arquivo e não colocou
+     * URL, o vídeo ficará vazio.
      */
 
-    if ($uploadVideo !== null) {
-        $video = $uploadVideo;
+    if ($videoUpload !== null) {
+
+        $video = $videoUpload;
+
     }
 
 
@@ -395,21 +408,26 @@ if ($acao === 'editar') {
 
     try {
 
-        $resultado = $aulaModel->atualizar(
-            $id,
-            $conteudo_id,
-            $titulo,
-            $descricao,
-            $video !== '' ? $video : null,
-            $material !== '' ? $material : null,
-            $ordem
-        );
+        $resultado =
+            $aulaModel->atualizar(
+                $id,
+                $conteudo_id,
+                $titulo,
+                $descricao,
+                $video !== ''
+                    ? $video
+                    : null,
+                $material !== ''
+                    ? $material
+                    : null,
+                $ordem
+            );
 
 
         if ($resultado) {
 
             header(
-                'Location: ../admin/aulas.php?sucesso=editado'
+                'Location: ../pages/cadastroaula.php?sucesso=editado'
             );
 
             exit;
@@ -418,7 +436,7 @@ if ($acao === 'editar') {
 
 
         header(
-            'Location: ../admin/aulas.php?erro=editar'
+            'Location: ../pages/cadastroaula.php?erro=editar'
         );
 
         exit;
@@ -427,7 +445,7 @@ if ($acao === 'editar') {
     } catch (PDOException $e) {
 
         header(
-            'Location: ../admin/aulas.php?erro=editar'
+            'Location: ../pages/cadastroaula.php?erro=editar'
         );
 
         exit;
@@ -450,7 +468,7 @@ if ($acao === 'excluir') {
     if ($id <= 0) {
 
         header(
-            'Location: ../admin/aulas.php?erro=excluir'
+            'Location: ../pages/cadastroaula.php?erro=excluir'
         );
 
         exit;
@@ -467,7 +485,7 @@ if ($acao === 'excluir') {
         if ($resultado) {
 
             header(
-                'Location: ../admin/aulas.php?sucesso=excluido'
+                'Location: ../pages/cadastroaula.php?sucesso=excluido'
             );
 
             exit;
@@ -476,7 +494,7 @@ if ($acao === 'excluir') {
 
 
         header(
-            'Location: ../admin/aulas.php?erro=excluir'
+            'Location: ../pages/cadastroaula.php?erro=excluir'
         );
 
         exit;
@@ -485,7 +503,7 @@ if ($acao === 'excluir') {
     } catch (PDOException $e) {
 
         header(
-            'Location: ../admin/aulas.php?erro=excluir'
+            'Location: ../pages/cadastroaula.php?erro=excluir'
         );
 
         exit;
