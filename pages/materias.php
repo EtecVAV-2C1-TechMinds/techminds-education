@@ -6,6 +6,7 @@
 
 require_once __DIR__ . '/../models/Conteudo.php';
 
+
 /* =========================================
    CREATE CONTENT MODEL
 ========================================= */
@@ -76,17 +77,14 @@ foreach ($conteudos as $conteudo) {
 <!-- =========================================
      NAVBAR
 ========================================= -->
-<?php require_once __DIR__ . '/../includes/navbar.php'; ?>
+<?php require_once __DIR__ . '/../includes/navbar.php'; 
 
-<!-- =========================================
-     PAGE HEADER
-========================================= -->
-<section class="subjects-header text-center py-5">
-    <div class="container">
-        <h1 class="fw-bold">Conteúdos</h1>
-        <p class="mb-0">Ciências e suas tecnologias</p>
-    </div>
-</section>
+$bannerTitulo = "Conteúdos";
+$bannerSubtitulo = "Ciências e suas tecnologias";
+include(__DIR__ . '/../includes/banner.php');
+?>
+
+
 
 <!-- =========================================
      SUBJECTS AREA
