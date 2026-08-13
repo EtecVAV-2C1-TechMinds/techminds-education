@@ -206,6 +206,41 @@ include(__DIR__ . '/../includes/navbar.php');
     .btn-submit:active {
         transform: scale(0.99);
     }
+    /* =========================================
+   BOTÃO GERENCIAR AULAS
+========================================= */
+
+.admin-navigation {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-manage-aulas {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    background-color: #ffffff;
+    color: var(--green-dark);
+
+    border: 1px solid var(--green-primary);
+    border-radius: 10px;
+
+    padding: 10px 16px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: all 0.2s ease;
+}
+
+.btn-manage-aulas:hover {
+    background-color: var(--green-primary);
+    color: #ffffff;
+}
 </style>
 
 <script>
@@ -220,6 +255,20 @@ include(__DIR__ . '/../includes/navbar.php');
 
 <!-- CONTEÚDO -->
 <main class="content">
+
+    <!-- =========================================
+         NAVEGAÇÃO ADMINISTRATIVA
+    ========================================== -->
+
+    <div class="admin-navigation">
+
+        <a href="../admin/aulas.php" class="btn-manage-aulas">
+            ← Ver aulas cadastradas
+        </a>
+
+    </div>
+
+
     <div class="form-card">
 
         <!-- MENSAGENS DE ERRO -->
@@ -232,6 +281,9 @@ include(__DIR__ . '/../includes/navbar.php');
                     case 'editar': echo 'Não foi possível editar a aula.'; break;
                     case 'excluir': echo 'Não foi possível excluir a aula.'; break;
                     default: echo 'Ocorreu um erro ao processar a requisição.';
+                    case 'video':
+    echo 'Não foi possível enviar o vídeo. Verifique o formato e o tamanho do arquivo.';
+    break;
                 }
                 ?>
             </div>
