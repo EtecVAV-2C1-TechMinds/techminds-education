@@ -18,36 +18,24 @@ $conteudos = $stmtConteudos->fetchAll(PDO::FETCH_ASSOC);
 
 $questaoModel = new Questao($pdo);
 
-
 /* =========================================
    PESQUISAR POR ID
 ========================================= */
-
 $buscarId = $_GET['buscar_id'] ?? '';
 
 if ($buscarId !== '' && ctype_digit($buscarId)) {
-
     $questoes = $questaoModel->listarPorId((int)$buscarId);
-
 } else {
-
     $questoes = $questaoModel->listar();
-
 }
-
 
 /* =========================================
    QUESTÃO PARA EDITAR
 ========================================= */
-
 $questaoEditar = null;
 
 if (isset($_GET['editar']) && ctype_digit($_GET['editar'])) {
-
-    $questaoEditar = $questaoModel->buscarPorId(
-        (int)$_GET['editar']
-    );
-
+    $questaoEditar = $questaoModel->buscarPorId((int)$_GET['editar']);
 }
 
 include(__DIR__ . '/../includes/header.php');
@@ -262,6 +250,144 @@ include(__DIR__ . '/../includes/banner.php');
             background-color: var(--green-btn-hover);
             transform: translateY(-2px);
         }
+
+        /* =========================================
+           SEÇÃO QUESTÕES CADASTRADAS (ESTILO PROTÓTIPO)
+        ========================================= */
+        .questoes-section {
+            max-width: 900px;
+            margin: 50px auto 0;
+            text-align: center;
+        }
+
+        .questoes-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #233703;
+            margin-bottom: 15px;
+        }
+
+        .questoes-count {
+            display: inline-block;
+            background-color: #8A9E48;
+            color: #ffffff;
+            font-weight: 700;
+            padding: 6px 30px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 320px;
+            margin: 0 auto 35px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 45px 10px 20px;
+            border: 1.5px solid #233703;
+            border-radius: 25px;
+            background-color: #E8E8E8;
+            color: #333;
+            font-size: 0.95rem;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #233703;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .questao-card {
+            background-color: #F4F4F4;
+            border-radius: 20px;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            text-align: left;
+            height: 100%;
+        }
+
+        .questao-info-left {
+            flex: 1;
+            padding-right: 15px;
+        }
+
+        .questao-top-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .questao-badge {
+            background-color: #8A9E48;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 4px 18px;
+            border-radius: 15px;
+        }
+
+        .questao-id-text {
+            color: #333;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .questao-enunciado {
+            color: #444;
+            font-size: 0.95rem;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .questao-actions-right {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 90px;
+        }
+
+        .btn-questao-editar {
+            background-color: #B28833;
+            color: #fff !important;
+            border-radius: 12px;
+            padding: 6px 0;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-questao-excluir {
+            background-color: #6B783E;
+            color: #fff !important;
+            border-radius: 12px;
+            padding: 6px 0;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-questao-editar:hover, .btn-questao-excluir:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 
@@ -295,30 +421,16 @@ include(__DIR__ . '/../includes/banner.php');
             </div>
         <?php endif; ?>
 
-        <form
-    action="../controllers/QuestaoController.php?acao=<?= $questaoEditar ? 'editar' : 'criar'; ?>"
-    method="POST" >
+        <form action="../controllers/QuestaoController.php?acao=<?= $questaoEditar ? 'editar' : 'criar'; ?>" method="POST">
 
-    <?php if ($questaoEditar): ?>
-
-    <input
-        type="hidden"
-        name="id"
-        value="<?= htmlspecialchars($questaoEditar['id']); ?>"
-    >
-
-<?php endif; ?>
-
+            <?php if ($questaoEditar): ?>
+                <input type="hidden" name="id" value="<?= htmlspecialchars($questaoEditar['id']); ?>">
+            <?php endif; ?>
 
             <div class="form-group">
                 <label>ID da Questão:</label>
                 <div class="question-id-box">
-                    <input
-    type="text"
-    class="question-id"
-    value="<?= htmlspecialchars($questaoEditar['id'] ?? $proximoId); ?>"
-    readonly
->
+                    <input type="text" class="question-id" value="<?= htmlspecialchars($questaoEditar['id'] ?? $proximoId); ?>" readonly>
                 </div>
                 <small class="id-info">Este ID é gerado automaticamente pelo sistema.</small>
             </div>
@@ -344,155 +456,59 @@ include(__DIR__ . '/../includes/banner.php');
 
             <div class="form-group">
                 <label for="enunciado">Enunciado:</label>
-                <textarea
-    id="enunciado"
-    name="enunciado"
-    class="input-green"
-    rows="4"
-    placeholder="Digite o enunciado da questão..."
-    required
-><?= htmlspecialchars($questaoEditar['enunciado'] ?? ''); ?></textarea>
+                <textarea id="enunciado" name="enunciado" class="input-green" rows="4" placeholder="Digite o enunciado da questão..." required><?= htmlspecialchars($questaoEditar['enunciado'] ?? ''); ?></textarea>
             </div>
 
             <div class="form-group">
-    <label>Alternativas:</label>
+                <label>Alternativas:</label>
 
-    <div class="alternativas-wrapper">
+                <div class="alternativas-wrapper">
+                    <div class="input-alternativa-container">
+                        <span class="badge-letra">A</span>
+                        <input type="text" name="alternativa_a" class="input-alternativa" placeholder="Alternativa A" value="<?= htmlspecialchars($questaoEditar['alternativa_a'] ?? ''); ?>" required>
+                    </div>
 
-        <div class="input-alternativa-container">
-            <span class="badge-letra">A</span>
+                    <div class="input-alternativa-container">
+                        <span class="badge-letra">B</span>
+                        <input type="text" name="alternativa_b" class="input-alternativa" placeholder="Alternativa B" value="<?= htmlspecialchars($questaoEditar['alternativa_b'] ?? ''); ?>" required>
+                    </div>
 
-            <input
-                type="text"
-                name="alternativa_a"
-                class="input-alternativa"
-                placeholder="Alternativa A"
-                value="<?= htmlspecialchars($questaoEditar['alternativa_a'] ?? ''); ?>"
-                required
-            >
-        </div>
+                    <div class="input-alternativa-container">
+                        <span class="badge-letra">C</span>
+                        <input type="text" name="alternativa_c" class="input-alternativa" placeholder="Alternativa C" value="<?= htmlspecialchars($questaoEditar['alternativa_c'] ?? ''); ?>" required>
+                    </div>
 
+                    <div class="input-alternativa-container">
+                        <span class="badge-letra">D</span>
+                        <input type="text" name="alternativa_d" class="input-alternativa" placeholder="Alternativa D" value="<?= htmlspecialchars($questaoEditar['alternativa_d'] ?? ''); ?>" required>
+                    </div>
 
-        <div class="input-alternativa-container">
-            <span class="badge-letra">B</span>
+                    <div class="input-alternativa-container">
+                        <span class="badge-letra">E</span>
+                        <input type="text" name="alternativa_e" class="input-alternativa" placeholder="Alternativa E" value="<?= htmlspecialchars($questaoEditar['alternativa_e'] ?? ''); ?>" required>
+                    </div>
+                </div>
+            </div>
 
-            <input
-                type="text"
-                name="alternativa_b"
-                class="input-alternativa"
-                placeholder="Alternativa B"
-                value="<?= htmlspecialchars($questaoEditar['alternativa_b'] ?? ''); ?>"
-                required
-            >
-        </div>
-
-
-        <div class="input-alternativa-container">
-            <span class="badge-letra">C</span>
-
-            <input
-                type="text"
-                name="alternativa_c"
-                class="input-alternativa"
-                placeholder="Alternativa C"
-                value="<?= htmlspecialchars($questaoEditar['alternativa_c'] ?? ''); ?>"
-                required
-            >
-        </div>
-
-
-        <div class="input-alternativa-container">
-            <span class="badge-letra">D</span>
-
-            <input
-                type="text"
-                name="alternativa_d"
-                class="input-alternativa"
-                placeholder="Alternativa D"
-                value="<?= htmlspecialchars($questaoEditar['alternativa_d'] ?? ''); ?>"
-                required
-            >
-        </div>
-
-
-        <div class="input-alternativa-container">
-            <span class="badge-letra">E</span>
-
-            <input
-                type="text"
-                name="alternativa_e"
-                class="input-alternativa"
-                placeholder="Alternativa E"
-                value="<?= htmlspecialchars($questaoEditar['alternativa_e'] ?? ''); ?>"
-                required
-            >
-        </div>
-
-    </div>
-</div>
-
-           <div class="form-group">
-    <label for="resposta_correta">Resposta Correta:</label>
-
-    <div class="correta-container">
-
-        <select
-            id="resposta_correta"
-            name="resposta_correta"
-            class="input-green select-correta"
-            required
-        >
-
-            <option value="">Selecione</option>
-
-            <option
-                value="A"
-                <?= ($questaoEditar && $questaoEditar['resposta_correta'] === 'A') ? 'selected' : ''; ?>
-            >
-                A
-            </option>
-
-            <option
-                value="B"
-                <?= ($questaoEditar && $questaoEditar['resposta_correta'] === 'B') ? 'selected' : ''; ?>
-            >
-                B
-            </option>
-
-            <option
-                value="C"
-                <?= ($questaoEditar && $questaoEditar['resposta_correta'] === 'C') ? 'selected' : ''; ?>
-            >
-                C
-            </option>
-
-            <option
-                value="D"
-                <?= ($questaoEditar && $questaoEditar['resposta_correta'] === 'D') ? 'selected' : ''; ?>
-            >
-                D
-            </option>
-
-            <option
-                value="E"
-                <?= ($questaoEditar && $questaoEditar['resposta_correta'] === 'E') ? 'selected' : ''; ?>
-            >
-                E
-            </option>
-
-        </select>
-
-        <span class="dica-correta">
-            Selecione a alternativa correta.
-        </span>
-
-    </div>
-</div>
+            <div class="form-group">
+                <label for="resposta_correta">Resposta Correta:</label>
+                <div class="correta-container">
+                    <select id="resposta_correta" name="resposta_correta" class="input-green select-correta" required>
+                        <option value="">Selecione</option>
+                        <option value="A" <?= ($questaoEditar && $questaoEditar['resposta_correta'] === 'A') ? 'selected' : ''; ?>>A</option>
+                        <option value="B" <?= ($questaoEditar && $questaoEditar['resposta_correta'] === 'B') ? 'selected' : ''; ?>>B</option>
+                        <option value="C" <?= ($questaoEditar && $questaoEditar['resposta_correta'] === 'C') ? 'selected' : ''; ?>>C</option>
+                        <option value="D" <?= ($questaoEditar && $questaoEditar['resposta_correta'] === 'D') ? 'selected' : ''; ?>>D</option>
+                        <option value="E" <?= ($questaoEditar && $questaoEditar['resposta_correta'] === 'E') ? 'selected' : ''; ?>>E</option>
+                    </select>
+                    <span class="dica-correta">Selecione a alternativa correta.</span>
+                </div>
+            </div>
 
             <div class="btn-submit-container">
                 <button type="submit" class="btn-submit">
-    <?= $questaoEditar ? 'Salvar Alterações' : 'Cadastrar Questão'; ?>
-</button>
+                    <?= $questaoEditar ? 'Salvar Alterações' : 'Cadastrar Questão'; ?>
+                </button>
             </div>
 
         </form>
@@ -507,13 +523,7 @@ include(__DIR__ . '/../includes/banner.php');
         </span>
 
         <form method="GET" action="exercicios.php" class="search-container">
-            <input
-                type="text"
-                name="buscar_id"
-                class="search-input"
-                placeholder="Busque por ID"
-                value="<?php echo isset($_GET['buscar_id']) ? htmlspecialchars($_GET['buscar_id']) : ''; ?>"
-            >
+            <input type="text" name="buscar_id" class="search-input" placeholder="Busque por ID" value="<?php echo isset($_GET['buscar_id']) ? htmlspecialchars($_GET['buscar_id']) : ''; ?>">
             <button type="submit" class="search-icon">
                 <i class="fas fa-search"></i>
             </button>
@@ -534,37 +544,28 @@ include(__DIR__ . '/../includes/banner.php');
                     <div class="col-md-6">
                         <article class="questao-card">
 
-                            <div class="questao-header">
-                                <span class="questao-badge">
-                                    <?php echo htmlspecialchars($questao['materia'] ?? 'Biologia'); ?>
-                                </span>
+                            <div class="questao-info-left">
+                                <div class="questao-top-row">
+                                    <span class="questao-badge">
+                                        <?php echo htmlspecialchars($questao['materia'] ?? 'Biologia'); ?>
+                                    </span>
+                                    <span class="questao-id-text">
+                                        ID: <?php echo htmlspecialchars($questao['id']); ?>
+                                    </span>
+                                </div>
 
-                                <span class="questao-id">
-                                    ID: <?php echo htmlspecialchars($questao['id']); ?>
-                                </span>
-                            </div>
-
-                            <div class="questao-body">
                                 <p class="questao-enunciado">
                                     <?php echo htmlspecialchars($questao['enunciado']); ?>
                                 </p>
+                            </div>
 
-                                <div class="questao-actions">
-                                    <a
-                                        href="exercicios.php?editar=<?php echo $questao['id']; ?>"
-                                        class="btn-questao-editar"
-                                    >
-                                        Editar
-                                    </a>
-
-                                    <a
-    href="../controllers/QuestaoController.php?acao=excluir&id=<?= $questao['id']; ?>"
-    class="btn-questao-excluir"
-    onclick="return confirm('Tem certeza que deseja excluir esta questão?');"
->
-    Excluir
-</a>
-                                </div>
+                            <div class="questao-actions-right">
+                                <a href="exercicios.php?editar=<?php echo $questao['id']; ?>" class="btn-questao-editar">
+                                    Editar
+                                </a>
+                                <a href="../controllers/QuestaoController.php?acao=excluir&id=<?= $questao['id']; ?>" class="btn-questao-excluir" onclick="return confirm('Tem certeza que deseja excluir esta questão?');">
+                                    Excluir
+                                </a>
                             </div>
 
                         </article>
@@ -617,57 +618,33 @@ include(__DIR__ . '/../includes/banner.php');
             });
     });
 
-
-
 <?php if ($questaoEditar): ?>
-
-    const conteudoEditar = <?= json_encode(
-        $questaoEditar['conteudo_id']
-    ); ?>;
-
-    const materiaEditar = <?= json_encode(
-        $questaoEditar['materia_id']
-    ); ?>;
+    const conteudoEditar = <?= json_encode($questaoEditar['conteudo_id']); ?>;
+    const materiaEditar = <?= json_encode($questaoEditar['materia_id']); ?>;
 
     materiaSelect.value = materiaEditar;
-
     conteudoSelect.innerHTML = '';
-
     conteudoSelect.disabled = false;
 
     const opcaoInicial = document.createElement('option');
-
     opcaoInicial.value = '';
-
     opcaoInicial.textContent = 'Selecione o conteúdo';
-
     conteudoSelect.appendChild(opcaoInicial);
-
 
     conteudos
         .filter(conteudo => conteudo.materia_id == materiaEditar)
         .forEach(conteudo => {
-
             const option = document.createElement('option');
-
             option.value = conteudo.id;
-
             option.textContent = conteudo.titulo;
 
             if (conteudo.id == conteudoEditar) {
-
                 option.selected = true;
-
             }
 
             conteudoSelect.appendChild(option);
-
         });
-
 <?php endif; ?>
-
-
-
 </script>
 
 </body>
