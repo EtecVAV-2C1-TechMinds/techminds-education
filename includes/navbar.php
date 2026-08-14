@@ -1,3 +1,9 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
 <!-- =========================================
      MAIN NAVIGATION
 ========================================= -->
@@ -30,24 +36,139 @@
             <div class="tech-navbar-actions">
 
 
-                <!-- Login -->
+            <?php if (!empty($_SESSION['usuario_logado'])): ?>
 
-                <a href="/techminds-education/pages/login.php"
-                   class="tech-login">
+<!-- =========================================
+     USUÁRIO LOGADO
+========================================= -->
 
-                    Entrar
+<div class="tech-user-dropdown">
 
-                </a>
+    <button type="button"
+            class="tech-user-button">
+
+        <!-- Ícone de pessoa -->
+
+        <span class="tech-user-icon">
+
+            <svg width="20"
+                 height="20"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+
+                <circle cx="12"
+                        cy="8"
+                        r="4"
+                        stroke="currentColor"
+                        stroke-width="2"/>
+
+                <path d="M4 21C4 16.5817 7.58172 13 12 13C16.4183 13 20 16.5817 20 21"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"/>
+
+            </svg>
+
+        </span>
 
 
-                <!-- Register -->
+        <!-- Nome -->
 
-                <a href="/techminds-education/pages/cadastro.php"
-                   class="tech-register">
+        <span class="tech-user-name">
 
-                    Cadastrar
+        <?= htmlspecialchars(explode(' ', trim($_SESSION['usuario_nome'] ?? 'Aluno'))[0]) ?>
 
-                </a>
+        </span>
+
+    </button>
+
+
+    <!-- =========================================
+         MENU DO USUÁRIO
+    ========================================= -->
+
+    <div class="tech-user-menu">
+
+
+        <!-- Informações -->
+
+        <div class="tech-user-menu-header">
+
+            <strong>
+
+            <?= htmlspecialchars(explode(' ', trim($_SESSION['usuario_nome'] ?? 'Aluno'))[0]) ?>
+
+            </strong>
+
+            <small>
+
+                <?= htmlspecialchars($_SESSION['usuario_email'] ?? '') ?>
+
+            </small>
+
+        </div>
+
+
+        <!-- Perfil -->
+
+        <a href="/techminds-education/pages/perfil.php">
+
+            Meu perfil
+
+        </a>
+
+
+        <!-- Área do aluno -->
+
+        <a href="/techminds-education/pages/conteudo.php">
+
+    Área do aluno
+
+</a>
+
+
+        <!-- Separador -->
+
+        <div class="tech-user-menu-divider"></div>
+
+
+        <!-- Logout -->
+
+        <a href="/techminds-education/pages/logout.php"
+           class="tech-logout">
+
+            Sair da conta
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<?php else: ?>
+
+<!-- =========================================
+     USUÁRIO NÃO LOGADO
+========================================= -->
+
+<a href="/techminds-education/pages/login.php"
+   class="tech-login">
+
+    Entrar
+
+</a>
+
+
+<a href="/techminds-education/pages/cadastro.php"
+   class="tech-register">
+
+    Cadastrar
+
+</a>
+
+<?php endif; ?>
 
 
                 <!-- Menu Button (Toggle com Bootstrap + JS) -->
@@ -158,7 +279,7 @@
                     </a>
 
 
-                    <a href="/techminds-education/pages/exercicios.php"
+                    <a href="/techminds-education/pages/questoes.php"
                        class="tech-navigation-link">
 
                         <span class="tech-link-number">
@@ -239,12 +360,25 @@
                             seu desempenho acadêmico.
                         </p>
 
-                        <a href="/techminds-education/pages/login.php"
-                           class="tech-highlight-button">
+                        <?php if (!empty($_SESSION['usuario_logado'])): ?>
 
-                            Acessar área do aluno
+<a href="/techminds-education/pages/conteudo.php"
+   class="tech-highlight-button">
 
-                        </a>
+    Acessar área do aluno
+
+</a>
+
+<?php else: ?>
+
+<a href="/techminds-education/pages/login.php"
+   class="tech-highlight-button">
+
+    Acessar área do aluno
+
+</a>
+
+<?php endif; ?>
 
                     </div>
 
