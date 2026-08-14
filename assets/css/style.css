@@ -15,11 +15,23 @@
     --gold-button: #a67c33;
 }
 
-/* ==========================================
-   Geral / Body
-   ========================================== */
+
+
+html,
 body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background: #ffffff;
+}
+
+main {
+    flex: 1;
 }
 
 /* ==========================================
@@ -94,11 +106,10 @@ body {
 /* ==========================================
    Rodapé
    ========================================== */
-.footer {
-    background: var(--verde-principal);
-    color: white;
+.footer { 
+    background: var(--verde-principal); 
+    color: white; 
     padding: 40px 0;
-    margin-top: 50px;
 }
 
 /* =========================================
@@ -967,12 +978,23 @@ body {
    ÁREA DAS MATÉRIAS
 ========================================= */
 
-.subjects-section {
-    background-color: #f1f1f1;
-    min-height: 500px;
-    padding: 35px 20px 60px;
+/* Correção do overflow nas imagens das áreas de ensino */
+.subjects-section img {
+    max-width: 100%;
+    height: auto;
 }
 
+@media (max-width: 768px) {
+    .subjects-section .d-flex {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+    
+    .subjects-section .me-4, 
+    .subjects-section .ms-4 {
+        margin: 0 0 15px 0 !important;
+    }
+}
 
 /* =========================================
    CONTAINER
@@ -1470,4 +1492,267 @@ textarea.form-control {
         text-align: center;
     }
 
+}
+
+
+
+
+
+
+/* =========================================
+   USUÁRIO LOGADO
+========================================= */
+
+.tech-user-dropdown {
+    position: relative;
+}
+
+
+/* =========================================
+   BOTÃO DO USUÁRIO
+========================================= */
+
+.tech-user-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 6px 8px;
+
+    background: transparent;
+    border: none;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.tech-user-button:hover {
+    color: var(--verde-claro);
+}
+
+
+/* =========================================
+   ÍCONE
+========================================= */
+
+.tech-user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================
+   NOME
+========================================= */
+
+.tech-user-name {
+    max-width: 140px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   MENU
+========================================= */
+
+.tech-user-menu {
+    position: absolute;
+
+    top: calc(100% + 10px);
+    right: 0;
+
+    width: 250px;
+
+    background-color: #ffffff;
+
+    border-radius: 10px;
+
+    padding: 8px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.18);
+
+    display: none;
+
+    z-index: 2000;
+}
+
+
+/* =========================================
+   ÁREA DE CONEXÃO ENTRE BOTÃO E MENU
+========================================= */
+
+.tech-user-dropdown::after {
+    content: "";
+
+    position: absolute;
+
+    top: 100%;
+    right: 0;
+
+    width: 250px;
+    height: 12px;
+
+    background: transparent;
+}
+
+
+/* =========================================
+   ABRIR MENU
+========================================= */
+
+.tech-user-dropdown:hover .tech-user-menu {
+    display: block;
+}
+
+
+/* =========================================
+   CABEÇALHO DO MENU
+========================================= */
+
+.tech-user-menu-header {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+
+    padding: 12px 14px;
+
+    margin-bottom: 5px;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+.tech-user-menu-header strong {
+    color: var(--verde-principal);
+
+    font-size: 0.88rem;
+}
+
+
+.tech-user-menu-header small {
+    color: #777777;
+
+    font-size: 0.72rem;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   LINKS
+========================================= */
+
+.tech-user-menu a {
+    display: block;
+
+    padding: 10px 14px;
+
+    color: #333333;
+
+    text-decoration: none;
+
+    font-size: 0.82rem;
+
+    border-radius: 6px;
+
+    transition: 0.2s;
+}
+
+
+.tech-user-menu a:hover {
+    background-color: #f4f6ef;
+
+    color: var(--verde-principal);
+}
+
+
+/* =========================================
+   DIVISOR
+========================================= */
+
+.tech-user-menu-divider {
+    height: 1px;
+
+    background-color: #eeeeee;
+
+    margin: 5px 0;
+}
+
+
+/* =========================================
+   SAIR
+========================================= */
+
+.tech-user-menu .tech-logout {
+    color: #a33a3a;
+}
+
+
+.tech-user-menu .tech-logout:hover {
+    background-color: #fff1f1;
+
+    color: #8b2222;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .tech-user-name {
+        display: none;
+    }
+
+    .tech-user-menu {
+        right: -45px;
+        width: 230px;
+    }
+
+}
+
+.tech-user-button {
+    color: #a77e34 !important;
+}
+
+
+
+/* Correção global para evitar estouro de página */
+html, body {
+    overflow-x: hidden !important;
+    width: 100%;
+}
+
+/* Garante que a seção das matérias mantenha tudo alinhado */
+.subjects-section {
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Impede que imagens ultrapassem o limite de seu pai */
+.subjects-section img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Corrige o bloco de flexbox da Física para não estourar na direita */
+.subjects-section .d-flex {
+    width: 100%;
+    box-sizing: border-box;
 }
