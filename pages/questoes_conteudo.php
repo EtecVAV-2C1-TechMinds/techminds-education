@@ -349,9 +349,9 @@ include(__DIR__ . '/../includes/navbar.php');
             <p><?= htmlspecialchars($conteudo['descricao'] ?? 'Intro'); ?></p>
         </div>
 
-        <a href="conteudos.php?materia_id=<?= $conteudo['materia_id']; ?>" class="btn-voltar">
-            <i class="fa-solid fa-arrow-left"></i> Voltar para conteúdos
-        </a>
+        <a href="http://localhost:8080/techminds-education/pages/conteudo.php?id=<?= $conteudo['id']; ?>" class="btn-voltar">
+    <i class="fa-solid fa-arrow-left"></i> Voltar para conteúdos
+</a>
     </div>
 
     <?php if (empty($questoes)): ?>
@@ -455,6 +455,9 @@ function mostrarQuestao(numero) {
     }
 }
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
