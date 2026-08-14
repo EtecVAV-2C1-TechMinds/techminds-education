@@ -19,9 +19,19 @@
             <a href="pages/sobre.php" class="btn btn-light btn-lg me-2">
                 Conheça a Instituição
             </a>
-            <a href="pages/login.php" class="btn btn-tech btn-lg">
-                Área do Aluno
-            </a>
+            <?php if (!empty($_SESSION['usuario_logado'])): ?>
+
+<a href="pages/conteudo.php" class="btn btn-tech btn-lg">
+    Área do Aluno
+</a>
+
+<?php else: ?>
+
+<a href="pages/login.php" class="btn btn-tech btn-lg">
+    Área do Aluno
+</a>
+
+<?php endif; ?>
         </div>
     </div>
 </section>
@@ -78,40 +88,34 @@
 
                 <div class="d-flex align-items-center mb-5">
                     <div class="me-4 flex-shrink-0">
-                        <img src="assets/img/biologia.png" alt="Biologia" width="245 px">
+                        <img src="assets/img/biologia.png" alt="Biologia" class="img-fluid" style="max-width: 200px;">
                     </div>
                     <div>
-                        <h4 class="fw-bold mb-2">
-                            Biologia
-                        </h4>
+                        <h4 class="fw-bold mb-2">Biologia</h4>
                         <p class="text-secondary mb-0">
                             Domine genética, ecologia, citologia e fisiologia. Aprenda a conectar a teoria biológica aos temas mais cobrados e atuais do ENEM e vestibulares.
                         </p>
                     </div>
                 </div>
 
-                <div class="d-flex align-items-center justify-content-end mb-5 text-end">
-                    <div>
-                        <h4 class="fw-bold mb-2">
-                            Física
-                        </h4>
+                <div class="d-flex align-items-center justify-content-between mb-5 text-end">
+                    <div class="flex-grow-1">
+                        <h4 class="fw-bold mb-2">Física</h4>
                         <p class="text-secondary mb-0">
-                           Entenda mecânica, eletricidade, óptica e termodinâmica. Desenvolva o raciocínio lógico para interpretar gráficos e resolver problemas com facilidade.
+                            Entenda mecânica, eletricidade, óptica e termodinâmica. Desenvolva o raciocínio lógico para interpretar gráficos e resolver problemas com facilidade.
                         </p>
                     </div>
                     <div class="ms-4 flex-shrink-0">
-                        <img src="assets/img/fisica.png" alt="Física" width="205 px">
+                        <img src="assets/img/fisica.png" alt="Física" class="img-fluid" style="max-width: 200px;">
                     </div>
                 </div>
 
                 <div class="d-flex align-items-center">
                     <div class="me-4 flex-shrink-0">
-                        <img src="assets/img/quimica.png" alt="Química" width="245 px">
+                        <img src="assets/img/quimica.png" alt="Química" class="img-fluid" style="max-width: 200px;">
                     </div>
                     <div>
-                        <h4 class="fw-bold mb-2">
-                            Química
-                        </h4>
+                        <h4 class="fw-bold mb-2">Química</h4>
                         <p class="text-secondary mb-0">
                             Explore a química geral, orgânica e físico-química. Saiba analisar reações, estruturas moleculares e cálculos estequiométricos de forma prática.
                         </p>
