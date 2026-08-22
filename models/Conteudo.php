@@ -13,14 +13,14 @@ class Conteudo
 
     /* =========================================
        DATABASE CONNECTION
-    ========================================= */
+    ========================================== */
 
     private $conn;
 
 
     /* =========================================
        CONSTRUCTOR
-    ========================================= */
+    ========================================== */
 
     public function __construct()
     {
@@ -32,26 +32,31 @@ class Conteudo
 
     /* =========================================
        LIST ALL CONTENTS
-    ========================================= */
+    ========================================== */
 
     public function listar()
     {
 
         $sql = "
             SELECT
-             c.id,
-             c.materia_id,
-             c.titulo,
-             c.descricao,
-             c.ativo,
-             c.data_criacao,m.nome AS materia
+                c.id,
+                c.materia_id,
+                c.titulo,
+                c.descricao,
+                c.ativo,
+                c.data_criacao,
+                m.nome AS materia
+
             FROM conteudos c
 
             INNER JOIN materias m
                 ON c.materia_id = m.id
 
-            ORDER BY c.id DESC
+            ORDER BY
+                c.materia_id ASC,
+                c.id ASC
         ";
+
 
         $stmt = $this->conn->prepare($sql);
 
@@ -63,7 +68,7 @@ class Conteudo
 
     /* =========================================
        FIND CONTENT BY ID
-    ========================================= */
+    ========================================== */
 
     public function buscarPorId($id)
     {
@@ -84,13 +89,18 @@ class Conteudo
                 ON c.materia_id = m.id
 
             WHERE c.id = :id
+
+            LIMIT 1
         ";
 
+
         $stmt = $this->conn->prepare($sql);
+
 
         $stmt->execute([
             ':id' => $id
         ]);
+
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -98,13 +108,14 @@ class Conteudo
 
     /* =========================================
        CREATE CONTENT
-    ========================================= */
+    ========================================== */
 
     public function criar(
         $materia_id,
         $titulo,
         $descricao
-    ) {
+    )
+    {
 
         $sql = "
             INSERT INTO conteudos
@@ -122,7 +133,9 @@ class Conteudo
             )
         ";
 
+
         $stmt = $this->conn->prepare($sql);
+
 
         return $stmt->execute([
 
@@ -138,14 +151,15 @@ class Conteudo
 
     /* =========================================
        UPDATE CONTENT
-    ========================================= */
+    ========================================== */
 
     public function atualizar(
         $id,
         $materia_id,
         $titulo,
         $descricao
-    ) {
+    )
+    {
 
         $sql = "
             UPDATE conteudos
@@ -158,7 +172,9 @@ class Conteudo
             WHERE id = :id
         ";
 
+
         $stmt = $this->conn->prepare($sql);
+
 
         return $stmt->execute([
 
@@ -176,7 +192,7 @@ class Conteudo
 
     /* =========================================
        DELETE CONTENT
-    ========================================= */
+    ========================================== */
 
     public function excluir($id)
     {
@@ -187,7 +203,9 @@ class Conteudo
             WHERE id = :id
         ";
 
+
         $stmt = $this->conn->prepare($sql);
+
 
         return $stmt->execute([
             ':id' => $id
@@ -197,7 +215,7 @@ class Conteudo
 
     /* =========================================
        LIST ACTIVE SUBJECTS
-    ========================================= */
+    ========================================== */
 
     public function listarMaterias()
     {
@@ -215,51 +233,56 @@ class Conteudo
             ORDER BY nome ASC
         ";
 
+
         $stmt = $this->conn->prepare($sql);
 
+
         $stmt->execute();
+
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
-
     /* =========================================
-   LIST ACTIVE CONTENTS BY SUBJECT
-========================================= */
-public function listarPorMateria($materia_id)
-{
+       LIST ACTIVE CONTENTS BY SUBJECT
+    ========================================== */
 
-    $sql = "
-        SELECT
-            c.id,
-            c.materia_id,
-            c.titulo,
-            c.descricao
+    public function listarPorMateria($materia_id)
+    {
 
-        FROM conteudos c
+        $sql = "
+            SELECT
+                c.id,
+                c.materia_id,
+                c.titulo,
+                c.descricao,
+                c.ativo,
+                c.data_criacao
 
-        WHERE c.materia_id = :materia_id
+            FROM conteudos c
 
-        AND c.ativo = 1
+            WHERE c.materia_id = :materia_id
 
-        AND EXISTS (
-            SELECT 1
-            FROM questoes q
-            WHERE q.conteudo_id = c.id
-        )
+            AND c.ativo = 1
 
-        ORDER BY c.titulo ASC
-    ";
+            ORDER BY
+                c.titulo ASC,
+                c.id ASC
+        ";
 
-    $stmt = $this->conn->prepare($sql);
 
-    $stmt->execute([
-        ':materia_id' => $materia_id
-    ]);
+        $stmt = $this->conn->prepare($sql);
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+
+        $stmt->execute([
+            ':materia_id' => $materia_id
+        ]);
+
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 
 ?>
