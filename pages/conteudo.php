@@ -1,13 +1,11 @@
 <?php
 
-/* =========================================
-   TECHMINDS EDUCATION
-   CONTENT PAGE
-========================================= */
-
+require_once __DIR__ . '/../config/conexao.php';
 require_once __DIR__ . '/../models/Conteudo.php';
 require_once __DIR__ . '/../models/Aula.php';
+require_once __DIR__ . '/../includes/auth.php';
 
+$title = "Conteúdo | TechMinds Education";
 
 /* =========================================
    GET CONTENT ID
@@ -16,11 +14,15 @@ require_once __DIR__ . '/../models/Aula.php';
 $conteudoId = (int) ($_GET['id'] ?? 0);
 
 
+/* =========================================
+   VALIDATE CONTENT ID
+========================================= */
+
 if ($conteudoId <= 0) {
 
     header('Location: materias.php');
-    exit;
 
+    exit;
 }
 
 
@@ -33,151 +35,210 @@ $conteudoModel = new Conteudo();
 $conteudo = $conteudoModel->buscarPorId($conteudoId);
 
 
+/* =========================================
+   CHECK CONTENT
+========================================= */
+
 if (!$conteudo) {
 
     header('Location: materias.php');
-    exit;
 
+    exit;
 }
 
 
 /* =========================================
-   LOAD CLASSES
+   LOAD LESSONS
 ========================================= */
 
 $aulaModel = new Aula();
 
 $aulas = $aulaModel->listarPorConteudo($conteudoId);
 
-// Define o título da página dinamicamente para o header.php
-$title = htmlspecialchars($conteudo['titulo']) . ' | TechMinds Education';
 
-// Includes de Header e Navbar padrão do site
+/* =========================================
+   PAGE TITLE
+========================================= */
+
+$title = htmlspecialchars(
+    $conteudo['titulo']
+) . " | TechMinds Education";
+
+
+/* =========================================
+   HEADER
+========================================= */
+
 include(__DIR__ . '/../includes/header.php');
+
 include(__DIR__ . '/../includes/navbar.php');
 
 ?>
 
 <style>
 
-    /* =========================================
-       CONTENT PAGE
-    ========================================= */
-
-    .content-page {
-
-        background-color: #f1f1f1;
-
-        min-height: 600px;
-
-        padding: 40px 20px 70px;
-
-    }
-
-
-    .content-header {
-
-        background-color: var(--green-main);
-
-        color: white;
-
-        padding: 35px 25px;
-
-        border-radius: 18px;
-
-        margin-bottom: 30px;
-
-        box-shadow:
-            0 5px 15px rgba(0, 0, 0, 0.08);
-
-    }
-
-
-    .content-header h1 {
-
-        margin: 0 0 8px;
-
-        font-size: 30px;
-
-        font-weight: 700;
-
-    }
-
-
-    .content-header p {
-
-        margin: 0;
-
-        font-size: 15px;
-
-        opacity: 0.95;
-
-    }
-
-
-    .content-description {
-
-        background-color: white;
-
-        border-radius: 15px;
-
-        padding: 25px;
-
-        margin-bottom: 30px;
-
-        box-shadow:
-            0 5px 15px rgba(0, 0, 0, 0.06);
-
-    }
-
-
-    .content-description h2 {
-
-        color: var(--green-dark);
-
-        font-size: 21px;
-
-        font-weight: 700;
-
-        margin-bottom: 10px;
-
-    }
-
-
-    .content-description p {
-
-        color: #555;
-
-        margin: 0;
-
-        line-height: 1.6;
-
-    }
-
-
-
-    /* =========================================
-   QUESTIONS
+/* =========================================
+   CONTENT PAGE
 ========================================= */
 
-.questions-section {
+.content-page {
 
-    margin-bottom: 35px;
+    background-color: #f1f1f1;
 
+    min-height: 70vh;
+
+    padding: 45px 20px 70px;
 }
 
 
-.questions-button {
+/* =========================================
+   CONTAINER
+========================================= */
+
+.content-container {
+
+    max-width: 1000px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.back-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--green-dark);
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    margin-bottom: 20px;
+
+    transition: 0.2s;
+}
+
+
+.back-link:hover {
+
+    color: var(--green-main);
+}
+
+
+/* =========================================
+   CONTENT HEADER
+========================================= */
+
+.content-header {
 
     background-color: var(--green-main);
 
     color: white;
 
-    text-decoration: none;
+    padding: 35px 30px;
+
+    border-radius: 18px;
+
+    margin-bottom: 30px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+.content-header .subject-name {
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    opacity: 0.85;
+
+    margin-bottom: 8px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.content-header h1 {
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    margin: 0 0 12px;
+}
+
+
+.content-header p {
+
+    font-size: 15px;
+
+    margin: 0;
+
+    opacity: 0.95;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   LESSONS TITLE
+========================================= */
+
+.lessons-title {
+
+    color: var(--green-dark);
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================
+   LESSON CARD
+========================================= */
+
+.lesson-card {
+
+    background-color: #b0b29a;
 
     border-radius: 15px;
 
     padding: 20px 22px;
+
+    margin-bottom: 15px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.08);
+
+    transition: 0.2s;
+}
+
+
+.lesson-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+
+.lesson-link {
 
     display: flex;
 
@@ -185,290 +246,219 @@ include(__DIR__ . '/../includes/navbar.php');
 
     justify-content: space-between;
 
-    box-shadow:
-        0 5px 15px rgba(0, 0, 0, 0.08);
-
-    transition: 0.2s;
-
-}
-
-
-.questions-button:hover {
-
-    transform: translateY(-2px);
+    gap: 20px;
 
     color: white;
 
-    box-shadow:
-        0 8px 18px rgba(0, 0, 0, 0.12);
-
+    text-decoration: none;
 }
 
 
-.questions-button span {
+.lesson-info {
 
     display: flex;
 
     align-items: center;
 
-    gap: 12px;
-
-    font-weight: 700;
-
+    gap: 15px;
 }
 
 
-.questions-button span i {
+.lesson-icon {
 
-    font-size: 20px;
+    width: 45px;
 
+    height: 45px;
+
+    border-radius: 50%;
+
+    background-color: rgba(255,255,255,0.20);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
 }
 
 
-.questions-button > i {
+.lesson-icon i {
+
+    color: white;
+
+    font-size: 18px;
+}
+
+
+.lesson-info h3 {
+
+    margin: 0 0 4px;
 
     font-size: 18px;
 
+    font-weight: 700;
+
+    color: white;
 }
 
-    /* =========================================
-       LESSONS
-    ========================================= */
 
-    .lessons-title {
+.lesson-info p {
 
-        color: var(--green-dark);
+    margin: 0;
 
-        font-size: 24px;
+    font-size: 13px;
 
-        font-weight: 700;
+    color: rgba(255,255,255,0.85);
 
-        margin-bottom: 18px;
+    line-height: 1.5;
+}
 
+
+.lesson-arrow {
+
+    color: white;
+
+    font-size: 18px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   EMPTY LESSONS
+========================================= */
+
+.empty-lessons {
+
+    background-color: white;
+
+    border-radius: 15px;
+
+    padding: 45px 25px;
+
+    text-align: center;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.06);
+}
+
+
+.empty-lessons i {
+
+    font-size: 38px;
+
+    color: var(--green-main);
+
+    margin-bottom: 15px;
+}
+
+
+.empty-lessons h3 {
+
+    color: var(--green-dark);
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+
+.empty-lessons p {
+
+    color: #666;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   QUESTIONS BUTTON
+========================================= */
+
+.questions-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    background-color: var(--green-main);
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 10px 20px;
+
+    border-radius: 25px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+
+.questions-button:hover {
+
+    background-color: var(--green-dark);
+
+    color: white;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 767px) {
+
+    .content-page {
+
+        padding: 30px 15px 50px;
     }
 
 
-    .lesson-card {
+    .content-header {
 
-        background-color: #b0b29a;
-
-        border-radius: 15px;
-
-        padding: 20px 22px;
-
-        margin-bottom: 15px;
-
-        box-shadow:
-            0 5px 15px rgba(0, 0, 0, 0.08);
-
-        transition: 0.2s;
-
+        padding: 30px 22px;
     }
 
 
-    .lesson-card:hover {
+    .content-header h1 {
 
-        transform: translateY(-2px);
-
-        box-shadow:
-            0 8px 18px rgba(0, 0, 0, 0.12);
-
+        font-size: 26px;
     }
 
 
     .lesson-link {
 
-        display: flex;
-
-        align-items: center;
-
-        gap: 15px;
-
-        color: white;
-
-        text-decoration: none;
-
-    }
-
-
-    .lesson-icon {
-
-        width: 45px;
-
-        height: 45px;
-
-        border-radius: 50%;
-
-        background-color: rgba(255,255,255,0.2);
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        flex-shrink: 0;
-
-    }
-
-
-    .lesson-icon i {
-
-        font-size: 18px;
-
-        color: white;
-
+        gap: 12px;
     }
 
 
     .lesson-info h3 {
 
-        margin: 0 0 4px;
-
-        font-size: 18px;
-
-        font-weight: 700;
-
-        color: white;
-
+        font-size: 16px;
     }
 
 
     .lesson-info p {
 
-        margin: 0;
-
-        font-size: 13px;
-
-        color: rgba(255,255,255,0.85);
-
+        font-size: 12px;
     }
 
-
-    /* =========================================
-       EMPTY LESSONS
-    ========================================= */
-
-    .empty-lessons {
-
-        background-color: white;
-
-        border-radius: 15px;
-
-        padding: 40px 25px;
-
-        text-align: center;
-
-        box-shadow:
-            0 5px 15px rgba(0, 0, 0, 0.06);
-
-    }
-
-
-    .empty-lessons i {
-
-        font-size: 35px;
-
-        color: var(--green-main);
-
-        margin-bottom: 15px;
-
-    }
-
-
-    .empty-lessons h3 {
-
-        color: var(--green-dark);
-
-        font-size: 20px;
-
-        font-weight: 700;
-
-    }
-
-
-    .empty-lessons p {
-
-        color: #666;
-
-        margin: 0;
-
-    }
-
-
-    /* =========================================
-       DESKTOP
-    ========================================= */
-
-    @media (min-width: 768px) {
-
-        .content-page {
-
-            padding: 55px 30px 80px;
-
-        }
-
-
-        .content-container {
-
-            max-width: 900px;
-
-            margin: 0 auto;
-
-        }
-
-
-        .content-header {
-
-            padding: 45px 40px;
-
-        }
-
-
-        .content-header h1 {
-
-            font-size: 38px;
-
-        }
-
-
-        .content-description {
-
-            padding: 30px 35px;
-
-        }
-
-
-        .lesson-card {
-
-            padding: 22px 25px;
-
-        }
-
-    }
-
-
-    @media (min-width: 1200px) {
-
-        .content-container {
-
-            max-width: 1000px;
-
-        }
-
-    }
+}
 
 </style>
 
 
-<!-- Script para reforçar o título dinâmico na aba do navegador -->
-<script>
-    document.title = "<?= addslashes($conteudo['titulo']); ?> | TechMinds Education";
-</script>
-
-
 <!-- =========================================
-     PAGE CONTENT
+     MAIN CONTENT
 ========================================= -->
 
 <main class="content-page">
@@ -477,10 +467,35 @@ include(__DIR__ . '/../includes/navbar.php');
 
 
         <!-- =========================================
+             BACK
+        ========================================== -->
+
+        <a
+            href="conteudos.php?materia_id=<?= (int) $conteudo['materia_id']; ?>"
+            class="back-link"
+        >
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Voltar para conteúdos
+
+        </a>
+
+
+        <!-- =========================================
              CONTENT HEADER
         ========================================== -->
 
         <section class="content-header">
+
+            <div class="subject-name">
+
+                <?= htmlspecialchars(
+                    $conteudo['materia']
+                ); ?>
+
+            </div>
+
 
             <h1>
 
@@ -491,108 +506,65 @@ include(__DIR__ . '/../includes/navbar.php');
             </h1>
 
 
-            <p>
-
-                <?= htmlspecialchars(
-                    $conteudo['materia']
-                ); ?>
-
-            </p>
-
-        </section>
-
-
-        <!-- =========================================
-             DESCRIPTION
-        ========================================== -->
-
-        <?php if (!empty($conteudo['descricao'])): ?>
-
-            <section class="content-description">
-
-                <h2>
-                    Sobre este conteúdo
-                </h2>
+            <?php if (!empty($conteudo['descricao'])): ?>
 
                 <p>
 
-                    <?= nl2br(
-                        htmlspecialchars(
-                            $conteudo['descricao']
-                        )
+                    <?= htmlspecialchars(
+                        $conteudo['descricao']
                     ); ?>
 
                 </p>
 
-            </section>
+            <?php else: ?>
 
-        <?php endif; ?>
-<!-- =========================================
-     QUESTIONS
-========================================= -->
+                <p>
 
-<section class="questions-section">
+                    Acesse as aulas e materiais deste conteúdo.
 
-    <h2 class="lessons-title">
-        Questões
-    </h2>
+                </p>
 
-    <a
-        href="questoes_conteudo.php?conteudo_id=<?= (int) $conteudo['id']; ?>"
-        class="questions-button"
-    >
+            <?php endif; ?>
 
-        <span>
-            <i class="fa-solid fa-circle-question"></i>
-            Acessar questões deste conteúdo
-        </span>
-
-        <i class="fa-solid fa-arrow-right"></i>
-
-    </a>
-
-</section>
-
+        </section>
 
 
         <!-- =========================================
              LESSONS
         ========================================== -->
 
-        <section>
+        <h2 class="lessons-title">
 
-            <h2 class="lessons-title">
-                Aulas
-            </h2>
+            Aulas
 
-
-            <?php if (!empty($aulas)): ?>
+        </h2>
 
 
-                <?php foreach ($aulas as$aula): ?>
-
-                    <div class="lesson-card">
-
-                        <a
-                            href="aula.php?id=<?= (int) $aula['id']; ?>"
-                            class="lesson-link"
-                        >
+        <?php if (!empty($aulas)): ?>
 
 
-                            <!-- Icon -->
+            <?php foreach ($aulas as $aula): ?>
+
+
+                <div class="lesson-card">
+
+                    <a
+                        href="aula.php?id=<?= (int) $aula['id']; ?>"
+                        class="lesson-link"
+                    >
+
+
+                        <div class="lesson-info">
+
 
                             <div class="lesson-icon">
 
-                                <i
-                                    class="fa-solid fa-play"
-                                ></i>
+                                <i class="fa-solid fa-play"></i>
 
                             </div>
 
 
-                            <!-- Information -->
-
-                            <div class="lesson-info">
+                            <div>
 
                                 <h3>
 
@@ -603,11 +575,7 @@ include(__DIR__ . '/../includes/navbar.php');
                                 </h3>
 
 
-                                <?php if (
-                                    !empty(
-                                        $aula['descricao']
-                                    )
-                                ): ?>
+                                <?php if (!empty($aula['descricao'])): ?>
 
                                     <p>
 
@@ -620,7 +588,9 @@ include(__DIR__ . '/../includes/navbar.php');
                                 <?php else: ?>
 
                                     <p>
-                                        Clique para acessar a aula.
+
+                                        Clique para acessar esta aula.
+
                                     </p>
 
                                 <?php endif; ?>
@@ -628,44 +598,66 @@ include(__DIR__ . '/../includes/navbar.php');
                             </div>
 
 
-                        </a>
-
-                    </div>
-
-                <?php endforeach; ?>
+                        </div>
 
 
-            <?php else: ?>
+                        <i
+                            class="fa-solid fa-arrow-right lesson-arrow"
+                        ></i>
 
 
-                <!-- =========================================
-                     EMPTY STATE
-                ========================================== -->
-
-                <div class="empty-lessons">
-
-                    <i
-                        class="fa-solid fa-book-open"
-                    ></i>
-
-
-                    <h3>
-                        Nenhuma aula disponível
-                    </h3>
-
-
-                    <p>
-                        As aulas deste conteúdo serão
-                        disponibilizadas em breve.
-                    </p>
+                    </a>
 
                 </div>
 
 
-            <?php endif; ?>
+            <?php endforeach; ?>
 
 
-        </section>
+        <?php else: ?>
+
+
+            <!-- =========================================
+                 NO LESSONS
+            ========================================== -->
+
+            <div class="empty-lessons">
+
+
+                <i class="fa-solid fa-book-open"></i>
+
+
+                <h3>
+
+                    Aulas em preparação
+
+                </h3>
+
+
+                <p>
+
+                    As aulas deste conteúdo serão disponibilizadas
+                    em breve.
+
+                </p>
+
+
+                <a
+                    href="questoes_conteudo.php?conteudo_id=<?= (int) $conteudoId; ?>"
+                    class="questions-button"
+                >
+
+                    <i class="fa-solid fa-list-check"></i>
+
+                    Ver questões
+
+                </a>
+
+
+            </div>
+
+
+        <?php endif; ?>
 
 
     </div>
@@ -673,8 +665,12 @@ include(__DIR__ . '/../includes/navbar.php');
 </main>
 
 
-<!-- =========================================
-     FOOTER REUTILIZÁVEL DO SITE
-========================================= -->
+<?php
 
-<?php include(__DIR__ . '/../includes/footer.php'); ?>
+/* =========================================
+   FOOTER
+========================================= */
+
+include(__DIR__ . '/../includes/footer.php');
+
+?>
