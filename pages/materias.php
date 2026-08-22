@@ -1,199 +1,495 @@
 <?php
+
 /* =========================================
    TECHMINDS EDUCATION
    SUBJECTS PAGE
 ========================================= */
 
 require_once __DIR__ . '/../models/Conteudo.php';
+require_once __DIR__ . '/../includes/auth.php';
 
 
 /* =========================================
-   CREATE CONTENT MODEL
+   LOAD DATA
 ========================================= */
+
 $conteudoModel = new Conteudo();
 
-/* =========================================
-   GET SUBJECTS AND CONTENTS
-========================================= */
 $materias = $conteudoModel->listarMaterias();
-$conteudos = $conteudoModel->listar();
+
 
 /* =========================================
-   ORGANIZE CONTENTS BY SUBJECT
+   PAGE CONFIGURATION
 ========================================= */
-$conteudosPorMateria = [];
 
-foreach ($conteudos as $conteudo) {
-    $materiaId = $conteudo['materia_id'] ?? null;
-    if ($materiaId !== null) {
-        $conteudosPorMateria[$materiaId][] = $conteudo;
-    }
-}
-?>
+$title = "Matérias | TechMinds Education";
 
-<!DOCTYPE html>
-<html lang="pt-BR">
 
-<head>
-    <!-- =========================================
-         PAGE CONFIGURATION
-    ========================================== -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+/* =========================================
+   HEADER
+========================================= */
 
-    <title>Conteúdos | TechMinds Education</title>
+include(__DIR__ . '/../includes/header.php');
 
-    <!-- =========================================
-         BOOTSTRAP
-    ========================================== -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+include(__DIR__ . '/../includes/navbar.php');
 
-    <!-- =========================================
-         MAIN STYLESHEET
-    ========================================== -->
-    <link rel="stylesheet" href="../assets/css/style.css">
 
-    <!-- ESTILO DEDICADO PARA OS LINKS DOS CARDS -->
-    <style>
-        .subject-card .content-list li a,
-        .subject-card .content-list li a:link,
-        .subject-card .content-list li a:visited {
-            color: #283818 !important; /* Verde oliva escuro harmonizado */
-            text-decoration: none !important;
-            font-weight: 600 !important;
-            transition: color 0.2s ease-in-out;
-        }
+/* =========================================
+   BANNER
+========================================= */
 
-        .subject-card .content-list li a:hover,
-        .subject-card .content-list li a:focus {
-            color: #16240d !important; /* Verde ainda mais escuro ao passar o mouse */
-            text-decoration: underline !important;
-        }
-    </style>
-</head>
+$bannerTitulo = "Matérias";
 
-<body>
+$bannerSubtitulo =
+    "Escolha uma matéria para acessar seus conteúdos.";
 
-<!-- =========================================
-     NAVBAR
-========================================= -->
-<?php require_once __DIR__ . '/../includes/navbar.php'; 
-
-$bannerTitulo = "Conteúdos";
-$bannerSubtitulo = "Ciências e suas tecnologias";
 include(__DIR__ . '/../includes/banner.php');
+
 ?>
 
 
+<style>
 
-<!-- =========================================
-     SUBJECTS AREA
-========================================= -->
-<section class="subjects-section py-5">
-    <div class="container">
-        <div class="subjects-container d-flex flex-column align-items-center gap-4">
+    .subjects-page {
 
-            <?php if (!empty($materias)): ?>
+        background-color: #f1f1f1;
+
+        min-height: 70vh;
+
+        padding: 50px 20px 80px;
+
+    }
+
+
+    .subjects-container {
+
+        max-width: 1100px;
+
+        margin: 0 auto;
+
+    }
+
+
+    /* =========================================
+       PAGE TITLE
+    ========================================== */
+
+    .subjects-title {
+
+        color: var(--green-dark);
+
+        font-size: 28px;
+
+        font-weight: 700;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .subjects-description {
+
+        color: #666;
+
+        margin-bottom: 30px;
+
+    }
+
+
+    /* =========================================
+       GRID
+    ========================================== */
+
+    .subjects-grid {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 25px;
+
+    }
+
+
+    /* =========================================
+       SUBJECT CARD
+    ========================================== */
+
+    .subject-card {
+
+        background-color: white;
+
+        border-radius: 18px;
+
+        padding: 30px;
+
+        min-height: 220px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: space-between;
+
+        box-shadow:
+            0 5px 18px rgba(0, 0, 0, 0.08);
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+
+    }
+
+
+    .subject-card:hover {
+
+        transform: translateY(-4px);
+
+        box-shadow:
+            0 9px 22px rgba(0, 0, 0, 0.12);
+
+    }
+
+
+    .subject-icon {
+
+        width: 50px;
+
+        height: 50px;
+
+        border-radius: 50%;
+
+        background-color: var(--green-main);
+
+        color: white;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        margin-bottom: 18px;
+
+    }
+
+
+    .subject-icon i {
+
+        font-size: 21px;
+
+    }
+
+
+    .subject-card h2 {
+
+        color: var(--green-dark);
+
+        font-size: 22px;
+
+        font-weight: 700;
+
+        margin-bottom: 8px;
+
+    }
+
+
+    .subject-card p {
+
+        color: #666;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+
+        margin-bottom: 25px;
+
+    }
+
+
+    /* =========================================
+       BUTTON
+    ========================================== */
+
+    .subject-button {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        width: 100%;
+
+        padding: 11px 18px;
+
+        border-radius: 25px;
+
+        background-color: var(--green-main);
+
+        color: white;
+
+        text-decoration: none;
+
+        font-weight: 600;
+
+        transition: 0.2s ease;
+
+    }
+
+
+    .subject-button:hover {
+
+        background-color: var(--green-dark);
+
+        color: white;
+
+    }
+
+
+    /* =========================================
+       EMPTY STATE
+    ========================================== */
+
+    .empty-subjects {
+
+        background-color: white;
+
+        border-radius: 18px;
+
+        padding: 50px 25px;
+
+        text-align: center;
+
+        box-shadow:
+            0 5px 18px rgba(0, 0, 0, 0.06);
+
+    }
+
+
+    .empty-subjects i {
+
+        color: var(--green-main);
+
+        font-size: 40px;
+
+        margin-bottom: 15px;
+
+    }
+
+
+    .empty-subjects h2 {
+
+        color: var(--green-dark);
+
+        font-size: 22px;
+
+        font-weight: 700;
+
+    }
+
+
+    .empty-subjects p {
+
+        color: #666;
+
+        margin: 0;
+
+    }
+
+
+    /* =========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 991px) {
+
+        .subjects-grid {
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+        }
+
+    }
+
+
+    @media (max-width: 575px) {
+
+        .subjects-page {
+
+            padding:
+                35px 15px 60px;
+
+        }
+
+
+        .subjects-grid {
+
+            grid-template-columns: 1fr;
+
+        }
+
+
+        .subjects-title {
+
+            font-size: 24px;
+
+        }
+
+    }
+
+</style>
+
+
+<main class="subjects-page">
+
+    <div class="subjects-container">
+
+
+        <!-- =========================================
+             PAGE INTRODUCTION
+        ========================================== -->
+
+        <div class="mb-4">
+
+            <h1 class="subjects-title">
+
+                Escolha uma matéria
+
+            </h1>
+
+            <p class="subjects-description">
+
+                Selecione uma matéria para visualizar
+                os conteúdos disponíveis e continuar seus estudos.
+
+            </p>
+
+        </div>
+
+
+        <!-- =========================================
+             SUBJECTS
+        ========================================== -->
+
+        <?php if (!empty($materias)): ?>
+
+
+            <div class="subjects-grid">
+
 
                 <?php foreach ($materias as $materia): ?>
-                    <?php
-                    $materiaId = $materia['id'];
-                    $listaConteudos = $conteudosPorMateria[$materiaId] ?? [];
-                    ?>
 
-                    <!-- =========================================
-                         SUBJECT CARD
-                    ========================================== -->
-                    <div class="subject-card w-100 max-w-600 p-4 rounded-4 shadow-sm">
-                        <!-- Subject name -->
-                        <h2 class="h4 fw-bold text-white mb-3">
-                            <?= htmlspecialchars($materia['nome']); ?>
-                        </h2>
 
-                        <!-- CONTENTS -->
-                        <?php if (!empty($listaConteudos)): ?>
-                            <ul class="content-list mb-0 ps-4">
-                                <?php foreach ($listaConteudos as $conteudo): ?>
-                                    <li>
-                                        <a
-                                            href="conteudo.php?id=<?= (int) $conteudo['id']; ?>"
-                                            style="color: #283818 !important; text-decoration: none; font-weight: 600;"
-                                        >
-                                            <?= htmlspecialchars($conteudo['titulo']); ?>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php else: ?>
-                            <p class="no-content mb-0 text-white-50">
-                                Nenhum conteúdo disponível no momento.
-                            </p>
-                        <?php endif; ?>
-                    </div>
+                    <article class="subject-card">
+
+
+                        <div>
+
+                            <div class="subject-icon">
+
+                                <i class="fa-solid fa-book"></i>
+
+                            </div>
+
+
+                            <h2>
+
+                                <?= htmlspecialchars(
+                                    $materia['nome']
+                                ); ?>
+
+                            </h2>
+
+
+                            <?php if (
+                                !empty($materia['descricao'])
+                            ): ?>
+
+                                <p>
+
+                                    <?= htmlspecialchars(
+                                        $materia['descricao']
+                                    ); ?>
+
+                                </p>
+
+                            <?php else: ?>
+
+                                <p>
+
+                                    Acesse os conteúdos
+                                    disponíveis para esta matéria.
+
+                                </p>
+
+                            <?php endif; ?>
+
+                        </div>
+
+
+                        <a
+                            href="conteudos.php?materia_id=<?= (int) $materia['id']; ?>"
+                            class="subject-button"
+                        >
+
+                            Ver conteúdos
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+
+                    </article>
+
 
                 <?php endforeach; ?>
 
-            <?php else: ?>
 
-                <!-- =========================================
-                     EMPTY SUBJECTS
-                ========================================== -->
-                <div class="empty-subjects text-center my-5">
-                    <h2>Nenhuma matéria disponível</h2>
-                    <p class="text-muted">Os conteúdos serão disponibilizados em breve.</p>
-                </div>
+            </div>
 
-            <?php endif; ?>
 
-        </div>
+        <?php else: ?>
+
+
+            <!-- =========================================
+                 EMPTY STATE
+            ========================================== -->
+
+            <div class="empty-subjects">
+
+                <i class="fa-solid fa-book-open"></i>
+
+                <h2>
+
+                    Nenhuma matéria disponível
+
+                </h2>
+
+                <p>
+
+                    As matérias serão disponibilizadas
+                    em breve.
+
+                </p>
+
+            </div>
+
+
+        <?php endif; ?>
+
+
     </div>
-</section>
 
-<!-- =========================================
-     FOOTER
-========================================= -->
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
+</main>
 
-<!-- =========================================
-     BOOTSTRAP JAVASCRIPT
-========================================= -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- =========================================
-     LÓGICA PARA NAVEGAÇÃO E FECHAMENTO DO MENU
-========================================= -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const menuNav = document.querySelector('.navbar-collapse');
-    
-    if (!menuNav) return;
+<?php
 
-    // Instância nativa do Bootstrap Collapse
-    const bsCollapse = bootstrap.Collapse.getOrCreateInstance(menuNav, {
-        toggle: false
-    });
+include(__DIR__ . '/../includes/footer.php');
 
-    // Fecha o menu ao clicar em qualquer lugar fora dele
-    document.addEventListener('click', function (event) {
-        const isClickInsideMenu = menuNav.contains(event.target);
-        const isClickOnToggler = event.target.closest('.navbar-toggler, .menu-toggle, .hamburguer, .btn-menu');
-
-        if (menuNav.classList.contains('show') && !isClickInsideMenu && !isClickOnToggler) {
-            bsCollapse.hide();
-        }
-    });
-
-    // Opcional: Fecha o menu automaticamente ao clicar em um item/link do menu
-    const navLinks = menuNav.querySelectorAll('a');
-    navLinks.forEach(function (link) {
-        link.addEventListener('click', function () {
-            if (menuNav.classList.contains('show')) {
-                bsCollapse.hide();
-            }
-        });
-    });
-});
-</script>
-
-</body>
-</html>
+?>
