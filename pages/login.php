@@ -27,26 +27,31 @@
                     <div class="alert alert-danger text-center">
 
                         <?php
-                        switch ($_GET['erro']) {
+                       switch ($_GET['erro']) {
 
-                            case 'preencha':
-                                echo 'Preencha todos os campos.';
-                                break;
+    case 'preencha':
+        echo 'Preencha todos os campos.';
+        break;
 
-                            case 'email':
-                                echo 'Digite um e-mail válido.';
-                                break;
+    case 'email':
+        echo 'Digite um e-mail válido.';
+        break;
 
-                            case 'login':
-                                echo 'E-mail ou senha incorretos.';
-                                break;
+    case 'login':
+        echo 'E-mail ou senha incorretos.';
+        break;
 
-                            case 'desativado':
-                                echo 'Sua conta está desativada.';
-                                break;
+    case 'desativado':
+        echo 'Sua conta está desativada.';
+        break;
 
-                            default:
-                                echo 'Não foi possível realizar o login.';
+    case 'acesso':
+        echo 'Faça login para acessar esta página.';
+        break;
+
+    default:
+        echo 'Não foi possível realizar o login.';
+
                         }
                         ?>
 
