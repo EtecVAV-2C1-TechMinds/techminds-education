@@ -12,12 +12,16 @@ require_once __DIR__ . '/../config/constantes.php';
 class Usuario
 {
 
-    /* Database connection */
+    /* =========================================
+       DATABASE CONNECTION
+    ========================================== */
 
     private PDO $pdo;
 
 
-    /* Constructor */
+    /* =========================================
+       CONSTRUCTOR
+    ========================================== */
 
     public function __construct()
     {
@@ -69,17 +73,12 @@ class Usuario
         return $stmt->execute([
 
             ':nome' => $nome,
-
             ':email' => $email,
-
             ':senha' => $senhaHash,
-
             ':tipo' => TIPO_ALUNO,
-
             ':ativo' => USUARIO_ATIVO
 
         ]);
-
     }
 
 
@@ -99,8 +98,7 @@ class Usuario
                 senha,
                 tipo,
                 ativo,
-                data_cadastro,
-                foto
+                data_cadastro
             FROM usuarios
             WHERE email = :email
             LIMIT 1
@@ -111,13 +109,11 @@ class Usuario
 
 
         $stmt->execute([
-
             ':email' => $email
-
         ]);
 
 
-        $usuario = $stmt->fetch();
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
         if (!$usuario) {
@@ -144,8 +140,7 @@ class Usuario
                 email,
                 tipo,
                 ativo,
-                data_cadastro,
-                foto
+                data_cadastro
             FROM usuarios
             WHERE id = :id
             LIMIT 1
@@ -156,13 +151,11 @@ class Usuario
 
 
         $stmt->execute([
-
             ':id' => $id
-
         ]);
 
 
-        $usuario = $stmt->fetch();
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
         if (!$usuario) {
@@ -183,7 +176,8 @@ class Usuario
     ): bool {
 
         $sql = "
-            SELECT id
+            SELECT
+                id
             FROM usuarios
             WHERE email = :email
             LIMIT 1
@@ -194,13 +188,11 @@ class Usuario
 
 
         $stmt->execute([
-
             ':email' => $email
-
         ]);
 
 
-        return $stmt->fetch() !== false;
+        return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
     }
 
 
@@ -229,38 +221,7 @@ class Usuario
         return $stmt->execute([
 
             ':nome' => $nome,
-
             ':email' => $email,
-
-            ':id' => $id
-
-        ]);
-    }
-
-
-    /* =========================================
-       UPDATE PHOTO
-    ========================================== */
-
-    public function atualizarFoto(
-        int $id,
-        string $foto
-    ): bool {
-
-        $sql = "
-            UPDATE usuarios
-            SET foto = :foto
-            WHERE id = :id
-        ";
-
-
-        $stmt = $this->pdo->prepare($sql);
-
-
-        return $stmt->execute([
-
-            ':foto' => $foto,
-
             ':id' => $id
 
         ]);
