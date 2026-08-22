@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 11/08/2026 às 18:42
+-- Tempo de geração: 22/08/2026 às 14:37
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -45,6 +45,19 @@ CREATE TABLE `aulas` (
 
 INSERT INTO `aulas` (`id`, `conteudo_id`, `titulo`, `descricao`, `video`, `material`, `ordem`, `ativo`, `data_criacao`) VALUES
 (1, 1, 'Aula 1 - Introdução', 'Nesta aula vamos estudar os principais conceitos do conteúdo.', NULL, NULL, 1, 1, '2026-08-10 23:53:18');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `aulas_concluidas`
+--
+
+CREATE TABLE `aulas_concluidas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `usuario_id` int(10) UNSIGNED NOT NULL,
+  `aula_id` int(10) UNSIGNED NOT NULL,
+  `data_conclusao` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -100,6 +113,7 @@ INSERT INTO `materias` (`id`, `nome`, `descricao`, `ativo`, `data_criacao`) VALU
 CREATE TABLE `questoes` (
   `id` int(10) UNSIGNED NOT NULL,
   `materia_id` int(10) UNSIGNED NOT NULL,
+  `conteudo_id` int(10) UNSIGNED NOT NULL,
   `enunciado` text NOT NULL,
   `alternativa_a` text NOT NULL,
   `alternativa_b` text NOT NULL,
@@ -161,9 +175,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `tipo`, `ativo`, `data_cadastro`) VALUES
-(3, 'Larissa Ribeiro', 'lrmusic718@gmail.com', '$2y$10$QXP.YgJE9VSXF9HDYcVtYuia/YDXSiij0aanhvmznybbP7588eaae', 'aluno', 1, '2026-08-09 19:48:34'),
 (4, 'Danila Ribeiro', 'danilaribeiro443@gmail.com', '$2y$10$ICVbZAJmKITci3ON9LxNl.V54dYtxnFHelx/0k8sMBWYqvGopX/4K', 'aluno', 1, '2026-08-09 23:41:30'),
-(5, 'Larissa Ribeiro', 'etecvavhooper@gmail.com', '$2y$10$v/e2Wizez9cZbOX3W2snPu8Mzmg6LFjyeROC.pUWHQ46VwuoM29h2', 'aluno', 1, '2026-08-11 16:12:59');
+(5, 'Larissa Ribeiro', 'etecvavhooper@gmail.com', '$2y$10$v/e2Wizez9cZbOX3W2snPu8Mzmg6LFjyeROC.pUWHQ46VwuoM29h2', 'aluno', 1, '2026-08-11 16:12:59'),
+(6, 'Larissa Ribeiro', 'lrmusic718@gmail.com', '$2y$10$UmHwFrp2WkHHq2GKeCJ28.WjkgZwUmHg04BsCq6xKg0BcB29StDXm', 'aluno', 1, '2026-08-17 00:36:45');
 
 --
 -- Índices para tabelas despejadas
@@ -175,6 +189,14 @@ INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `tipo`, `ativo`, `data_c
 ALTER TABLE `aulas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `conteudo_id` (`conteudo_id`);
+
+--
+-- Índices de tabela `aulas_concluidas`
+--
+ALTER TABLE `aulas_concluidas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_usuario_aula` (`usuario_id`,`aula_id`),
+  ADD KEY `fk_aulas_concluidas_aula` (`aula_id`);
 
 --
 -- Índices de tabela `conteudos`
@@ -194,7 +216,8 @@ ALTER TABLE `materias`
 --
 ALTER TABLE `questoes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `materia_id` (`materia_id`);
+  ADD KEY `materia_id` (`materia_id`),
+  ADD KEY `fk_questoes_conteudo` (`conteudo_id`);
 
 --
 -- Índices de tabela `simulados`
@@ -226,6 +249,12 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `aulas`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de tabela `aulas_concluidas`
+--
+ALTER TABLE `aulas_concluidas`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `conteudos`
@@ -261,7 +290,7 @@ ALTER TABLE `simulado_questoes`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restrições para tabelas despejadas
@@ -274,6 +303,13 @@ ALTER TABLE `aulas`
   ADD CONSTRAINT `aulas_ibfk_1` FOREIGN KEY (`conteudo_id`) REFERENCES `conteudos` (`id`) ON DELETE CASCADE;
 
 --
+-- Restrições para tabelas `aulas_concluidas`
+--
+ALTER TABLE `aulas_concluidas`
+  ADD CONSTRAINT `fk_aulas_concluidas_aula` FOREIGN KEY (`aula_id`) REFERENCES `aulas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_aulas_concluidas_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Restrições para tabelas `conteudos`
 --
 ALTER TABLE `conteudos`
@@ -283,6 +319,7 @@ ALTER TABLE `conteudos`
 -- Restrições para tabelas `questoes`
 --
 ALTER TABLE `questoes`
+  ADD CONSTRAINT `fk_questoes_conteudo` FOREIGN KEY (`conteudo_id`) REFERENCES `conteudos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `questoes_ibfk_1` FOREIGN KEY (`materia_id`) REFERENCES `materias` (`id`) ON DELETE CASCADE;
 
 --
