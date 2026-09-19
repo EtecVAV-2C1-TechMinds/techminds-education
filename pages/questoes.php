@@ -2,487 +2,160 @@
 
 /* =========================================
    TECHMINDS EDUCATION
-   QUESTIONS PAGE
+   QUESTIONS - SUBJECTS PAGE
 ========================================= */
 
-require_once __DIR__ . '/../config/conexao.php';
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../models/Conteudo.php';
-require_once __DIR__ . '/../models/Questao.php';
-require_once __DIR__ . '/../includes/auth.php';
 
-
-/* =========================================
-   PAGE TITLE
-========================================= */
-
-$title = "Questões | TechMinds Education";
-
-
-/* =========================================
-   LOAD CONTENT MODEL
-========================================= */
+$title = "Questões | " . NOME_SISTEMA;
 
 $conteudoModel = new Conteudo();
-
-
-/* =========================================
-   LOAD SUBJECTS
-========================================= */
-
 $materias = $conteudoModel->listarMaterias();
 
-
-/* =========================================
-   HEADER
-========================================= */
-
 include(__DIR__ . '/../includes/header.php');
-
 include(__DIR__ . '/../includes/navbar.php');
 
-
-/* =========================================
-   BANNER
-========================================= */
-
 $bannerTitulo = "Questões";
-
 $bannerSubtitulo = "Questões de fixação por conteúdo";
-
 include(__DIR__ . '/../includes/banner.php');
 
 ?>
 
-
 <style>
-
-    /* =========================================
-       PAGE
-    ========================================= */
-
-    .questions-page {
-
-        background-color: #ebebeb;
-
-        min-height: 70vh;
-
-        padding: 50px 20px 70px;
-
+    :root {
+        --questoes-green-dark: #233703;
+        --questoes-green-banner: #5e7037;
+        --questoes-green-btn: #6B783E;
+        --questoes-green-btn-hover: #576332;
+        --questoes-bg-light: #EBEBEB;
     }
 
-
-    .questions-container {
-
-        width: 100%;
-
-        max-width: 1100px;
-
-        margin: 0 auto;
-
+    .questoes-page-wrapper {
+        background-color: var(--questoes-bg-light);
+        min-height: 60vh;
     }
 
+    .materias-page {
+        padding: 50px 70px;
+        max-width: 1200px;
+        margin: auto;
+    }
 
-    /* =========================================
-       TITLE
-    ========================================= */
-
-    .questions-title {
-
-        color: #233703;
-
+    .materias-title {
+        color: var(--questoes-green-dark);
         font-size: 24px;
-
         font-weight: 700;
-
-        margin-bottom: 25px;
-
+        margin-bottom: 24px;
     }
 
-
-    .questions-subtitle {
-
-        color: #666;
-
-        margin-bottom: 35px;
-
-    }
-
-
-    /* =========================================
-       SUBJECT GRID
-    ========================================= */
-
-    .questions-grid {
-
+    .materias-grid {
         display: grid;
-
-        grid-template-columns:
-            repeat(3, 1fr);
-
+        grid-template-columns: repeat(3, 1fr);
         gap: 25px;
-
     }
 
-
-    /* =========================================
-       SUBJECT CARD
-    ========================================= */
-
-    .question-subject-card {
-
+    .materia-card {
         background-color: #ffffff;
-
-        border-radius: 18px;
-
-        padding: 28px;
-
-        min-height: 210px;
-
+        border-radius: 20px;
+        padding: 30px;
+        min-height: 200px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
         display: flex;
-
         flex-direction: column;
-
         justify-content: space-between;
-
-        box-shadow:
-            0 6px 18px rgba(0, 0, 0, 0.08);
-
-        transition:
-            transform 0.2s ease,
-            box-shadow 0.2s ease;
-
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-
-    .question-subject-card:hover {
-
-        transform: translateY(-4px);
-
-        box-shadow:
-            0 10px 25px rgba(0, 0, 0, 0.12);
-
+    .materia-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
     }
 
-
-    /* =========================================
-       SUBJECT TITLE
-    ========================================= */
-
-    .question-subject-card h3 {
-
-        color: #233703;
-
+    .materia-card h3 {
+        color: var(--questoes-green-dark);
         font-size: 21px;
-
         font-weight: 700;
-
         margin-bottom: 10px;
-
     }
 
-
-    /* =========================================
-       DESCRIPTION
-    ========================================= */
-
-    .question-subject-card p {
-
+    .materia-card p {
         color: #666;
-
-        font-size: 14px;
-
+        font-size: 13px;
+        margin: 0 0 20px 0;
         line-height: 1.6;
-
-        margin-bottom: 20px;
-
     }
 
-
-    /* =========================================
-       BUTTON
-    ========================================= */
-
-    .question-subject-button {
-
-        display: inline-flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        gap: 8px;
-
-        width: 100%;
-
-        padding: 11px 18px;
-
-        background-color: #6b783e;
-
-        color: #ffffff;
-
+    .btn-materia {
+        background-color: var(--questoes-green-btn);
+        color: #ffffff !important;
         text-decoration: none;
-
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 20px;
         border-radius: 25px;
-
+        font-weight: 700;
         font-size: 14px;
-
-        font-weight: 700;
-
-        transition:
-            background-color 0.2s ease,
-            transform 0.2s ease;
-
+        transition: background-color 0.2s ease;
     }
 
-
-    .question-subject-button:hover {
-
-        background-color: #576332;
-
-        color: #ffffff;
-
-        transform: translateY(-1px);
-
+    .btn-materia:hover {
+        background-color: var(--questoes-green-btn-hover);
+        color: #ffffff !important;
     }
 
-
-    /* =========================================
-       EMPTY STATE
-    ========================================= */
-
-    .questions-empty {
-
-        background-color: #ffffff;
-
-        border-radius: 18px;
-
-        padding: 50px 25px;
-
-        text-align: center;
-
-        box-shadow:
-            0 6px 18px rgba(0, 0, 0, 0.08);
-
+    .btn-materia i {
+        font-size: 13px;
+        transition: transform 0.2s ease;
     }
 
-
-    .questions-empty i {
-
-        color: #6b783e;
-
-        font-size: 45px;
-
-        margin-bottom: 18px;
-
+    .btn-materia:hover i {
+        transform: translateX(4px);
     }
-
-
-    .questions-empty h3 {
-
-        color: #233703;
-
-        font-size: 20px;
-
-        font-weight: 700;
-
-        margin-bottom: 10px;
-
-    }
-
-
-    .questions-empty p {
-
-        color: #666;
-
-        margin: 0;
-
-    }
-
-
-    /* =========================================
-       TABLET
-    ========================================= */
 
     @media (max-width: 991px) {
-
-        .questions-grid {
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
+        .materias-page {
+            padding: 40px 30px;
         }
 
+        .materias-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
-
-
-    /* =========================================
-       MOBILE
-    ========================================= */
 
     @media (max-width: 575px) {
-
-        .questions-page {
-
-            padding:
-                35px 15px 50px;
-
+        .materias-page {
+            padding: 30px 15px;
         }
 
-
-        .questions-grid {
-
+        .materias-grid {
             grid-template-columns: 1fr;
-
-            gap: 18px;
-
         }
-
-
-        .question-subject-card {
-
-            min-height: 190px;
-
-            padding: 24px;
-
-        }
-
-
-        .questions-title {
-
-            font-size: 21px;
-
-        }
-
     }
-
 </style>
 
-
-<main class="questions-page">
-
-    <div class="questions-container">
-
-
-        <h2 class="questions-title">
-
-            Escolha uma matéria
-
-        </h2>
-
-
-        <p class="questions-subtitle">
-
-            Selecione uma matéria para acessar os conteúdos
-            e realizar exercícios de fixação.
-
-        </p>
-
-
-        <?php if (!empty($materias)): ?>
-
-
-            <div class="questions-grid">
-
-
-                <?php foreach ($materias as $materia): ?>
-
-
-                    <article class="question-subject-card">
-
-
-                        <div>
-
-                            <h3>
-
-                                <?= htmlspecialchars(
-                                    $materia['nome']
-                                ); ?>
-
-                            </h3>
-
-
-                            <?php if (!empty($materia['descricao'])): ?>
-
-                                <p>
-
-                                    <?= htmlspecialchars(
-                                        $materia['descricao']
-                                    ); ?>
-
-                                </p>
-
-                            <?php else: ?>
-
-                                <p>
-
-                                    Acesse os conteúdos desta
-                                    matéria e pratique seus conhecimentos.
-
-                                </p>
-
-                            <?php endif; ?>
-
-                        </div>
-
-
-                        <a
-                            href="conteudos.php?materia_id=<?= (int) $materia['id']; ?>"
-                            class="question-subject-button"
-                        >
-
-                            Ver conteúdos
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
-                        </a>
-
-
-                    </article>
-
-
-                <?php endforeach; ?>
-
-
-            </div>
-
-
-        <?php else: ?>
-
-
-            <div class="questions-empty">
-
-
-                <i class="fa-solid fa-circle-question"></i>
-
-
-                <h3>
-
-                    Nenhuma matéria disponível
-
-                </h3>
-
-
-                <p>
-
-                    Ainda não existem matérias cadastradas
-                    para realizar exercícios.
-
-                </p>
-
-
-            </div>
-
-
-        <?php endif; ?>
-
-
+<main class="questoes-page-wrapper">
+    <div class="materias-page">
+        <h2 class="materias-title">Escolha uma matéria</h2>
+
+        <div class="materias-grid">
+            <?php foreach ($materias as $materia): ?>
+                <div class="materia-card">
+                    <div>
+                        <h3><?= htmlspecialchars($materia['nome']); ?></h3>
+                        <p><?= htmlspecialchars($materia['descricao']); ?></p>
+                    </div>
+
+                    <a href="questoes_materia.php?materia_id=<?= (int) $materia['id']; ?>" class="btn-materia">
+                        Ver questões
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
-
 </main>
 
-
-<?php
-
-include(__DIR__ . '/../includes/footer.php');
-
-?>
+<?php include(__DIR__ . '/../includes/footer.php'); ?>

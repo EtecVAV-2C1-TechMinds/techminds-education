@@ -1,4 +1,18 @@
-<?php include('../includes/header.php'); ?>
+<?php
+require_once __DIR__ . '/../config/config.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+/* Se já estiver logado, manda direto pra dentro */
+if (!empty($_SESSION[SESSION_USUARIO])) {
+    header('Location: ' . URL_SISTEMA . '/index.php');
+    exit;
+}
+
+include('../includes/header.php');
+?>
 
 <?php include('../includes/navbar.php'); ?>
 
@@ -27,31 +41,30 @@
                     <div class="alert alert-danger text-center">
 
                         <?php
-                       switch ($_GET['erro']) {
+                        switch ($_GET['erro']) {
 
-    case 'preencha':
-        echo 'Preencha todos os campos.';
-        break;
+                            case 'preencha':
+                                echo 'Preencha todos os campos.';
+                                break;
 
-    case 'email':
-        echo 'Digite um e-mail válido.';
-        break;
+                            case 'email':
+                                echo 'Digite um e-mail válido.';
+                                break;
 
-    case 'login':
-        echo 'E-mail ou senha incorretos.';
-        break;
+                            case 'login':
+                                echo 'E-mail ou senha incorretos.';
+                                break;
 
-    case 'desativado':
-        echo 'Sua conta está desativada.';
-        break;
+                            case 'desativado':
+                                echo 'Sua conta está desativada.';
+                                break;
 
-    case 'acesso':
-        echo 'Faça login para acessar esta página.';
-        break;
+                            case 'acesso':
+                                echo 'Faça login para acessar esta página.';
+                                break;
 
-    default:
-        echo 'Não foi possível realizar o login.';
-
+                            default:
+                                echo 'Não foi possível realizar o login.';
                         }
                         ?>
 
@@ -59,7 +72,7 @@
 
                 <?php endif; ?>
 
-                <form method="POST" action="../controllers/LoginController.php">
+                <form method="POST" action="<?= URL_SISTEMA ?>/controllers/LoginController.php">
 
                     <div class="mb-3">
 
@@ -72,6 +85,7 @@
                             name="email"
                             class="form-control"
                             placeholder="Digite seu e-mail"
+                            value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
                             required
                         >
 

@@ -12,16 +12,12 @@ require_once __DIR__ . '/../config/constantes.php';
 class Usuario
 {
 
-    /* =========================================
-       DATABASE CONNECTION
-    ========================================== */
+    /* Database connection */
 
     private PDO $pdo;
 
 
-    /* =========================================
-       CONSTRUCTOR
-    ========================================== */
+    /* Constructor */
 
     public function __construct()
     {
@@ -73,12 +69,17 @@ class Usuario
         return $stmt->execute([
 
             ':nome' => $nome,
+
             ':email' => $email,
+
             ':senha' => $senhaHash,
+
             ':tipo' => TIPO_ALUNO,
+
             ':ativo' => USUARIO_ATIVO
 
         ]);
+
     }
 
 
@@ -98,7 +99,8 @@ class Usuario
                 senha,
                 tipo,
                 ativo,
-                data_cadastro
+                data_cadastro,
+                foto
             FROM usuarios
             WHERE email = :email
             LIMIT 1
@@ -109,11 +111,13 @@ class Usuario
 
 
         $stmt->execute([
+
             ':email' => $email
+
         ]);
 
 
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        $usuario = $stmt->fetch();
 
 
         if (!$usuario) {
@@ -140,7 +144,8 @@ class Usuario
                 email,
                 tipo,
                 ativo,
-                data_cadastro
+                data_cadastro,
+                foto
             FROM usuarios
             WHERE id = :id
             LIMIT 1
@@ -151,11 +156,13 @@ class Usuario
 
 
         $stmt->execute([
+
             ':id' => $id
+
         ]);
 
 
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        $usuario = $stmt->fetch();
 
 
         if (!$usuario) {
@@ -176,8 +183,7 @@ class Usuario
     ): bool {
 
         $sql = "
-            SELECT
-                id
+            SELECT id
             FROM usuarios
             WHERE email = :email
             LIMIT 1
@@ -188,11 +194,13 @@ class Usuario
 
 
         $stmt->execute([
+
             ':email' => $email
+
         ]);
 
 
-        return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+        return $stmt->fetch() !== false;
     }
 
 
@@ -221,10 +229,137 @@ class Usuario
         return $stmt->execute([
 
             ':nome' => $nome,
+
             ':email' => $email,
+
             ':id' => $id
 
         ]);
+    }
+
+
+    /* =========================================
+       UPDATE PHOTO
+    ========================================== */
+
+    public function atualizarFoto(
+        int $id,
+        string $foto
+    ): bool {
+
+        $sql = "
+            UPDATE usuarios
+            SET foto = :foto
+            WHERE id = :id
+        ";
+
+
+        $stmt = $this->pdo->prepare($sql);
+
+
+        return $stmt->execute([
+
+            ':foto' => $foto,
+
+            ':id' => $id
+
+        ]);
+    }
+
+
+    /* =========================================
+       LISTAR TODOS OS ALUNOS (ADMIN)
+    ========================================== */
+
+    public function listarAlunos()
+    {
+
+        $sql = "
+            SELECT
+                id,
+                nome,
+                email,
+                tipo,
+                ativo,
+                data_cadastro
+            FROM usuarios
+            WHERE tipo = :tipo
+            ORDER BY nome ASC
+        ";
+
+
+        $stmt = $this->pdo->prepare($sql);
+
+
+        $stmt->execute([
+
+            ':tipo' => TIPO_ALUNO
+
+        ]);
+
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    /* =========================================
+       ATIVAR / DESATIVAR CONTA (ADMIN)
+    ========================================== */
+
+    public function atualizarStatus(
+        int $id,
+        int $ativo
+    ): bool {
+
+        $sql = "
+            UPDATE usuarios
+            SET ativo = :ativo
+            WHERE id = :id
+        ";
+
+
+        $stmt = $this->pdo->prepare($sql);
+
+
+        return $stmt->execute([
+
+            ':ativo' => $ativo,
+
+            ':id' => $id
+
+        ]);
+    }
+
+
+    /* =========================================
+       BUSCAR HASH DA SENHA ATUAL (P/ CONFERIR)
+    ========================================== */
+
+    public function buscarSenhaHash(int $id): ?string
+    {
+        $sql = "SELECT senha FROM usuarios WHERE id = :id LIMIT 1";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id' => $id]);
+        $resultado = $stmt->fetch();
+
+        return $resultado['senha'] ?? null;
+    }
+
+
+    /* =========================================
+       ATUALIZAR SENHA
+    ========================================== */
+
+    public function atualizarSenha(int $id, string $novaSenha): bool
+    {
+        $hash = password_hash($novaSenha, PASSWORD_DEFAULT);
+
+        $sql = "UPDATE usuarios SET senha = :senha WHERE id = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([':senha' => $hash, ':id' => $id]);
     }
 
 }

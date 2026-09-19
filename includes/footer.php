@@ -8,7 +8,7 @@
             <div class="col-md-6 text-center text-md-start">
 
                 <h4 class="footer-title">
-                    TechMinds Education
+                    <?= NOME_SISTEMA ?>
                 </h4>
 
                 <p class="footer-description mb-0">
@@ -22,7 +22,7 @@
             <div class="col-md-6 text-center text-md-end">
 
                 <p class="footer-info mb-2">
-                    Plataforma educacional TechMinds Education
+                    Plataforma educacional <?= NOME_SISTEMA ?>
                 </p>
 
                 <p class="footer-copy mb-0">

@@ -1,13 +1,20 @@
 <?php
 
+/* =========================================
+   TECHMINDS EDUCATION
+   QUESTION MODEL
+========================================= */
+
 require_once __DIR__ . '/../config/conexao.php';
 
 class Questao
 {
     private $pdo;
 
-    public function __construct($pdo)
+    public function __construct()
     {
+        global $pdo;
+
         $this->pdo = $pdo;
     }
 

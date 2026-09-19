@@ -1,7 +1,12 @@
 <?php
+require_once __DIR__ . '/../config/config.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+$logado = !empty($_SESSION[SESSION_USUARIO]);
+$isAdmin = $logado && ($_SESSION[SESSION_TIPO] ?? null) === TIPO_ADMIN;
 ?>
 
 <!-- =========================================
@@ -17,7 +22,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
             <!-- Brand -->
 
-            <a href="/techminds-education/index.php"
+            <a href="<?= URL_SISTEMA ?>/index.php"
                class="tech-brand">
 
                 <span class="tech-brand-name">
@@ -36,7 +41,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <div class="tech-navbar-actions">
 
 
-            <?php if (!empty($_SESSION['usuario_logado'])): ?>
+            <?php if ($logado): ?>
 
 <!-- =========================================
      USUÁRIO LOGADO
@@ -112,7 +117,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <!-- Perfil -->
 
-        <a href="/techminds-education/pages/perfil.php">
+        <a href="<?= URL_SISTEMA ?>/pages/perfil.php">
 
             Meu perfil
 
@@ -121,7 +126,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <!-- Área do aluno -->
 
-        <a href="/techminds-education/pages/conteudo.php">
+        <a href="<?= URL_SISTEMA ?>/pages/conteudo.php">
 
     Área do aluno
 
@@ -135,7 +140,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <!-- Logout -->
 
-        <a href="/techminds-education/pages/logout.php"
+        <a href="<?= URL_SISTEMA ?>/pages/logout.php"
            class="tech-logout">
 
             Sair da conta
@@ -153,7 +158,7 @@ if (session_status() === PHP_SESSION_NONE) {
      USUÁRIO NÃO LOGADO
 ========================================= -->
 
-<a href="/techminds-education/pages/login.php"
+<a href="<?= URL_SISTEMA ?>/pages/login.php"
    class="tech-login">
 
     Entrar
@@ -161,7 +166,7 @@ if (session_status() === PHP_SESSION_NONE) {
 </a>
 
 
-<a href="/techminds-education/pages/cadastro.php"
+<a href="<?= URL_SISTEMA ?>/pages/cadastro.php"
    class="tech-register">
 
     Cadastrar
@@ -212,7 +217,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </span>
 
 
-                    <a href="/techminds-education/index.php"
+                    <a href="<?= URL_SISTEMA ?>/index.php"
                        class="tech-navigation-link">
 
                         <span class="tech-link-number">
@@ -226,7 +231,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </a>
 
 
-                    <a href="/techminds-education/pages/sobre.php"
+                    <a href="<?= URL_SISTEMA ?>/pages/sobre.php"
                        class="tech-navigation-link">
 
                         <span class="tech-link-number">
@@ -240,7 +245,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </a>
 
 
-                    <a href="/techminds-education/pages/contato.php"
+                    <a href="<?= URL_SISTEMA ?>/pages/contato.php"
                        class="tech-navigation-link">
 
                         <span class="tech-link-number">
@@ -265,7 +270,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </span>
 
 
-                    <a href="/techminds-education/pages/materias.php"
+                    <a href="<?= URL_SISTEMA ?>/pages/materias.php"
                        class="tech-navigation-link">
 
                         <span class="tech-link-number">
@@ -279,7 +284,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </a>
 
 
-                    <a href="/techminds-education/pages/questoes.php"
+                    <a href="<?= URL_SISTEMA ?>/pages/questoes.php"
                        class="tech-navigation-link">
 
                         <span class="tech-link-number">
@@ -293,7 +298,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </a>
 
 
-                    <a href="/techminds-education/pages/simulados.php"
+                    <a href="<?= URL_SISTEMA ?>/pages/simulados.php"
                        class="tech-navigation-link">
 
                         <span class="tech-link-number">
@@ -307,7 +312,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </a>
 
 
-                    <a href="/techminds-education/pages/desempenho.php"
+                    <a href="<?= URL_SISTEMA ?>/pages/desempenho.php"
                        class="tech-navigation-link">
 
                         <span class="tech-link-number">
@@ -323,6 +328,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 </div>
 
 
+                <?php if ($isAdmin): ?>
                 <!-- Administrative Area -->
 
                 <div class="tech-navigation-column">
@@ -332,7 +338,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </span>
 
 
-                    <a href="/techminds-education/pages/admin.php"
+                    <a href="<?= URL_SISTEMA ?>/admin/dashboard.php"
                        class="tech-navigation-link">
 
                         <span class="tech-link-number">
@@ -344,6 +350,9 @@ if (session_status() === PHP_SESSION_NONE) {
                         </span>
 
                     </a>
+
+                </div>
+                <?php endif; ?>
 
 
                     <!-- Student Area Highlight -->
@@ -360,9 +369,9 @@ if (session_status() === PHP_SESSION_NONE) {
                             seu desempenho acadêmico.
                         </p>
 
-                        <?php if (!empty($_SESSION['usuario_logado'])): ?>
+                        <?php if ($logado): ?>
 
-<a href="/techminds-education/pages/conteudo.php"
+<a href="<?= URL_SISTEMA ?>/pages/conteudo.php"
    class="tech-highlight-button">
 
     Acessar área do aluno
@@ -371,7 +380,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <?php else: ?>
 
-<a href="/techminds-education/pages/login.php"
+<a href="<?= URL_SISTEMA ?>/pages/login.php"
    class="tech-highlight-button">
 
     Acessar área do aluno
@@ -381,9 +390,6 @@ if (session_status() === PHP_SESSION_NONE) {
 <?php endif; ?>
 
                     </div>
-
-                </div>
-
 
             </div>
 
@@ -403,8 +409,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (menuButton && navPanel) {
         menuButton.addEventListener('click', function () {
-            // Se o Bootstrap JS estiver ativo, ele trata automaticamente via data-bs-toggle
-            // Mas adicionamos a classe 'active' para criar animações no botão (ex: virar um X)
             menuButton.classList.toggle('active');
         });
     }

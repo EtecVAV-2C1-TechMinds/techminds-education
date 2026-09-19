@@ -5,6 +5,11 @@
    CLASS CONTROLLER
 ========================================= */
 
+require_once __DIR__ . '/../config/config.php';
+
+$GLOBALS['EXIGE_ADMIN'] = true;
+
+require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../models/Aula.php';
 
 $aulaModel = new Aula();

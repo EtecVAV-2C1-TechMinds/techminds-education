@@ -5,22 +5,21 @@
    LOGIN CONTROLLER
 ========================================= */
 
-session_start();
-
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../models/Usuario.php';
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 /* =========================================
    CHECK REQUEST METHOD
 ========================================= */
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-
-    header('Location: ../pages/login.php');
-
+    header('Location: ' . URL_SISTEMA . '/pages/login.php');
     exit;
 }
-
 
 /* =========================================
    RECEIVE FORM DATA
@@ -29,30 +28,23 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $email = trim($_POST['email'] ?? '');
 $senha = $_POST['senha'] ?? '';
 
-
 /* =========================================
    VALIDATE REQUIRED FIELDS
 ========================================= */
 
 if ($email === '' || $senha === '') {
-
-    header('Location: ../pages/login.php?erro=preencha');
-
+    header('Location: ' . URL_SISTEMA . '/pages/login.php?erro=preencha');
     exit;
 }
-
 
 /* =========================================
    VALIDATE EMAIL
 ========================================= */
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-
-    header('Location: ../pages/login.php?erro=email');
-
+    header('Location: ' . URL_SISTEMA . '/pages/login.php?erro=email');
     exit;
 }
-
 
 /* =========================================
    CREATE USER MODEL
@@ -60,55 +52,38 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 $usuarioModel = new Usuario();
 
-
 /* =========================================
    SEARCH USER BY EMAIL
 ========================================= */
 
 $usuario = $usuarioModel->buscarPorEmail($email);
 
-
 /* =========================================
    CHECK USER
 ========================================= */
 
 if (!$usuario) {
-
-    header('Location: ../pages/login.php?erro=login');
-
+    header('Location: ' . URL_SISTEMA . '/pages/login.php?erro=login');
     exit;
 }
-
 
 /* =========================================
    CHECK ACCOUNT STATUS
 ========================================= */
 
-if (
-    isset($usuario['ativo']) &&
-    (int) $usuario['ativo'] !== 1
-) {
-
-    header('Location: ../pages/login.php?erro=desativado');
-
+if (isset($usuario['ativo']) && (int) $usuario['ativo'] !== USUARIO_ATIVO) {
+    header('Location: ' . URL_SISTEMA . '/pages/login.php?erro=desativado');
     exit;
 }
-
 
 /* =========================================
    VERIFY PASSWORD
 ========================================= */
 
-if (
-    !isset($usuario['senha']) ||
-    !password_verify($senha, $usuario['senha'])
-) {
-
-    header('Location: ../pages/login.php?erro=login');
-
+if (!isset($usuario['senha']) || !password_verify($senha, $usuario['senha'])) {
+    header('Location: ' . URL_SISTEMA . '/pages/login.php?erro=login');
     exit;
 }
-
 
 /* =========================================
    REGENERATE SESSION ID
@@ -116,26 +91,18 @@ if (
 
 session_regenerate_id(true);
 
-
 /* =========================================
    CREATE USER SESSION
 ========================================= */
 
-$_SESSION['usuario_logado'] = true;
-
-$_SESSION['usuario_id'] = (int) $usuario['id'];
-
+$_SESSION[SESSION_USUARIO] = (int) $usuario['id'];
+$_SESSION[SESSION_TIPO] = $usuario['tipo'] ?? TIPO_ALUNO;
 $_SESSION['usuario_nome'] = $usuario['nome'];
-
 $_SESSION['usuario_email'] = $usuario['email'];
-
-$_SESSION['usuario_tipo'] = $usuario['tipo'] ?? 'aluno';
-
 
 /* =========================================
    LOGIN SUCCESS
 ========================================= */
 
-header('Location: ../index.php?login=sucesso');
-
+header('Location: ' . URL_SISTEMA . '/index.php?login=sucesso');
 exit;

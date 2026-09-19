@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../config/conexao.php';
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../models/Conteudo.php';
 require_once __DIR__ . '/../includes/auth.php';
 
-$title = "Conteúdos | TechMinds Education";
+$title = "Conteúdos | " . NOME_SISTEMA;
 
 $materiaId = (int) ($_GET['materia_id'] ?? 0);
 
@@ -83,7 +83,7 @@ $conteudos =
 
 $title =
     $materia['nome']
-    . " | Conteúdos | TechMinds Education";
+    . " | Conteúdos | " . NOME_SISTEMA;
 
 
 /* =========================================
@@ -477,7 +477,7 @@ include(__DIR__ . '/../includes/banner.php');
              BACK
         ========================================== -->
 
-        <a
+        <a 
             href="materias.php"
             class="back-link"
         >
@@ -546,7 +546,7 @@ include(__DIR__ . '/../includes/banner.php');
                 <article class="content-card">
 
 
-                    <a
+                    <a 
                         href="conteudo.php?id=<?= (int) $conteudo['id']; ?>"
                         class="content-link"
                     >

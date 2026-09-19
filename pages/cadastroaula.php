@@ -5,27 +5,32 @@
    ADMIN - CADASTRO DE AULAS
 ========================================= */
 
+require_once __DIR__ . '/../config/config.php';
+
+$GLOBALS['EXIGE_ADMIN'] = true;
+
+require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../models/Aula.php';
 
 $aulaModel = new Aula();
 $conteudos = $aulaModel->listarConteudos();
 
-$title = "Cadastrar Vídeo Aulas | TechMinds Education";
+$title = "Cadastrar Vídeo Aulas | " . NOME_SISTEMA;
 
 include(__DIR__ . '/../includes/header.php');
 include(__DIR__ . '/../includes/navbar.php');
 
 $bannerTitulo = "Cadastrar Vídeo Aula";
-$bannerSubtitulo = "Painel Administrativo TechMinds";
+$bannerSubtitulo = "Painel Administrativo " . NOME_SISTEMA;
 include(__DIR__ . '/../includes/banner.php');
 
 ?>
 
 <style>
     :root {
-        --green-primary: #6B783E;
-        --green-dark: #233703;
-        --green-banner: #8A9E48;
+        --cadastro-green-primary: #6B783E;
+        --cadastro-green-dark: #233703;
+        --cadastro-green-banner: #8A9E48;
         --bg-light: #F4F6F8;
         --text-color: #2D3748;
         --border-color: #E2E8F0;
@@ -86,7 +91,7 @@ include(__DIR__ . '/../includes/banner.php');
 
     .form-control:focus {
         background-color: #ffffff !important;
-        border-color: var(--green-primary) !important;
+        border-color: var(--cadastro-green-primary) !important;
         box-shadow: 0 0 0 3px rgba(107, 120, 62, 0.15) !important;
     }
 
@@ -112,7 +117,7 @@ include(__DIR__ . '/../includes/banner.php');
     }
 
     .upload-box:hover {
-        border-color: var(--green-primary);
+        border-color: var(--cadastro-green-primary);
         background-color: #F1F5F9;
     }
 
@@ -130,7 +135,7 @@ include(__DIR__ . '/../includes/banner.php');
     }
 
     .upload-text span {
-        color: var(--green-primary);
+        color: var(--cadastro-green-primary);
         font-weight: 600;
         text-decoration: underline;
     }
@@ -138,7 +143,7 @@ include(__DIR__ . '/../includes/banner.php');
     .file-selected-info {
         margin-top: 10px;
         font-size: 0.85rem;
-        color: var(--green-dark);
+        color: var(--cadastro-green-dark);
         font-weight: 600;
         word-break: break-all;
     }
@@ -169,7 +174,7 @@ include(__DIR__ . '/../includes/banner.php');
     /* BOTÃO SUBMIT */
     .btn-submit {
         width: 100%;
-        background-color: var(--green-primary);
+        background-color: var(--cadastro-green-primary);
         color: #ffffff;
         border: none;
         border-radius: 10px;
@@ -182,7 +187,7 @@ include(__DIR__ . '/../includes/banner.php');
     }
 
     .btn-submit:hover {
-        background-color: var(--green-dark);
+        background-color: var(--cadastro-green-dark);
     }
 
     .btn-submit:active {
@@ -202,9 +207,9 @@ include(__DIR__ . '/../includes/banner.php');
         gap: 6px;
 
         background-color: #ffffff;
-        color: var(--green-dark);
+        color: var(--cadastro-green-dark);
 
-        border: 1px solid var(--green-primary);
+        border: 1px solid var(--cadastro-green-primary);
         border-radius: 10px;
 
         padding: 10px 16px;
@@ -218,14 +223,10 @@ include(__DIR__ . '/../includes/banner.php');
     }
 
     .btn-manage-aulas:hover {
-        background-color: var(--green-primary);
+        background-color: var(--cadastro-green-primary);
         color: #ffffff;
     }
 </style>
-
-<script>
-    document.title = "Cadastrar Vídeo Aulas | TechMinds Education";
-</script>
 
 <!-- CONTEÚDO -->
 <main class="content">
@@ -354,8 +355,8 @@ include(__DIR__ . '/../includes/banner.php');
 
             <!-- MATERIAL COMPLEMENTAR -->
             <div class="form-group">
-                <label for="material">Material Complementar</label>
-                <input type="text" id="material" name="material" class="form-control" placeholder="Link de slides, PDF ou repositório no GitHub">
+                <label for="material">Material Complementar (PDF, slides, etc.)</label>
+                <input type="text" id="material" name="material" class="form-control" placeholder="Link do PDF, slides ou repositório no GitHub">
             </div>
 
             <!-- ORDEM DA AULA -->

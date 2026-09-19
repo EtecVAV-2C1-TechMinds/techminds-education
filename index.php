@@ -1,3 +1,12 @@
+<?php
+
+require_once __DIR__ . '/config/config.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+?>
 <?php include('includes/header.php'); ?>
 <?php include('includes/navbar.php'); ?>
 
@@ -19,7 +28,7 @@
             <a href="pages/sobre.php" class="btn btn-light btn-lg me-2">
                 Conheça a Instituição
             </a>
-            <?php if (!empty($_SESSION['usuario_logado'])): ?>
+            <?php if (!empty($_SESSION[SESSION_USUARIO])): ?>
 
 <a href="pages/conteudo.php" class="btn btn-tech btn-lg">
     Área do Aluno
@@ -63,11 +72,6 @@
                 Além das aulas e conteúdos especializados, disponibilizamos
                 ferramentas digitais que auxiliam os alunos no acompanhamento
                 de seus estudos e desempenho acadêmico.
-            </p>
-            <p>
-
-
-
             </p>
         </div>
     </div>
@@ -133,7 +137,7 @@
 
 <section class="structure-section py-5 px-3 text-center bg-light">
     <div class="container" style="max-width: 700px;">
-        <h1 class="fw-bold text-dark mb-2 fs-3">Nossa Estrutura</h2>
+        <h2 class="fw-bold text-dark mb-2 fs-3">Nossa Estrutura</h2>
         <p class="text-secondary mb-6 opacity-85">
             Ambientes planejados para proporcionar conforto, organização e qualidade durante o processo de aprendizagem.
         </p>

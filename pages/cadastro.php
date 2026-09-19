@@ -104,7 +104,7 @@
             <!-- Registration form -->
             <form
                 method="POST"
-                action="../controllers/CadastroController.php"
+                action="<?= URL_SISTEMA ?>/controllers/CadastroController.php"
             >
 
 
@@ -120,6 +120,7 @@
                         name="nome"
                         class="form-control"
                         placeholder="Digite seu nome completo"
+                        value="<?= htmlspecialchars($_POST['nome'] ?? '') ?>"
                         required
                     >
 
@@ -138,6 +139,7 @@
                         name="email"
                         class="form-control"
                         placeholder="Digite seu e-mail"
+                        value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
                         required
                     >
 
@@ -258,4 +260,3 @@
 </section>
 
 <?php include('../includes/footer.php'); ?>
-

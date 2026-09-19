@@ -1,4 +1,3 @@
-
 <?php
 
 /* =========================================
@@ -6,11 +5,10 @@
    LESSON PAGE
 ========================================= */
 
-session_start();
-
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../config/conexao.php';
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../models/Aula.php';
+require_once __DIR__ . '/../models/Progresso.php';
+require_once __DIR__ . '/../includes/auth.php';
 
 
 /* =========================================
@@ -44,6 +42,29 @@ if (!$aula) {
 
 
 /* =========================================
+   PROGRESS (MARCAR COMO CONCLUÍDA)
+========================================= */
+
+$progressoModel = new Progresso();
+
+$usuarioId = (int) ($_SESSION[SESSION_USUARIO] ?? 0);
+
+$aulaConcluida = false;
+
+if ($usuarioId > 0) {
+    $aulaConcluida = $progressoModel->aulaConcluida($usuarioId, $aulaId);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao_concluir'])) {
+
+    if ($usuarioId > 0) {
+        $progressoModel->concluirAula($usuarioId, $aulaId);
+        $aulaConcluida = true;
+    }
+}
+
+
+/* =========================================
    LOAD OTHER LESSONS
 ========================================= */
 
@@ -58,7 +79,7 @@ $aulas = $aulaModel->listarPorConteudo(
 
 $title = htmlspecialchars(
     $aula['titulo']
-) . " | TechMinds Education";
+) . " | " . NOME_SISTEMA;
 
 
 /* =========================================
@@ -76,8 +97,6 @@ include(__DIR__ . '/../includes/navbar.php');
 
 /* =========================================
    FIX FOOTER
-   O footer deve ficar depois do conteúdo,
-   nunca sobre a página.
 ========================================= */
 
 html,
@@ -177,21 +196,6 @@ body {
     font-weight: 700;
 
     margin-bottom: 5px;
-
-}
-
-
-/* =========================================
-   CONTENT NAME
-========================================= */
-
-.lesson-content-name {
-
-    color: #666;
-
-    font-size: 14px;
-
-    margin-bottom: 20px;
 
 }
 
@@ -326,18 +330,75 @@ body {
 
     margin-top: 25px;
 
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
 }
 
 
-.material-box h3 {
+.material-icon {
 
-    color: var(--green-dark);
+    width: 44px;
+
+    height: 44px;
+
+    border-radius: 10px;
+
+    background-color: var(--green-main);
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 
     font-size: 18px;
 
+    flex-shrink: 0;
+
+}
+
+
+.material-text {
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+.material-text h3 {
+
+    color: var(--green-dark);
+
+    font-size: 16px;
+
     font-weight: 700;
 
-    margin-bottom: 10px;
+    margin: 0 0 4px;
+
+}
+
+
+.material-text p {
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
 
 }
 
@@ -362,6 +423,8 @@ body {
 
     font-weight: 600;
 
+    flex-shrink: 0;
+
 }
 
 
@@ -370,6 +433,65 @@ body {
     color: white;
 
     opacity: 0.9;
+
+}
+
+
+/* =========================================
+   COMPLETE ACTION AT BOTTOM
+========================================= */
+
+.complete-section {
+
+    margin-top: 30px;
+
+    text-align: center;
+
+}
+
+.btn-complete {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    background-color: #e0e0e0;
+
+    color: #444;
+
+    border: none;
+
+    padding: 12px 24px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+.btn-complete:hover {
+
+    background-color: var(--green-main);
+
+    color: white;
+
+}
+
+.btn-complete.completed {
+
+    background-color: #2e7d32;
+
+    color: white;
 
 }
 
@@ -419,12 +541,6 @@ body {
    FOOTER FIX
 ========================================= */
 
-/*
-   Caso o CSS global esteja deixando o footer
-   fixo/absoluto, esta página força o footer
-   a voltar para o fluxo normal.
-*/
-
 footer {
 
     position: static !important;
@@ -463,6 +579,24 @@ footer {
     .lesson-content h1 {
 
         font-size: 27px;
+
+    }
+
+
+    .material-box {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        text-align: center;
+
+    }
+
+
+    .btn-complete {
+
+        width: 100%;
 
     }
 
@@ -508,7 +642,7 @@ footer {
              BACK
         ========================================== -->
 
-        <a
+        <a 
             href="conteudo.php?id=<?= (int) $aula['conteudo_id']; ?>"
             class="back-link"
         >
@@ -620,28 +754,52 @@ footer {
 
 
             <!-- =========================================
-                 MATERIAL
+                 MATERIAL (PDF / APOSTILA)
             ========================================== -->
 
             <?php if (!empty($aula['material'])): ?>
 
+                <?php
+                    $extensaoMaterial = strtolower(
+                        pathinfo($aula['material'], PATHINFO_EXTENSION)
+                    );
+                    $ehPdf = $extensaoMaterial === 'pdf';
+                ?>
+
                 <div class="material-box">
 
-                    <h3>
+                    <div class="material-icon">
 
-                        Material da aula
+                        <i class="fa-solid <?= $ehPdf ? 'fa-file-pdf' : 'fa-file-arrow-down'; ?>"></i>
 
-                    </h3>
+                    </div>
 
+                    <div class="material-text">
 
-                    <a
+                        <h3>
+
+                            <?= $ehPdf ? 'Apostila em PDF' : 'Material da aula'; ?>
+
+                        </h3>
+
+                        <p>
+
+                            <?= $ehPdf
+                                ? 'Baixe o material de apoio desta aula.'
+                                : htmlspecialchars($aula['material']); ?>
+
+                        </p>
+
+                    </div>
+
+                    
                         href="<?= htmlspecialchars($aula['material']); ?>"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="material-button"
                     >
 
-                        <i class="fa-solid fa-file-arrow-down"></i>
+                        <i class="fa-solid fa-download"></i>
 
                         Acessar material
 
@@ -650,6 +808,31 @@ footer {
                 </div>
 
             <?php endif; ?>
+
+
+            <!-- =========================================
+                 MARCAR COMO CONCLUÍDA (NO FINAL)
+            ========================================== -->
+
+            <div class="complete-section">
+
+                <form method="POST">
+
+                    <button 
+                        type="submit" 
+                        name="acao_concluir" 
+                        class="btn-complete <?= $aulaConcluida ? 'completed' : ''; ?>"
+                    >
+
+                        <i class="fa-solid <?= $aulaConcluida ? 'fa-circle-check' : 'fa-circle'; ?>"></i>
+
+                        <?= $aulaConcluida ? 'Aula Concluída' : 'Marcar como concluída'; ?>
+
+                    </button>
+
+                </form>
+
+            </div>
 
 
             <!-- =========================================
@@ -693,7 +876,7 @@ footer {
                         $aulas[$indiceAtual - 1];
                     ?>
 
-                    <a
+                    <a 
                         href="aula.php?id=<?= (int) $anterior['id']; ?>"
                     >
 
@@ -722,7 +905,7 @@ footer {
                         $aulas[$indiceAtual + 1];
                     ?>
 
-                    <a
+                    <a 
                         href="aula.php?id=<?= (int) $proxima['id']; ?>"
                     >
 

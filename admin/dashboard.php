@@ -5,6 +5,11 @@
    ADMIN DASHBOARD
 ========================================= */
 
+require_once __DIR__ . '/../config/config.php';
+
+$GLOBALS['EXIGE_ADMIN'] = true;
+
+require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../models/Conteudo.php';
 
 
@@ -41,7 +46,7 @@ if (isset($_GET['editar'])) {
 }
 
 // Define o título para a tag <title> no header.php
-$title = "Painel Administrativo | TechMinds Education";
+$title = "Painel Administrativo | " . NOME_SISTEMA;
 
 // Includes do Header e da Navbar padrão do projeto
 include(__DIR__ . '/../includes/header.php');
@@ -105,7 +110,7 @@ include(__DIR__ . '/../includes/navbar.php');
     ========================================= */
 
     .dashboard-hero {
-        background-color: #93A651;
+        background-color: var(--green-main);
         padding: 45px 20px;
         text-align: center;
     }
@@ -188,7 +193,7 @@ include(__DIR__ . '/../includes/navbar.php');
     .dashboard-input:focus,
     .dashboard-select:focus,
     .dashboard-textarea:focus {
-        box-shadow: inset 0 0 0 2px #93A651;
+        box-shadow: inset 0 0 0 2px var(--green-main);
     }
 
 
@@ -227,6 +232,7 @@ include(__DIR__ . '/../includes/navbar.php');
         padding: 11px 28px;
         text-decoration: none;
         font-weight: 600;
+        display: inline-block;
     }
 
 
@@ -253,7 +259,7 @@ include(__DIR__ . '/../includes/navbar.php');
         display: block;
         width: fit-content;
         margin: 0 auto 30px;
-        background-color: #93A651;
+        background-color: var(--green-main);
         color: #ffffff;
         padding: 5px 18px;
         border-radius: 20px;
@@ -449,7 +455,7 @@ include(__DIR__ . '/../includes/navbar.php');
 
 <!-- Script para garantir a atualização do título da aba no navegador -->
 <script>
-    document.title = "Painel Administrativo | TechMinds Education";
+    document.title = "Painel Administrativo | <?= addslashes(NOME_SISTEMA) ?>";
 </script>
 
 

@@ -5,6 +5,7 @@
    SUBJECTS PAGE
 ========================================= */
 
+require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../models/Conteudo.php';
 require_once __DIR__ . '/../includes/auth.php';
 
@@ -22,7 +23,7 @@ $materias = $conteudoModel->listarMaterias();
    PAGE CONFIGURATION
 ========================================= */
 
-$title = "Matérias | TechMinds Education";
+$title = "Matérias | " . NOME_SISTEMA;
 
 
 /* =========================================
@@ -432,7 +433,7 @@ include(__DIR__ . '/../includes/banner.php');
                         </div>
 
 
-                        <a
+                        <a 
                             href="conteudos.php?materia_id=<?= (int) $materia['id']; ?>"
                             class="subject-button"
                         >

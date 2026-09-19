@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../config/config.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -27,5 +29,5 @@ if (ini_get('session.use_cookies')) {
 session_destroy();
 
 /* Volta para a página inicial */
-header('Location: /techminds-education/index.php');
+header('Location: ' . URL_SISTEMA . '/index.php');
 exit;

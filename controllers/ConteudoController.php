@@ -5,6 +5,11 @@
    CONTENT CONTROLLER
 ========================================= */
 
+require_once __DIR__ . '/../config/config.php';
+
+$GLOBALS['EXIGE_ADMIN'] = true;
+
+require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../models/Conteudo.php';
 
 
@@ -88,6 +93,8 @@ if ($acao === 'criar') {
 
     } catch (PDOException $e) {
 
+        error_log('Erro ao criar conteúdo: ' . $e->getMessage());
+
         header(
             'Location: ../admin/dashboard.php?erro=criar'
         );
@@ -167,6 +174,8 @@ if ($acao === 'editar') {
 
     } catch (PDOException $e) {
 
+        error_log('Erro ao editar conteúdo: ' . $e->getMessage());
+
         header(
             'Location: ../admin/dashboard.php?erro=editar'
         );
@@ -217,6 +226,8 @@ if ($acao === 'excluir') {
         exit;
 
     } catch (PDOException $e) {
+
+        error_log('Erro ao excluir conteúdo: ' . $e->getMessage());
 
         header(
             'Location: ../admin/dashboard.php?erro=excluir'

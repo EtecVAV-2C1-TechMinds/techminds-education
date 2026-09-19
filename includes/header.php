@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../config/config.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -7,7 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
 
@@ -18,7 +20,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Page title -->
-    <title>TechMinds Education</title>
+    <title><?= NOME_SISTEMA ?></title>
 
     <!-- Bootstrap framework -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,7 +33,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Custom stylesheet -->
-    <link rel="stylesheet" href="/techminds-education/assets/css/style.css">
+    <link rel="stylesheet" href="<?= URL_SISTEMA ?>/assets/css/style.css">
 
 </head>
 

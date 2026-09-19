@@ -1,6 +1,15 @@
 <?php
 
-require_once __DIR__ . '/../config/conexao.php';
+/* =========================================
+   TECHMINDS EDUCATION
+   QUESTION CONTROLLER
+========================================= */
+
+require_once __DIR__ . '/../config/config.php';
+
+$GLOBALS['EXIGE_ADMIN'] = true;
+
+require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../models/Questao.php';
 
 
@@ -88,7 +97,7 @@ if ($acao === 'criar') {
 
     try {
 
-        $questao = new Questao($pdo);
+        $questao = new Questao();
 
 
         $idGerado = $questao->criar(
@@ -205,7 +214,7 @@ if ($acao === 'editar') {
 
     try {
 
-        $questao = new Questao($pdo);
+        $questao = new Questao();
 
 
         $questao->editar(
@@ -252,7 +261,7 @@ if ($acao === 'excluir') {
     $id = $_GET['id'] ?? '';
 
 
-    if (!ctype_digit((string)$id)) {
+    if (!ctype_digit((string) $id)) {
 
         header(
             'Location: ../pages/exercicios.php?erro=excluir'
@@ -264,9 +273,9 @@ if ($acao === 'excluir') {
 
     try {
 
-        $questao = new Questao($pdo);
+        $questao = new Questao();
 
-        $questao->excluir((int)$id);
+        $questao->excluir((int) $id);
 
 
         header(
