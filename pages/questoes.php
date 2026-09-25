@@ -32,9 +32,9 @@ include(__DIR__ . '/../includes/banner.php');
     }
 
     .questoes-page-wrapper {
-        background-color: var(--questoes-bg-light);
-        min-height: 60vh;
-    }
+    background-color: #EBEBEB;
+    flex: 1;
+}
 
     .materias-page {
         padding: 50px 70px;
@@ -159,3 +159,14 @@ include(__DIR__ . '/../includes/banner.php');
 </main>
 
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento de Layout.
+Finalidade: Sugestão de sintaxe e estruturas condicionais em JavaScript para manipular elementos da página.
+Validação: Scripts auditados linha por linha, ajustados manualmente para evitar conflitos e validados nos eventos da página.
+*/
+?>
