@@ -31,3 +31,13 @@ session_destroy();
 /* Volta para a página inicial */
 header('Location: ' . URL_SISTEMA . '/index.php');
 exit;
+
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento de Layout.
+Finalidade: Apoio na solução de alinhamentos (Flexbox/Grid) e regras de responsividade CSS. 
+Validação: Estilos aplicados, inspecionados via Ferramentas do Desenvolvedor no navegador e testados em telas móveis e desktop pelas alunas. 
+*/
