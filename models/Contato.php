@@ -80,3 +80,12 @@ class Contato
         return $stmt->execute([':id' => $id]);
     }
 }
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Camada de controle
+Finalidade: Suporte na verificação de $_SESSION em rotas protegidas (ex: painel administrativo). 
+Validação: Lógica de bloqueio e liberação de páginas testada com usuários autenticados e deslogados, com validação pelas alunas. 
+*/
