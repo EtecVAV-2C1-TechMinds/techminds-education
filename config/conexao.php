@@ -36,3 +36,12 @@ try {
         die('Erro ao conectar ao banco de dados. Tente novamente mais tarde.');
     }
 }
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Integração Backend e Banco de Dados 
+Finalidade: Auxílio na sintaxe de envio, resgate e atualização de dados entre formulários web e o banco de dados. 
+Validação: Código de manipulação testado na prática, consultas validadas diretamente no phpMyAdmin e comportamentos do sistema checados manualmente. 
+*/
