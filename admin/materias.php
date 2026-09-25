@@ -581,3 +581,14 @@ include(__DIR__ . '/../includes/navbar.php');
 
 
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento do código
+Finalidade: Auxílio na organização da estrutura CSS.
+Validação: Código analisado, ajustado conforme preferência e testado pelas alunas.
+*/
+?>
