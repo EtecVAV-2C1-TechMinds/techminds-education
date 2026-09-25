@@ -99,11 +99,6 @@ include(__DIR__ . '/../includes/navbar.php');
    FIX FOOTER
 ========================================= */
 
-html,
-body {
-    min-height: 100%;
-}
-
 body {
     overflow-x: hidden;
 }
@@ -114,6 +109,9 @@ body {
 ========================================= */
 
 .lesson-page {
+
+    flex: 1;
+    box-sizing: border-box;
 
     background-color: #f1f1f1;
 
@@ -537,24 +535,6 @@ body {
 }
 
 
-/* =========================================
-   FOOTER FIX
-========================================= */
-
-footer {
-
-    position: static !important;
-
-    bottom: auto !important;
-
-    left: auto !important;
-
-    right: auto !important;
-
-    width: 100% !important;
-
-}
-
 
 /* =========================================
    MOBILE
@@ -776,34 +756,28 @@ footer {
 
                     <div class="material-text">
 
-                        <h3>
+    <h3>
+        <?= $ehPdf ? 'Apostila em PDF' : 'Material da aula'; ?>
+    </h3>
 
-                            <?= $ehPdf ? 'Apostila em PDF' : 'Material da aula'; ?>
+    <p>
+        <?= $ehPdf
+            ? 'Baixe o material de apoio desta aula.'
+            : htmlspecialchars($aula['material']); ?>
+    </p>
 
-                        </h3>
+</div>
 
-                        <p>
+<a
+    href="<?= htmlspecialchars($aula['material']); ?>"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="material-button"
+>
+    <i class="fa-solid fa-download"></i>
+    Acessar material
+</a>
 
-                            <?= $ehPdf
-                                ? 'Baixe o material de apoio desta aula.'
-                                : htmlspecialchars($aula['material']); ?>
-
-                        </p>
-
-                    </div>
-
-                    
-                        href="<?= htmlspecialchars($aula['material']); ?>"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="material-button"
-                    >
-
-                        <i class="fa-solid fa-download"></i>
-
-                        Acessar material
-
-                    </a>
 
                 </div>
 
@@ -933,4 +907,15 @@ footer {
 
 include(__DIR__ . '/../includes/footer.php');
 
+?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento do código
+Finalidade: Otimização da lógica de scripts e apoio na estruturação das tags. 
+Validação: Script revisado linha a linha, corrigido manualmente e validado quanto ao funcionamento final.
+*/
 ?>
