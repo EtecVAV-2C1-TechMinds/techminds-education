@@ -51,3 +51,12 @@ try {
 
     redirecionar('pages/configuracoes.php?erro=atualizar');
 }
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Camada de controle
+Finalidade: Apoio no direcionamento das requisições, tratamento de parâmetros de URL e escolha das rotas do sistema. 
+Validação: Fluxo de execução analisado, métodos do Controller ajustados manualmente e respostas de redirecionamento testadas. 
+*/
