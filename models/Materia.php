@@ -59,3 +59,13 @@ class Materia
         return $stmt->execute([':id' => $id]);
     }
 }
+
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Depuração de Código
+Finalidade: Diagnóstico de erros de sintaxe e falhas de execução no PHP e JavaScript. 
+Validação: Causas raiz identificadas com apoio da IA, correções aplicadas manualmente e sistema retestado para garantir a estabilidade. 
+*/
