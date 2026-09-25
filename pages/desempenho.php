@@ -65,14 +65,15 @@ include(__DIR__ . '/../includes/navbar.php');
 
 .performance-page {
 
-    background-color: #f1f1f1;
+    flex: 1;
 
-    min-height: 70vh;
+    box-sizing: border-box;
+
+    background-color: #f1f1f1;
 
     padding: 50px 20px 70px;
 
 }
-
 
 .performance-container {
 
@@ -836,3 +837,14 @@ include(__DIR__ . '/../includes/navbar.php');
 
 
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Camada de controle
+Finalidade: Apoio no direcionamento das requisições, tratamento de parâmetros de URL e escolha das rotas do sistema. 
+Validação: Fluxo de execução analisado, métodos do Controller ajustados manualmente e respostas de redirecionamento testadas. 
+*/
+?>
