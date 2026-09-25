@@ -36,3 +36,12 @@ require_once __DIR__ . '/conexao.php';
 /* Load helper and utility functions */
 require_once __DIR__ . '/../includes/helpers.php';
 require_once __DIR__ . '/../includes/functions.php';
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Integração Backend e Banco de Dados 
+Finalidade: Suporte na construção do script de conexão entre o PHP e o banco de dados MySQL via phpMyAdmin.
+Validação: Estrutura do banco inspecionada no phpMyAdmin, dados de teste inseridos e consultas validadas e ajustadas conforme a regra de negócio do projeto. 
+*/
