@@ -204,3 +204,14 @@ footer,
 </main>
 
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento do código
+Finalidade: Sugestão de estilização e alinhamento visual em CSS. 
+Validação: Código inspecionado, testado no navegador em diferentes resoluções e validado pelas alunas.
+*/
+?>
