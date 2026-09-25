@@ -92,7 +92,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
                 <div class="d-flex align-items-center mb-5">
                     <div class="me-4 flex-shrink-0">
-                        <img src="assets/img/biologia.png" alt="Biologia" class="img-fluid" style="max-width: 200px;">
+                        <img src="assets/img/biologia.png" alt="Biologia" class="img-fluid" style="max-width: 50px;">
                     </div>
                     <div>
                         <h4 class="fw-bold mb-2">Biologia</h4>
@@ -110,13 +110,13 @@ if (session_status() === PHP_SESSION_NONE) {
                         </p>
                     </div>
                     <div class="ms-4 flex-shrink-0">
-                        <img src="assets/img/fisica.png" alt="Física" class="img-fluid" style="max-width: 200px;">
+                        <img src="assets/img/fisica.png" alt="Física" class="img-fluid" style="max-width: 50px;">
                     </div>
                 </div>
 
                 <div class="d-flex align-items-center">
                     <div class="me-4 flex-shrink-0">
-                        <img src="assets/img/quimica.png" alt="Química" class="img-fluid" style="max-width: 200px;">
+                        <img src="assets/img/quimica.png" alt="Química" class="img-fluid" style="max-width: 50px;">
                     </div>
                     <div>
                         <h4 class="fw-bold mb-2">Química</h4>
@@ -209,3 +209,14 @@ if (session_status() === PHP_SESSION_NONE) {
 </section>
 
 <?php include('includes/footer.php'); ?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento de Layout.
+Finalidade: Estruturação inicial das tags HTML e estilização de componentes visuais específicos. 
+Validação: Marcação HTML limpa, seletores CSS refinados manualmente e comportamento testado e aprovado pela equipe. 
+*/
+?>
