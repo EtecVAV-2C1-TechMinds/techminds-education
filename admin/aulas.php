@@ -253,3 +253,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <?php include('../includes/footer.php'); ?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento do código
+Finalidade: Auxílio na organização da estrutura CSS e identificação de erros no raciocínio de programação.
+Validação: O código foi analisado e testado pelas alunas.
+*/
+?>
