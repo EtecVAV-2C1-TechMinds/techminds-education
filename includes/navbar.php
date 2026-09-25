@@ -328,70 +328,75 @@ $isAdmin = $logado && ($_SESSION[SESSION_TIPO] ?? null) === TIPO_ADMIN;
                 </div>
 
 
-                <?php if ($isAdmin): ?>
-                <!-- Administrative Area -->
+               <!-- =========================================
+     TERCEIRA COLUNA
+========================================= -->
 
-                <div class="tech-navigation-column">
+<div class="tech-navigation-column">
 
-                    <span class="tech-navigation-title">
-                        ADMINISTRAÇÃO
-                    </span>
+    <?php if ($isAdmin): ?>
+
+        <!-- Administração -->
+
+        <span class="tech-navigation-title">
+            ADMINISTRAÇÃO
+        </span>
+
+        <a href="<?= URL_SISTEMA ?>/admin/painel.php"
+           class="tech-navigation-link">
+
+            <span class="tech-link-number">
+                08
+            </span>
+
+            <span>
+                Área do Administrador
+            </span>
+
+        </a>
+
+    <?php endif; ?>
 
 
-                    <a href="<?= URL_SISTEMA ?>/admin/dashboard.php"
-                       class="tech-navigation-link">
+    <!-- =========================================
+         ÁREA DO ALUNO
+    ========================================= -->
 
-                        <span class="tech-link-number">
-                            08
-                        </span>
+    <div class="tech-navigation-highlight">
 
-                        <span>
-                            Área do Administrador
-                        </span>
+        <span class="tech-highlight-label">
+            ÁREA DO ALUNO
+        </span>
 
-                    </a>
+        <p>
+            Acesse seus conteúdos,
+            atividades e acompanhe
+            seu desempenho acadêmico.
+        </p>
 
-                </div>
-                <?php endif; ?>
+        <?php if ($logado): ?>
 
+            <a href="<?= URL_SISTEMA ?>/pages/conteudo.php"
+               class="tech-highlight-button">
 
-                    <!-- Student Area Highlight -->
+                Acessar área do aluno
 
-                    <div class="tech-navigation-highlight">
+            </a>
 
-                        <span class="tech-highlight-label">
-                            ÁREA DO ALUNO
-                        </span>
+        <?php else: ?>
 
-                        <p>
-                            Acesse seus conteúdos,
-                            atividades e acompanhe
-                            seu desempenho acadêmico.
-                        </p>
+            <a href="<?= URL_SISTEMA ?>/pages/login.php"
+               class="tech-highlight-button">
 
-                        <?php if ($logado): ?>
+                Acessar área do aluno
 
-<a href="<?= URL_SISTEMA ?>/pages/conteudo.php"
-   class="tech-highlight-button">
+            </a>
 
-    Acessar área do aluno
+        <?php endif; ?>
 
-</a>
+    </div>
 
-<?php else: ?>
-
-<a href="<?= URL_SISTEMA ?>/pages/login.php"
-   class="tech-highlight-button">
-
-    Acessar área do aluno
-
-</a>
-
-<?php endif; ?>
-
-                    </div>
-
-            </div>
+</div>
 
         </div>
 
@@ -414,3 +419,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento de Layout.
+Finalidade: Estruturação inicial das tags HTML e estilização de componentes visuais específicos. 
+Validação: Marcação HTML limpa, seletores CSS refinados manualmente e comportamento testado e aprovado pela equipe. 
+*/
+?>
