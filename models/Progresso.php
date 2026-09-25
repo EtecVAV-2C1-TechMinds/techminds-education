@@ -361,3 +361,12 @@ class Progresso
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento do código
+Finalidade: Identificação de redundâncias e simplificação do código. 
+Validação: Alterações analisadas, aplicadas seletivamente e testadas no projeto. 
+*/
