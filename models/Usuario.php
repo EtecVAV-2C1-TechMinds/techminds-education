@@ -363,3 +363,12 @@ class Usuario
     }
 
 }
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento do Código
+Finalidade: Orientação para sanitização de campos de entrada e prevenção de falhas básicas de segurança.
+Validação: Lógica de proteção revisada, adaptada ao projeto e testada com dados válidos e inválidos no formulário. 
+*/
