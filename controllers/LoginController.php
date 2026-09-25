@@ -106,3 +106,13 @@ $_SESSION['usuario_email'] = $usuario['email'];
 
 header('Location: ' . URL_SISTEMA . '/index.php?login=sucesso');
 exit;
+
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Camada de controle
+Finalidade: Orientação na organização dos links e no redirecionamento entre páginas do projeto. 
+Validação: Todos os caminhos e navegações foram testados manualmente no navegador para evitar links quebrados. 
+*/
