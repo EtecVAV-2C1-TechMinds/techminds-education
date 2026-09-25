@@ -52,29 +52,35 @@ class Simulado
        LISTAR TODOS OS SIMULADOS (ADMIN)
     ========================================= */
 
-    public function listarTodos()
-    {
-        $sql = "
-            SELECT
-                s.id,
-                s.titulo,
-                s.descricao,
-                s.tempo_minutos,
-                s.ativo,
-                COUNT(sq.id) AS total_questoes
-            FROM simulados s
-            LEFT JOIN simulado_questoes sq
-                ON sq.simulado_id = s.id
-            GROUP BY s.id, s.titulo, s.descricao, s.tempo_minutos, s.ativo
-            ORDER BY s.id DESC
-        ";
+    /* =========================================
+   LISTAR TODOS OS SIMULADOS (ADMIN)
+========================================= */
 
-        $stmt = $this->pdo->prepare($sql);
+public function listarTodos()
+{
+    $sql = "
+        SELECT
+            s.id,
+            s.titulo,
+            s.descricao,
+            s.tempo_minutos,
+            s.ativo,
+            s.data_criacao,
+            (
+                SELECT COUNT(*)
+                FROM simulado_questoes sq
+                WHERE sq.simulado_id = s.id
+            ) AS total_questoes
+        FROM simulados s
+        ORDER BY s.id DESC
+    ";
 
-        $stmt->execute();
+    $stmt = $this->pdo->prepare($sql);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
     /* =========================================
@@ -318,4 +324,91 @@ class Simulado
             ':id' => $id
         ]);
     }
+
+    /* =========================================
+   LISTAR QUESTÕES PARA SIMULADOS
+   COM MATÉRIA E CONTEÚDO
+========================================= */
+
+public function listarParaSimulado()
+{
+    $sql = "
+        SELECT
+            q.id,
+            q.materia_id,
+            q.conteudo_id,
+            q.enunciado,
+            m.nome AS materia,
+            c.titulo AS conteudo
+        FROM questoes q
+
+        LEFT JOIN materias m
+            ON q.materia_id = m.id
+
+        LEFT JOIN conteudos c
+            ON q.conteudo_id = c.id
+
+        ORDER BY
+            m.nome ASC,
+            c.titulo ASC,
+            q.id ASC
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+/* =========================================
+   LISTAR QUESTÕES SELECIONADAS
+   RETORNA SOMENTE OS IDS
+========================================= */
+
+public function listarIdsQuestoes($simulado_id)
+{
+    $sql = "
+        SELECT questao_id
+        FROM simulado_questoes
+        WHERE simulado_id = :simulado_id
+        ORDER BY ordem ASC
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+
+    $stmt->execute([
+        ':simulado_id' => $simulado_id
+    ]);
+
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
+
+/* =========================================
+   REMOVER TODAS AS QUESTÕES DO SIMULADO
+========================================= */
+
+public function removerTodasQuestoes($simulado_id)
+{
+    $sql = "
+        DELETE FROM simulado_questoes
+        WHERE simulado_id = :simulado_id
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+
+    return $stmt->execute([
+        ':simulado_id' => $simulado_id
+    ]);
+}
+}
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Camada de controle
+Finalidade: Apoio no direcionamento das requisições, tratamento de parâmetros de URL e escolha das rotas do sistema. 
+Validação: Fluxo de execução analisado, métodos do Controller ajustados manualmente e respostas de redirecionamento testadas. 
+*/
