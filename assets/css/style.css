@@ -16,16 +16,19 @@
 }
 
 
-
 html,
 body {
     margin: 0;
+    padding: 0;
+    min-height: 100%;
 }
 
 body {
     background: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
-
 /* ==========================================
    Navegação e Cabeçalho
    ========================================== */
@@ -104,9 +107,9 @@ body {
     background-color: var(--verde-principal);
     color: #ffffff;
     padding: 45px 0 30px;
-    margin-top: auto;
-    position: relative;
-    z-index: 10;
+    margin-top: 0;
+    position: static;
+    flex-shrink: 0;
 }
 
 .footer-title {
@@ -1786,14 +1789,15 @@ html, body {
 }
 
 /* Garante que a seção das matérias mantenha tudo alinhado */
+/* Garante que a seção das matérias mantenha tudo alinhado */
 .subjects-section {
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* Impede que imagens ultrapassem o limite de seu pai */
 .subjects-section img {
-    max-width: 100% !important;
+    max-width: 50% !important;
     height: auto !important;
 }
 
@@ -1801,4 +1805,14 @@ html, body {
 .subjects-section .d-flex {
     width: 100%;
     box-sizing: border-box;
+    min-height: auto;
 }
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento do código
+Finalidade: Auxílio na organização da estrutura CSS.
+Validação: Código analisado, ajustado conforme preferência e testado pelas alunas.
+*/
