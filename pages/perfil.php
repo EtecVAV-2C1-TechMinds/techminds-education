@@ -821,3 +821,25 @@ document.getElementById('modalEditar').addEventListener('click', function(event)
 </script>
 
 <?php include('../includes/footer.php'); ?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Camada de controle
+Finalidade: Orientação na organização dos links e no redirecionamento entre páginas do projeto. 
+Validação: Todos os caminhos e navegações foram testados manualmente no navegador para evitar links quebrados. 
+*/
+?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento do código
+Finalidade: Otimização da lógica de scripts e apoio na estruturação das tags. 
+Validação: Script revisado linha a linha, corrigido manualmente e validado quanto ao funcionamento final.
+*/
+?>
