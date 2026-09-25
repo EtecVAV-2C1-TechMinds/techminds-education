@@ -42,3 +42,14 @@
 
 </body>
 </html>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento do código
+Finalidade: Otimização da lógica de scripts e apoio na estruturação das tags. 
+Validação: Script revisado linha a linha, corrigido manualmente e validado quanto ao funcionamento final.
+*/
+?>
