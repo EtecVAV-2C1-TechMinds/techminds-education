@@ -61,3 +61,12 @@ function redirecionar(string $caminho): void
     header('Location: ' . URL_SISTEMA . '/' . ltrim($caminho, '/'));
     exit;
 }
+
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento do código
+Finalidade: Identificação de redundâncias e simplificação do código. 
+Validação: Alterações analisadas, aplicadas seletivamente e testadas no projeto. 
+*/
