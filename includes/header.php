@@ -38,3 +38,14 @@ if (session_status() === PHP_SESSION_NONE) {
 </head>
 
 <body>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Desenvolvimento de Layout.
+Finalidade: Estruturação inicial das tags HTML e estilização de componentes visuais específicos. 
+Validação: Marcação HTML limpa, seletores CSS refinados manualmente e comportamento testado e aprovado pela equipe. 
+*/
+?>
