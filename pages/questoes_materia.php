@@ -260,3 +260,14 @@ include(__DIR__ . '/../includes/banner.php');
 
 
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Depuração de Código
+Finalidade: Diagnóstico de erros de sintaxe e falhas de execução no PHP e JavaScript. 
+Validação: Causas raiz identificadas com apoio da IA, correções aplicadas manualmente e sistema retestado para garantir a estabilidade. 
+*/
+?>
