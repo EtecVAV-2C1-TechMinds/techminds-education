@@ -25,10 +25,11 @@ include(__DIR__ . '/../includes/navbar.php');
 <style>
 
     .admin-hub-page {
-        background-color: #f1f1f1;
-        min-height: 70vh;
-        padding: 50px 20px 70px;
-    }
+    background-color: #f1f1f1;
+    flex: 1;
+    padding: 50px 20px 70px;
+    box-sizing: border-box;
+}
 
     .admin-hub-container {
         max-width: 1000px;
@@ -176,7 +177,7 @@ include(__DIR__ . '/../includes/navbar.php');
                 </div>
             </a>
 
-            <a href="simulados.php" class="admin-hub-card">
+            <a href="simuladosadmin.php" class="admin-hub-card">
                 <div class="admin-hub-icon"><i class="fa-solid fa-stopwatch"></i></div>
                 <div>
                     <h3>Gerenciar Simulados</h3>
@@ -211,3 +212,14 @@ include(__DIR__ . '/../includes/navbar.php');
 </main>
 
 <?php include(__DIR__ . '/../includes/footer.php'); ?>
+
+<?php
+/*
+DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
+
+Ferramenta: ChatGPT
+Etapa: Camada de controle
+Finalidade: Suporte na verificação de $_SESSION em rotas protegidas (ex: painel administrativo). 
+Validação: Lógica de bloqueio e liberação de páginas testada com usuários autenticados e deslogados, com validação pelas alunas. 
+*/
+?>
