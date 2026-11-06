@@ -1,3 +1,4 @@
+
 <?php
 
 require_once __DIR__ . '/../config/config.php';
@@ -7,224 +8,388 @@ $GLOBALS['EXIGE_ADMIN'] = true;
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../models/Simulado.php';
 
+/* =========================================
+   CONFIGURAÇÕES
+========================================= */
 
 $acao = $_GET['acao'] ?? '';
 
+$simuladoModel = new Simulado();
 
+define('TOTAL_QUESTOES_SIMULADO', 45);
 
-/* =========================================================
+function voltarAdmin($parametros = '')
+{
+    redirecionar('admin/simuladosadmin.php' . $parametros);
+}
+
+/* =========================================
+   VALIDAR GABARITO
+========================================= */
+
+function validarGabarito($gabarito)
+{
+    if (!is_array($gabarito) || count($gabarito) !== TOTAL_QUESTOES_SIMULADO) {
+        return false;
+    }
+
+    for ($i = 1; $i <= TOTAL_QUESTOES_SIMULADO; $i++) {
+
+        if (
+            !isset($gabarito[$i]) ||
+            !in_array(strtoupper($gabarito[$i]), ['A', 'B', 'C', 'D', 'E'], true)
+        ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/* =========================================
+   ENVIAR PDF
+========================================= */
+
+function enviarPDF($arquivo)
+{
+    if (
+        !isset($arquivo) ||
+        $arquivo['error'] === UPLOAD_ERR_NO_FILE
+    ) {
+        return null;
+    }
+
+    if ($arquivo['error'] !== UPLOAD_ERR_OK) {
+        throw new RuntimeException('Erro ao enviar o PDF.');
+    }
+
+    $limite = 10 * 1024 * 1024;
+
+    if ($arquivo['size'] > $limite) {
+        throw new RuntimeException('O PDF deve ter no máximo 10 MB.');
+    }
+
+    $extensao = strtolower(
+        pathinfo($arquivo['name'], PATHINFO_EXTENSION)
+    );
+
+    if ($extensao !== 'pdf') {
+        throw new RuntimeException('Envie somente arquivos PDF.');
+    }
+
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+
+    $mime = $finfo->file($arquivo['tmp_name']);
+
+    if ($mime !== 'application/pdf') {
+        throw new RuntimeException('Arquivo PDF inválido.');
+    }
+
+    // Verifica também a assinatura do arquivo
+    $arquivoTemporario = fopen($arquivo['tmp_name'], 'rb');
+    $assinatura = fread($arquivoTemporario, 5);
+    fclose($arquivoTemporario);
+
+    if ($assinatura !== '%PDF-') {
+        throw new RuntimeException('O arquivo não possui formato PDF válido.');
+    }
+
+    $pasta = __DIR__ . '/../uploads/pdf-simulados/';
+
+    if (!is_dir($pasta) || !is_writable($pasta)) {
+        throw new RuntimeException('A pasta de PDFs não está disponível para gravação.');
+    }
+
+    $nomeArquivo = bin2hex(random_bytes(16)) . '.pdf';
+
+    $destino = $pasta . $nomeArquivo;
+
+    if (!move_uploaded_file($arquivo['tmp_name'], $destino)) {
+        throw new RuntimeException('Não foi possível salvar o PDF.');
+    }
+
+    return 'uploads/pdf-simulados/' . $nomeArquivo;
+}
+
+/* =========================================
+   REMOVER PDF ANTIGO
+========================================= */
+
+function removerPDF($caminho)
+{
+    if (empty($caminho)) {
+        return;
+    }
+
+    $prefixo = 'uploads/pdf-simulados/';
+
+    // Só remove arquivos da pasta de simulados
+    if (strpos($caminho, $prefixo) !== 0) {
+        return;
+    }
+
+    $arquivo = __DIR__ . '/../' . $caminho;
+
+    if (is_file($arquivo)) {
+        unlink($arquivo);
+    }
+}
+
+/* =========================================
    CRIAR SIMULADO
-   ========================================================= */
+========================================= */
 
 if ($acao === 'criar') {
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        redirecionar('admin/simuladosadmin.php');
+        voltarAdmin();
     }
 
     $titulo = trim($_POST['titulo'] ?? '');
     $descricao = trim($_POST['descricao'] ?? '');
     $tempo_minutos = (int) ($_POST['tempo_minutos'] ?? 0);
+$ativo = isset($_POST['ativo']) ? 1 : 0;
+
+$gabarito = $_POST['gabarito'] ?? [];
 
     if ($titulo === '') {
-        redirecionar('admin/simuladosadmin.php?erro=preencha');
+        voltarAdmin('?erro=preencha');
+    }
+
+    if (!validarGabarito($gabarito)) {
+
+    $_SESSION['simulado_form'] = [
+        'titulo' => $titulo,
+        'descricao' => $descricao,
+        'tempo_minutos' => $tempo_minutos,
+        'ativo' => $ativo,
+        'gabarito' => $gabarito
+    ];
+
+    voltarAdmin('?erro=gabarito');
+}
+
+    if (empty($_FILES['pdf'])) {
+        voltarAdmin('?erro=pdf');
     }
 
     if ($tempo_minutos <= 0) {
         $tempo_minutos = null;
     }
 
+    $caminhoPDF = null;
+
     try {
 
-        $simuladoModel = new Simulado();
+        $caminhoPDF = enviarPDF($_FILES['pdf']);
 
-        $idGerado = $simuladoModel->criar(
+        if (!$caminhoPDF) {
+            voltarAdmin('?erro=pdf');
+        }
+
+
+        $pdo = $simuladoModel->getPDO();
+
+        if (!$pdo) {
+            throw new RuntimeException('Conexão com banco não encontrada.');
+        }
+
+        $pdo->beginTransaction();
+
+        $id = $simuladoModel->criar(
             $titulo,
             $descricao,
-            $tempo_minutos
+            $tempo_minutos,
+            $caminhoPDF,
+            $ativo
         );
 
-        redirecionar(
-            'admin/simuladosadmin.php?sucesso=criado&id=' . $idGerado
+        $simuladoModel->salvarGabarito(
+            $id,
+            $gabarito
         );
 
-    } catch (PDOException $e) {
+        $pdo->commit();
 
-        error_log(
-            'Erro ao criar simulado: ' . $e->getMessage()
-        );
+        voltarAdmin('?sucesso=criado');
 
-        redirecionar(
-            'admin/simuladosadmin.php?erro=criar'
-        );
+    } catch (Throwable $e) {
+
+        if (isset($pdo) && $pdo && $pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+
+        if ($caminhoPDF) {
+            removerPDF($caminhoPDF);
+        }
+
+        error_log('Erro ao criar simulado: ' . $e->getMessage());
+
+        voltarAdmin('?erro=criar');
     }
 }
 
-
-
-/* =========================================================
+/* =========================================
    EDITAR SIMULADO
-   ========================================================= */
+========================================= */
 
 if ($acao === 'editar') {
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        redirecionar('admin/simuladosadmin.php');
+        voltarAdmin();
     }
 
     $id = (int) ($_POST['id'] ?? 0);
 
     $titulo = trim($_POST['titulo'] ?? '');
-
     $descricao = trim($_POST['descricao'] ?? '');
-
     $tempo_minutos = (int) ($_POST['tempo_minutos'] ?? 0);
 
     $ativo = isset($_POST['ativo']) ? 1 : 0;
 
+    $gabarito = $_POST['gabarito'] ?? [];
 
     if ($id <= 0 || $titulo === '') {
-
-        redirecionar(
-            'admin/simuladosadmin.php?erro=preencha'
-        );
+        voltarAdmin('?erro=preencha');
     }
 
+    if (!validarGabarito($gabarito)) {
+        voltarAdmin('?erro=gabarito');
+    }
 
     if ($tempo_minutos <= 0) {
         $tempo_minutos = null;
     }
 
+    $simuladoAtual = $simuladoModel->buscarPorId($id);
+
+    if (!$simuladoAtual) {
+        voltarAdmin('?erro=nao_encontrado');
+    }
+
+    $pdfAntigo = $simuladoAtual['pdf_path'];
+
+    $pdfNovo = null;
 
     try {
 
-        $simuladoModel = new Simulado();
+        // Se enviou outro PDF, faz o upload
+        $pdfNovo = enviarPDF($_FILES['pdf'] ?? null);
+
+        // Se não enviou outro, mantém o anterior
+        $caminhoPDF = $pdfNovo ?? $pdfAntigo;
+
+        $pdo = $simuladoModel->getPDO();
+
+        if (!$pdo) {
+            throw new RuntimeException('Conexão com banco não encontrada.');
+        }
+
+        $pdo->beginTransaction();
 
         $simuladoModel->editar(
             $id,
             $titulo,
             $descricao,
             $tempo_minutos,
-            $ativo
+            $ativo,
+            $caminhoPDF
         );
 
-
-        redirecionar(
-            'admin/simuladosadmin.php?sucesso=editado&id=' . $id
+        $simuladoModel->salvarGabarito(
+            $id,
+            $gabarito
         );
 
-    } catch (PDOException $e) {
+        $pdo->commit();
 
-        error_log(
-            'Erro ao editar simulado: ' . $e->getMessage()
-        );
+        // Remove o arquivo antigo somente depois de salvar tudo
+        if ($pdfNovo && $pdfAntigo !== $pdfNovo) {
+            removerPDF($pdfAntigo);
+        }
 
-        redirecionar(
-            'admin/simuladosadmin.php?erro=editar&id=' . $id
-        );
+        voltarAdmin('?sucesso=editado');
+
+    } catch (Throwable $e) {
+
+        if (isset($pdo) && $pdo && $pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+
+        if ($pdfNovo) {
+            removerPDF($pdfNovo);
+        }
+
+        error_log('Erro ao editar simulado: ' . $e->getMessage());
+
+        voltarAdmin('?erro=editar');
     }
 }
 
-
-
-/* =========================================================
+/* =========================================
    EXCLUIR SIMULADO
-   ========================================================= */
+========================================= */
 
 if ($acao === 'excluir') {
 
     $id = (int) ($_GET['id'] ?? 0);
 
-
     if ($id <= 0) {
-
-        redirecionar(
-            'admin/simuladosadmin.php?erro=excluir'
-        );
+        voltarAdmin('?erro=excluir');
     }
-
 
     try {
 
-        $simuladoModel = new Simulado();
+        $simulado = $simuladoModel->buscarPorId($id);
+
+        if (!$simulado) {
+            voltarAdmin('?erro=nao_encontrado');
+        }
 
         $simuladoModel->excluir($id);
 
+        removerPDF($simulado['pdf_path']);
 
-        redirecionar(
-            'admin/simuladosadmin.php?sucesso=excluido'
-        );
+        voltarAdmin('?sucesso=excluido');
 
-    } catch (PDOException $e) {
+    } catch (Throwable $e) {
 
-        error_log(
-            'Erro ao excluir simulado: ' . $e->getMessage()
-        );
+        error_log('Erro ao excluir simulado: ' . $e->getMessage());
 
-        redirecionar(
-            'admin/simuladosadmin.php?erro=excluir'
-        );
+        voltarAdmin('?erro=excluir');
     }
 }
 
-
-
-/* =========================================================
-   ADICIONAR VÁRIAS QUESTÕES AO MESMO TEMPO
-   ========================================================= */
+/* =========================================
+   ADICIONAR QUESTÕES
+========================================= */
 
 if ($acao === 'adicionar_questoes') {
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-
-        redirecionar(
-            'admin/simuladosadmin.php'
-        );
+        voltarAdmin();
     }
-
 
     $simulado_id = (int) ($_POST['simulado_id'] ?? 0);
-
     $questoes = $_POST['questoes'] ?? [];
 
-
     if ($simulado_id <= 0) {
-
-        redirecionar(
-            'admin/simuladosadmin.php?erro=preencha'
-        );
+        voltarAdmin('?erro=preencha');
     }
-
 
     if (!is_array($questoes) || count($questoes) === 0) {
-
-        redirecionar(
-            'admin/simuladosadmin.php?id=' .
-            $simulado_id .
-            '&erro=nenhuma_questao'
-        );
+        voltarAdmin('?id=' . $simulado_id . '&erro=nenhuma_questao');
     }
 
-
     try {
-
-        $simuladoModel = new Simulado();
-
 
         foreach ($questoes as $questao_id) {
 
             $questao_id = (int) $questao_id;
 
-
             if ($questao_id <= 0) {
                 continue;
             }
-
-
-            /*
-             * Verifica se a questão já está
-             * cadastrada no simulado.
-             */
 
             if (
                 $simuladoModel->questaoJaAdicionada(
@@ -235,20 +400,7 @@ if ($acao === 'adicionar_questoes') {
                 continue;
             }
 
-
-            /*
-             * Descobre a próxima posição
-             * da questão no simulado.
-             */
-
-            $ordem = $simuladoModel->proximaOrdem(
-                $simulado_id
-            );
-
-
-            /*
-             * Adiciona a questão.
-             */
+            $ordem = $simuladoModel->proximaOrdem($simulado_id);
 
             $simuladoModel->adicionarQuestao(
                 $simulado_id,
@@ -257,102 +409,47 @@ if ($acao === 'adicionar_questoes') {
             );
         }
 
+        voltarAdmin('?id=' . $simulado_id . '&sucesso=questoes_adicionadas');
 
-        redirecionar(
-            'admin/simuladosadmin.php?id=' .
-            $simulado_id .
-            '&sucesso=questoes_adicionadas'
-        );
+    } catch (Throwable $e) {
 
+        error_log('Erro ao adicionar questões: ' . $e->getMessage());
 
-    } catch (PDOException $e) {
-
-        error_log(
-            'Erro ao adicionar questões ao simulado: ' .
-            $e->getMessage()
-        );
-
-
-        redirecionar(
-            'admin/simuladosadmin.php?id=' .
-            $simulado_id .
-            '&erro=adicionar'
-        );
+        voltarAdmin('?id=' . $simulado_id . '&erro=adicionar');
     }
 }
 
-
-
-/* =========================================================
+/* =========================================
    REMOVER QUESTÃO
-   ========================================================= */
+========================================= */
 
 if ($acao === 'remover_questao') {
 
-    $simulado_id = (int) (
-        $_GET['simulado_id'] ?? 0
-    );
+    $simulado_id = (int) ($_GET['simulado_id'] ?? 0);
+    $questao_id = (int) ($_GET['questao_id'] ?? 0);
 
-    $questao_id = (int) (
-        $_GET['questao_id'] ?? 0
-    );
-
-
-    if (
-        $simulado_id <= 0 ||
-        $questao_id <= 0
-    ) {
-
-        redirecionar(
-            'admin/simuladosadmin.php?erro=remover'
-        );
+    if ($simulado_id <= 0 || $questao_id <= 0) {
+        voltarAdmin('?erro=remover');
     }
 
-
     try {
-
-        $simuladoModel = new Simulado();
-
 
         $simuladoModel->removerQuestao(
             $simulado_id,
             $questao_id
         );
 
+        voltarAdmin('?id=' . $simulado_id . '&sucesso=removida');
 
-        redirecionar(
-            'admin/simuladosadmin.php?id=' .
-            $simulado_id .
-            '&sucesso=removida'
-        );
+    } catch (Throwable $e) {
 
+        error_log('Erro ao remover questão: ' . $e->getMessage());
 
-    } catch (PDOException $e) {
-
-        error_log(
-            'Erro ao remover questão: ' .
-            $e->getMessage()
-        );
-
-
-        redirecionar(
-            'admin/simuladosadmin.php?id=' .
-            $simulado_id .
-            '&erro=remover'
-        );
+        voltarAdmin('?id=' . $simulado_id . '&erro=remover');
     }
 }
 
-
-
-/* =========================================================
-   REDIRECIONAMENTO FINAL
-   ========================================================= */
-
-redirecionar(
-    'admin/simuladosadmin.php'
-);
-
+voltarAdmin();
 
 /*
 DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL
